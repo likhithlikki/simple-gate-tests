@@ -2,7 +2,7 @@
 const CONFIG = {
   // Leave empty for DEMO MODE (everything is kept in this browser only).
   // Later, paste your Google Apps Script web-app URL here.
-  API_URL: "",
+  API_URL: "https://script.google.com/macros/s/AKfycbwsxVByo9IKNlvZ16F3tsdwcB6fZ7w90xdF3Xx_hEV2kTkutfGOpCHStG3Eu6qASq6b/exec",
 
   // Question images live in this folder, named <question id>.<ext>
   IMAGE_DIR: "images/",
