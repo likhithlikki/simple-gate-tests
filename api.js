@@ -1,25 +1,26 @@
 /*
-  Data layer. The three pages only talk to the backend through this file.
+  Data layer. The pages only talk to the backend through this file.
 
-  BACKEND CONTRACT (to build later in Apps Script):
-    GET  {API_URL}?action=questions   -> { questions: [row, ...] }
-    GET  {API_URL}?action=results     -> { results:   [result, ...] }
-    POST {API_URL}  body (text/plain JSON) { action:"upload", rows:[row,...] }   -> { ok:true, added:n, updated:n }
-    POST {API_URL}  body (text/plain JSON) { action:"saveResult", result:{...} } -> { ok:true }
+  BACKEND CONTRACT (implemented in Code.gs):
+    GET  {API_URL}?action=meta      -> { meta: [ {id, exam, branch, year, subject, question_number, question_type, answer_format, marks}, ... ] }
+    GET  {API_URL}?action=ids       -> { ids: ["id1", "id2", ...] }
+    GET  {API_URL}?action=results   -> { results: [result, ...] }
+    POST {API_URL} {action:"upload", rows:[row,...]}      -> { ok:true, added:n, skipped:n }   (existing ids are NOT overwritten)
+    POST {API_URL} {action:"getByIds", ids:[...]}         -> { questions:[row,...] }
+    POST {API_URL} {action:"saveResult", result:{...}}    -> { ok:true }
 
-  A "row" is one question flattened:
-    id, exam, branch, year, subject, question_number, question_type, answer_format,
-    marks, negative_marks, exam_label, question, options (JSON text), answer,
-    explanation, images (JSON text), source_page, answer_status
-
-  With API_URL empty, everything is stored in localStorage (demo mode).
+  With API_URL empty, everything is stored in localStorage (demo mode, about 5 MB max).
 */
 const API = (() => {
   const demo = () => !CONFIG.API_URL;
   const LS = {
     get: (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } },
-    set: (k, v) => localStorage.setItem(k, JSON.stringify(v)),
+    set: (k, v) => {
+      try { localStorage.setItem(k, JSON.stringify(v)); }
+      catch (e) { throw new Error("Demo storage is full (about 5 MB). Set API_URL in config.js to use your Google Sheet, which has no such limit."); }
+    },
   };
+  const META_FIELDS = ["id", "exam", "branch", "year", "subject", "question_number", "question_type", "answer_format", "marks"];
 
   const parseMaybe = (v, fallback) => {
     if (v === null || v === undefined || v === "") return fallback;
@@ -28,16 +29,15 @@ const API = (() => {
   };
 
   function normalize(r) {
-    return {
-      ...r,
-      year: Number(r.year),
-      marks: Number(r.marks) || 1,
-      negative_marks: Number(r.negative_marks) || 0,
-      question_type: String(r.question_type || "").toUpperCase(),
-      options: parseMaybe(r.options, null),
-      images: parseMaybe(r.images, []) || [],
-      answer: r.answer === "" ? null : r.answer,
-    };
+    const o = { ...r };
+    o.year = Number(r.year);
+    o.marks = Number(r.marks) || 1;
+    o.negative_marks = Number(r.negative_marks) || 0;
+    o.question_type = String(r.question_type || "").toUpperCase();
+    if ("options" in r) o.options = parseMaybe(r.options, null);
+    if ("images" in r) o.images = parseMaybe(r.images, []) || [];
+    if ("answer" in r) o.answer = (r.answer === "" || r.answer === undefined) ? null : r.answer;
+    return o;
   }
 
   const SAMPLE = [
@@ -51,9 +51,15 @@ const API = (() => {
     ["MCQ", "Network Theory", 2020, 8, 1, "Question with no answer key in the sheet (not scored):", { A: "x", B: "y", C: "z", D: "w" }, null],
   ].map(([t, s, y, n, m, q, o, a]) => ({
     id: `demo-${y}-q${n}`, exam: "GATE", branch: "EC", year: y, subject: s, question_number: n,
-    question_type: t, answer_format: t === "NAT" ? "numeric" : "option", marks: m, negative_marks: t === "MCQ" ? m / 3 : 0,
+    question_type: t, answer_format: t === "NAT" ? "numeric" : "option", marks: m, negative_marks: t === "MCQ" ? +(m / 3).toFixed(2) : 0,
     exam_label: `GATE EC ${y}`, question: q, options: o, answer: a, explanation: null, images: [], source_page: "", answer_status: a ? "ok" : "missing",
   }));
+
+  function demoRows() {
+    let rows = LS.get("demo_questions", null);
+    if (!rows) { rows = SAMPLE; LS.set("demo_questions", rows); }
+    return rows;
+  }
 
   async function get(action) {
     const res = await fetch(`${CONFIG.API_URL}?action=${action}`);
@@ -72,23 +78,37 @@ const API = (() => {
     isDemo: demo,
     normalize,
 
-    async getQuestions() {
-      if (demo()) {
-        let rows = LS.get("demo_questions", null);
-        if (!rows) { rows = SAMPLE; LS.set("demo_questions", rows); }
-        return rows.map(normalize);
-      }
-      return (await get("questions")).questions.map(normalize);
+    // light list used by the setup page (no question text)
+    async getMeta() {
+      if (demo()) return demoRows().map(r => normalize(Object.fromEntries(META_FIELDS.map(f => [f, r[f]]))));
+      return (await get("meta")).meta.map(normalize);
     },
 
+    async getIds() {
+      if (demo()) return demoRows().map(r => String(r.id));
+      return (await get("ids")).ids.map(String);
+    },
+
+    // full questions for one exam, returned in the same order as ids
+    async getQuestionsByIds(ids) {
+      let list;
+      if (demo()) { const set = new Set(ids); list = demoRows().filter(r => set.has(r.id)).map(normalize); }
+      else list = (await post({ action: "getByIds", ids })).questions.map(normalize);
+      const map = new Map(list.map(q => [String(q.id), q]));
+      const ordered = ids.map(id => map.get(String(id))).filter(Boolean);
+      if (ordered.length !== ids.length) throw new Error("Some questions could not be loaded. Try again.");
+      return ordered;
+    },
+
+    // Insert only: an id that already exists is skipped, never overwritten.
     async uploadQuestions(rows) {
       if (demo()) {
-        const all = LS.get("demo_questions", []).filter(r => !String(r.id).startsWith("demo-"));
-        const map = new Map(all.map(r => [r.id, r]));
-        let added = 0, updated = 0;
-        rows.forEach(r => { map.has(r.id) ? updated++ : added++; map.set(r.id, r); });
-        LS.set("demo_questions", [...map.values()]);
-        return { ok: true, added, updated };
+        const all = demoRows().filter(r => !String(r.id).startsWith("demo-"));
+        const seen = new Set(all.map(r => String(r.id)));
+        let added = 0, skipped = 0;
+        rows.forEach(r => { if (seen.has(String(r.id))) skipped++; else { seen.add(String(r.id)); all.push(r); added++; } });
+        LS.set("demo_questions", all);
+        return { ok: true, added, skipped };
       }
       return post({ action: "upload", rows });
     },

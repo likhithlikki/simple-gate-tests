@@ -11,7 +11,7 @@
 <body>
 <header class="top"><div class="in">
   <span class="brand">Exam Practice</span>
-  <nav><a href="index.html" aria-current="page">Practice</a><a href="upload.html">Upload</a></nav>
+  <nav><a href="index.html" aria-current="page">Practice</a></nav>
 </div></header>
 
 <main class="wrap">
@@ -47,6 +47,7 @@
   <h2>Your test is ready</h2>
   <div class="stats" id="dlgStats"></div>
   <p class="muted">Time is set by marks: 65 questions (100 marks) get 3 hours. The test ends automatically when time runs out.</p>
+  <div id="dlgErr"></div>
   <div class="row" style="justify-content:flex-end">
     <button class="btn" id="dlgCancel">Back</button>
     <button class="btn primary" id="dlgGo">Begin exam</button>
@@ -118,21 +119,32 @@ $("startBtn").onclick = () => {
     `<div class="stat"><b>${n}</b><span>questions</span></div>` +
     `<div class="stat"><b>${fmtNum(totalMarks)}</b><span>total marks</span></div>` +
     `<div class="stat"><b>${minutes >= 60 ? Math.floor(minutes / 60) + "h " + (minutes % 60) + "m" : minutes + " min"}</b><span>time allowed</span></div>`;
+  $("dlgErr").innerHTML = "";
   $("dlg").showModal();
 };
 $("dlgCancel").onclick = () => $("dlg").close();
-$("dlgGo").onclick = () => {
-  const session = {
-    questions: picked,
-    totalMarks: picked._meta.totalMarks,
-    durationSec: picked._meta.minutes * 60,
-    startedAt: Date.now(),
-    filters: { branch: $("branch").value.replace("|", " "), year: $("year").value, topic: $("topic").value },
-    answers: {}, marked: [], visited: [], current: 0,
-  };
-  sessionStorage.removeItem("lastResult");
-  sessionStorage.setItem("examSession", JSON.stringify(session));
-  location.href = "exam.html";
+$("dlgGo").onclick = async () => {
+  const go = $("dlgGo");
+  go.disabled = true; go.textContent = "Loading questions…";
+  try {
+    const full = await API.getQuestionsByIds(picked.map(p => p.id));
+    // group by topic so each topic becomes a section in the exam (order inside a topic stays random)
+    full.sort((a, b) => a.subject.localeCompare(b.subject));
+    const session = {
+      questions: full,
+      totalMarks: picked._meta.totalMarks,
+      durationSec: picked._meta.minutes * 60,
+      startedAt: null,          // the clock starts when the exam page's "I am ready to begin" is clicked
+      filters: { branch: $("branch").value.replace("|", " "), year: $("year").value, topic: $("topic").value },
+      answers: {}, marked: [], visited: [], current: 0,
+    };
+    sessionStorage.removeItem("lastResult");
+    sessionStorage.setItem("examSession", JSON.stringify(session));
+    location.href = "exam.html";
+  } catch (e) {
+    go.disabled = false; go.textContent = "Begin exam";
+    $("dlgErr").innerHTML = `<div class="notice err">${esc(e.message)}</div>`;
+  }
 };
 
 /* ---------- results ---------- */
@@ -181,9 +193,9 @@ async function showHistory() {
   showLast();
   showHistory();
   try {
-    ALL = await API.getQuestions();
+    ALL = await API.getMeta();
     $("loadMsg").hidden = true;
-    if (!ALL.length) { $("loadMsg").hidden = false; $("loadMsg").innerHTML = 'No questions yet. <a href="upload.html">Upload some</a> first.'; return; }
+    if (!ALL.length) { $("loadMsg").hidden = false; $("loadMsg").innerHTML = 'No questions in the sheet yet.'; return; }
     $("form").hidden = false;
     fillBranches();
   } catch (e) {

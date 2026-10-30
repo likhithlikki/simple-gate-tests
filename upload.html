@@ -7,6 +7,12 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Serif:wght@400;600&display=swap">
 <link rel="stylesheet" href="style.css">
+<style>
+  pre.fmt { background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: .8rem 1rem; overflow-x: auto; font-size: .85rem; line-height: 1.45; margin: .5rem 0 1rem; }
+  .req { color: var(--bad); font-weight: 600; }
+  details > summary { cursor: pointer; font-weight: 600; font-size: 1.1rem; }
+  ul.errs { margin: .4rem 0 0 1.1rem; padding: 0; font-size: .9rem; }
+</style>
 </head>
 <body>
 <header class="top"><div class="in">
@@ -16,8 +22,39 @@
 
 <main class="wrap">
   <h1>Upload questions</h1>
-  <p class="muted">Choose one or more question files (.json, in the format of your scraped data). Every question is added to one sheet. If a question id already exists, it is updated.</p>
   <div id="modeNote"></div>
+
+  <section class="card">
+    <details open>
+      <summary>Accepted file format</summary>
+      <p class="muted">A <b>.json</b> file. Questions whose id is already in the sheet are <b>not uploaded</b>; the existing row is left as it is. Questions with a problem are listed and skipped.</p>
+      <pre class="fmt" id="sample"></pre>
+
+      <div class="scroll">
+        <table>
+          <thead><tr><th>Field</th><th>Needed?</th><th>What to put</th></tr></thead>
+          <tbody>
+            <tr><td><code>exam</code></td><td><span class="req">required</span></td><td>Exam name, for example <code>GATE</code>. File level, or taken from a question label like <code>GATE EC 2020</code>.</td></tr>
+            <tr><td><code>branch</code></td><td><span class="req">required</span></td><td>For example <code>EC</code>. File level, or on each question.</td></tr>
+            <tr><td><code>year</code></td><td><span class="req">required</span></td><td>Four digits, for example <code>2020</code>. File level, or on each question.</td></tr>
+            <tr><td><code>subject</code></td><td><span class="req">required</span></td><td>The topic shown in the topic filter. File level, or on each question.</td></tr>
+            <tr><td><code>questions</code></td><td><span class="req">required</span></td><td>List of questions. A question's own exam, branch, year and subject win over the file level ones.</td></tr>
+            <tr><td><code>id</code></td><td><span class="req">required</span></td><td>Unique across the whole sheet. Also the image file name: <code>images/&lt;id&gt;.png</code>.</td></tr>
+            <tr><td><code>question_type</code></td><td><span class="req">required</span></td><td><code>MCQ</code> (one answer), <code>MSQ</code> (many answers) or <code>NAT</code> (numeric).</td></tr>
+            <tr><td><code>marks</code></td><td><span class="req">required</span></td><td>A number above 0.</td></tr>
+            <tr><td><code>question</code></td><td><span class="req">required</span></td><td>The question text.</td></tr>
+            <tr><td><code>options</code></td><td>MCQ and MSQ only</td><td>An object <code>{"A": "...", "B": "..."}</code> or a list. Use <code>null</code> for NAT.</td></tr>
+            <tr><td><code>negative_marks</code></td><td>optional</td><td>Marks lost for a wrong MCQ answer. Default 0.</td></tr>
+            <tr><td><code>answer</code></td><td>optional</td><td><code>"B"</code>, <code>"A;C"</code> (MSQ), <code>"3.5"</code> or a range <code>"3.4 to 3.6"</code> (NAT). Empty means the question is not scored.</td></tr>
+            <tr><td><code>images</code></td><td>optional</td><td>A list. If it is not empty, the exam shows the image named after the id.</td></tr>
+            <tr><td><code>question_number</code>, <code>answer_format</code>, <code>explanation</code>, <code>source_page</code>, <code>answer_status</code></td><td>optional</td><td>Kept as they are.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="muted">Also accepted: a list of such objects (several exams in one file), or one flat list of questions where every question carries its own exam, branch, year and subject.</p>
+      <button class="btn" id="sampleBtn">Download sample file</button>
+    </details>
+  </section>
 
   <section class="card">
     <div class="drop">
@@ -28,18 +65,18 @@
   </section>
 
   <section class="card" id="previewCard" hidden>
-    <h2>Ready to upload</h2>
+    <h2>Check before upload</h2>
     <div class="stats" id="totals"></div>
     <div class="scroll">
       <table>
-        <thead><tr><th>File</th><th>Exam</th><th>Branch</th><th>Year</th><th>Subject</th><th class="num">Questions</th></tr></thead>
-        <tbody id="fileRows"></tbody>
+        <thead><tr><th>Exam</th><th>Branch</th><th>Years</th><th class="num">Topics</th><th class="num">New questions</th></tr></thead>
+        <tbody id="groupRows"></tbody>
       </table>
     </div>
     <div id="warnings" style="margin-top:1rem"></div>
     <p class="muted" id="imgNote"></p>
     <div class="row" style="margin-top:1rem">
-      <button class="btn primary" id="uploadBtn">Upload to sheet</button>
+      <button class="btn primary" id="uploadBtn">Upload new questions</button>
       <button class="btn" id="clearBtn">Clear</button>
     </div>
     <progress id="prog" value="0" max="1" hidden style="margin-top:1rem"></progress>
@@ -50,29 +87,94 @@
 <script src="api.js"></script>
 <script>
 const $ = id => document.getElementById(id);
-let rows = [];
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const text = v => (v === null || v === undefined) ? "" : String(v);
+let toUpload = [];
 
 if (API.isDemo()) {
-  $("modeNote").innerHTML = '<div class="notice">Demo mode: no backend is connected, so uploads are saved in this browser only. Set <code>API_URL</code> in config.js to use your sheet.</div>';
+  $("modeNote").innerHTML = '<div class="notice">Demo mode: uploads are saved in this browser only, and the browser can hold about 5 MB. For a large file, set <code>API_URL</code> in config.js first.</div>';
 }
 
-const text = v => (v === null || v === undefined) ? "" : String(v);
+/* ---------- sample + format ---------- */
+const SAMPLE = {
+  exam: "GATE", branch: "EC", year: 2020, subject: "Digital Circuits",
+  questions: [
+    {
+      id: "adc-and-dace7ef-q6", question_number: 6, question_type: "NAT", answer_format: "numeric",
+      marks: 1, negative_marks: 0, question: "A 10-bit D/A converter is calibrated over the full range from 0 to 10 V. If the input is 13A (hex), the output is ______ V.",
+      options: null, answer: "3.056", explanation: null, images: [],
+    },
+    {
+      id: "flipflop-q7", question_number: 7, question_type: "MCQ", answer_format: "option",
+      marks: 1, negative_marks: 0.33, question: "A flip-flop that toggles when J = K = 1 is a:",
+      options: { A: "SR", B: "JK", C: "D", D: "T" }, answer: "B", explanation: null, images: [],
+    },
+  ],
+};
+$("sample").textContent = JSON.stringify(SAMPLE, null, 2);
+$("sampleBtn").onclick = () => {
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([JSON.stringify(SAMPLE, null, 2)], { type: "application/json" }));
+  a.download = "sample-questions.json";
+  a.click();
+  URL.revokeObjectURL(a.href);
+};
 
-function flatten(file, name) {
+/* ---------- reading a file ---------- */
+function labelParts(s) {
+  const m = String(s || "").match(/^\s*([A-Za-z]+)\s+([A-Za-z]+)\s+(\d{4})\s*$/);
+  return m ? { exam: m[1], branch: m[2], year: +m[3] } : {};
+}
+
+// returns [{ ctx, q }]
+function extract(data) {
   const out = [];
-  (file.questions || []).forEach(q => {
-    out.push({
-      id: q.id,
-      exam: file.exam || "",
-      branch: file.branch || "",
-      year: q.year ?? file.year ?? "",
-      subject: q.subject || file.subject || "",
+  const block = b => {
+    if (!b || !Array.isArray(b.questions)) return false;
+    b.questions.forEach(q => out.push({ ctx: b, q }));
+    return true;
+  };
+  if (Array.isArray(data)) {
+    data.forEach(item => { if (!block(item) && item && typeof item === "object" && "question" in item) out.push({ ctx: {}, q: item }); });
+  } else block(data);
+  return out;
+}
+
+function build({ ctx, q }) {
+  const errs = [];
+  const lab = labelParts(q.exam);
+  const exam = ctx.exam || lab.exam || (q.exam && !/\s/.test(q.exam) ? q.exam : "");
+  const branch = q.branch || ctx.branch || lab.branch || "";
+  const year = q.year || ctx.year || lab.year || "";
+  const subject = q.subject || ctx.subject || "";
+  const type = String(q.question_type || "").toUpperCase();
+  const id = text(q.id).trim();
+
+  if (!id) errs.push("no id");
+  if (!["MCQ", "MSQ", "NAT"].includes(type)) errs.push(`question_type must be MCQ, MSQ or NAT (got "${text(q.question_type)}")`);
+  if (!(Number(q.marks) > 0)) errs.push("marks must be a number above 0");
+  if (!text(q.question).trim()) errs.push("question text is empty");
+  if (!exam) errs.push("exam is missing");
+  if (!branch) errs.push("branch is missing");
+  if (!/^\d{4}$/.test(String(year))) errs.push("year must have 4 digits");
+  if (!subject) errs.push("subject is missing");
+  if ((type === "MCQ" || type === "MSQ")) {
+    const o = q.options;
+    const n = !o ? 0 : Array.isArray(o) ? o.length : Object.keys(o).length;
+    if (n < 2) errs.push("MCQ/MSQ needs at least 2 options");
+  }
+  if (errs.length) return { id, errs };
+
+  return {
+    id, errs,
+    row: {
+      id, exam, branch, year: Number(year), subject,
       question_number: q.question_number ?? "",
-      question_type: q.question_type || "",
-      answer_format: q.answer_format || "",
-      marks: q.marks ?? 1,
-      negative_marks: q.negative_marks ?? 0,
-      exam_label: q.exam || "",
+      question_type: type,
+      answer_format: q.answer_format || (type === "NAT" ? "numeric" : "option"),
+      marks: Number(q.marks),
+      negative_marks: Number(q.negative_marks) || 0,
+      exam_label: /\s/.test(text(q.exam)) ? q.exam : `${exam} ${branch} ${year}`,
       question: text(q.question),
       options: q.options ? JSON.stringify(q.options) : "",
       answer: Array.isArray(q.answer) ? q.answer.join(";") : text(q.answer),
@@ -80,84 +182,102 @@ function flatten(file, name) {
       images: JSON.stringify(q.images || []),
       source_page: text(q.source_page),
       answer_status: text(q.answer_status),
-    });
-  });
-  return out;
+    },
+  };
 }
 
+/* ---------- choosing files ---------- */
 $("files").addEventListener("change", async e => {
   const files = [...e.target.files];
-  rows = [];
+  toUpload = [];
   $("msg").innerHTML = "";
-  const summary = [];
-  const problems = [];
+  $("previewCard").hidden = true;
+  if (!files.length) return;
+  $("msg").innerHTML = '<div class="notice">Reading files…</div>';
 
+  const fileProblems = [];
+  const items = [];
   for (const f of files) {
     try {
-      let data = JSON.parse(await f.text());
-      const list = Array.isArray(data) ? data : [data];
-      list.forEach(d => {
-        const r = flatten(d);
-        if (!r.length) problems.push(`${f.name}: no "questions" found.`);
-        summary.push({ file: f.name, exam: d.exam, branch: d.branch, year: d.year, subject: d.subject, n: r.length });
-        rows.push(...r);
-      });
+      const found = extract(JSON.parse(await f.text()));
+      if (!found.length) fileProblems.push(`${f.name}: no questions found. Check the format above.`);
+      items.push(...found);
     } catch (err) {
-      problems.push(`${f.name}: not valid JSON (${err.message}).`);
+      fileProblems.push(`${f.name}: not valid JSON (${err.message}).`);
     }
   }
 
-  // validation
-  const ids = new Map();
-  const warn = [...problems];
-  rows.forEach(r => { if (!r.id) warn.push("A question has no id and will be skipped."); ids.set(r.id, (ids.get(r.id) || 0) + 1); });
-  rows = rows.filter(r => r.id);
-  const dup = [...ids].filter(([id, c]) => id && c > 1).length;
-  if (dup) warn.push(`${dup} duplicate id(s) in the selected files. The last copy wins.`);
-  const noKey = rows.filter(r => !r.answer).length;
-  if (noKey) warn.push(`${noKey} question(s) have no answer. They will upload, but are not scored in exams.`);
-
-  const withImg = rows.filter(r => JSON.parse(r.images).length).length;
-  $("imgNote").textContent = withImg
-    ? `${withImg} question(s) reference images. Make sure they are in the images folder on GitHub, named <question id>.png (or .jpg / .jpeg / .webp).`
-    : "";
-
-  if (!rows.length) {
-    $("previewCard").hidden = true;
-    if (files.length) $("msg").innerHTML = `<div class="notice err">${warn.join("<br>") || "Nothing to upload."}</div>`;
-    return;
+  let existing = new Set();
+  if (items.length) {
+    $("msg").innerHTML = '<div class="notice">Checking which ids are already in the sheet…</div>';
+    try { existing = new Set(await API.getIds()); }
+    catch (err) { fileProblems.push(`Could not check existing ids (${err.message}). The sheet will still skip duplicates while uploading.`); }
   }
 
-  $("fileRows").innerHTML = summary.map(s => `<tr><td>${esc(s.file)}</td><td>${esc(s.exam)}</td><td>${esc(s.branch)}</td><td>${esc(s.year)}</td><td>${esc(s.subject)}</td><td class="num">${s.n}</td></tr>`).join("");
-  const unique = new Set(rows.map(r => r.id)).size;
-  $("totals").innerHTML = `<div class="stat"><b>${summary.length}</b><span>files</span></div><div class="stat"><b>${unique}</b><span>unique questions</span></div>`;
-  $("warnings").innerHTML = warn.length ? `<div class="notice">${warn.map(esc).join("<br>")}</div>` : "";
+  const invalid = [];
+  let dupInFile = 0, dupInSheet = 0, noKey = 0, withImg = 0;
+  const seen = new Set();
+  items.forEach((it, i) => {
+    const r = build(it);
+    if (r.errs.length) { invalid.push(`${r.id || "question #" + (i + 1)}: ${r.errs.join("; ")}`); return; }
+    if (seen.has(r.id)) { dupInFile++; return; }
+    seen.add(r.id);
+    if (existing.has(r.id)) { dupInSheet++; return; }
+    if (!r.row.answer) noKey++;
+    if (JSON.parse(r.row.images).length) withImg++;
+    toUpload.push(r.row);
+  });
+
+  $("msg").innerHTML = fileProblems.length ? `<div class="notice err">${fileProblems.map(esc).join("<br>")}</div>` : "";
+  if (!items.length) return;
+
+  // summary by exam + branch
+  const groups = {};
+  toUpload.forEach(r => {
+    const g = groups[`${r.exam}|${r.branch}`] ||= { exam: r.exam, branch: r.branch, years: new Set(), subjects: new Set(), n: 0 };
+    g.years.add(r.year); g.subjects.add(r.subject); g.n++;
+  });
+  $("groupRows").innerHTML = Object.values(groups).map(g => {
+    const ys = [...g.years].sort();
+    return `<tr><td>${esc(g.exam)}</td><td>${esc(g.branch)}</td><td>${ys.length > 4 ? ys[0] + " to " + ys[ys.length - 1] : ys.join(", ")}</td><td class="num">${g.subjects.size}</td><td class="num">${g.n}</td></tr>`;
+  }).join("") || '<tr><td colspan="5" class="muted">Nothing new to upload.</td></tr>';
+
+  $("totals").innerHTML =
+    `<div class="stat"><b style="color:var(--good)">${toUpload.length}</b><span>new, will upload</span></div>` +
+    `<div class="stat"><b>${dupInSheet}</b><span>id already in sheet, skipped</span></div>` +
+    `<div class="stat"><b>${dupInFile}</b><span>repeated in file, skipped</span></div>` +
+    `<div class="stat"><b style="color:${invalid.length ? "var(--bad)" : "inherit"}">${invalid.length}</b><span>invalid, skipped</span></div>`;
+
+  const notes = [];
+  if (invalid.length) notes.push(`<div class="notice err"><b>${invalid.length} invalid question(s) will not be uploaded.</b><ul class="errs">${invalid.slice(0, 10).map(x => `<li>${esc(x)}</li>`).join("")}</ul>${invalid.length > 10 ? `<div class="muted">…and ${invalid.length - 10} more.</div>` : ""}</div>`);
+  if (noKey) notes.push(`<div class="notice">${noKey} new question(s) have no answer. They upload, but are not scored in exams.</div>`);
+  $("warnings").innerHTML = notes.join("");
+  $("imgNote").textContent = withImg ? `${withImg} new question(s) have images. Put them in the images folder on GitHub as <question id>.png (or .jpg, .jpeg, .webp).` : "";
+
+  $("uploadBtn").disabled = toUpload.length === 0;
   $("previewCard").hidden = false;
-  $("uploadBtn").disabled = false;
 });
 
-function esc(s) { return String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
+$("clearBtn").onclick = () => { toUpload = []; $("files").value = ""; $("previewCard").hidden = true; $("msg").innerHTML = ""; };
 
-$("clearBtn").onclick = () => { rows = []; $("files").value = ""; $("previewCard").hidden = true; $("msg").innerHTML = ""; };
-
+/* ---------- upload ---------- */
 $("uploadBtn").onclick = async () => {
   const btn = $("uploadBtn");
   btn.disabled = true;
   const prog = $("prog");
-  prog.hidden = false;
-  prog.max = rows.length; prog.value = 0;
-  const BATCH = 100;
-  let added = 0, updated = 0;
+  prog.hidden = false; prog.max = toUpload.length; prog.value = 0;
+  const BATCH = 200;
+  let added = 0, skipped = 0;
   try {
-    for (let i = 0; i < rows.length; i += BATCH) {
-      const res = await API.uploadQuestions(rows.slice(i, i + BATCH));
-      added += res.added || 0; updated += res.updated || 0;
-      prog.value = Math.min(rows.length, i + BATCH);
+    for (let i = 0; i < toUpload.length; i += BATCH) {
+      const res = await API.uploadQuestions(toUpload.slice(i, i + BATCH));
+      added += res.added || 0; skipped += res.skipped || 0;
+      prog.value = Math.min(toUpload.length, i + BATCH);
     }
-    $("msg").innerHTML = `<div class="notice ok">Upload finished: ${added} added, ${updated} updated.</div>`;
-    rows = []; $("files").value = ""; $("previewCard").hidden = true;
+    $("msg").innerHTML = `<div class="notice ok">Upload finished: ${added} added, ${skipped} skipped because the id already existed.</div>`;
+    toUpload = []; $("files").value = ""; $("previewCard").hidden = true;
   } catch (err) {
-    $("msg").innerHTML = `<div class="notice err">Upload stopped: ${esc(err.message)}. Fix the problem and upload again. Questions already sent are safe to re-send.</div>`;
+    $("msg").innerHTML = `<div class="notice err">Upload stopped after ${added} added: ${esc(err.message)}<br>Choose the file again. Questions already added are skipped automatically, so nothing is duplicated.</div>`;
     btn.disabled = false;
   }
   prog.hidden = true;
