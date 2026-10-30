@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Exam Practice</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Serif:wght@400;600&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top"><div class="in">
+  <span class="brand">Exam Practice</span>
+  <nav><a href="index.html" aria-current="page">Practice</a><a href="upload.html">Upload</a></nav>
+</div></header>
+
+<main class="wrap">
+  <div id="modeNote"></div>
+
+  <section class="card" id="lastCard" hidden>
+    <h2>Your last attempt</h2>
+    <div id="lastBody"></div>
+  </section>
+
+  <section class="card">
+    <h1>Set up a test</h1>
+    <div id="loadMsg" class="muted">Loading questions…</div>
+    <div id="form" hidden>
+      <div class="grid">
+        <div><label for="branch">Branch</label><select id="branch"></select></div>
+        <div><label for="year">Year</label><select id="year"></select></div>
+        <div><label for="topic">Topic</label><select id="topic"></select></div>
+        <div><label for="count">Number of questions</label><input id="count" type="number" min="1" value="10"></div>
+      </div>
+      <div class="avail" id="avail"></div>
+      <button class="btn primary" id="startBtn">Start test</button>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Past attempts</h2>
+    <div class="scroll" id="history"><span class="muted">Loading…</span></div>
+  </section>
+</main>
+
+<dialog id="dlg">
+  <h2>Your test is ready</h2>
+  <div class="stats" id="dlgStats"></div>
+  <p class="muted">Time is set by marks: 65 questions (100 marks) get 3 hours. The test ends automatically when time runs out.</p>
+  <div class="row" style="justify-content:flex-end">
+    <button class="btn" id="dlgCancel">Back</button>
+    <button class="btn primary" id="dlgGo">Begin exam</button>
+  </div>
+</dialog>
+
+<script src="config.js"></script>
+<script src="api.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const fmtTime = sec => { sec = Math.max(0, Math.round(sec)); const h = Math.floor(sec / 3600), m = Math.floor(sec % 3600 / 60), s = sec % 60; return h ? `${h}h ${m}m` : `${m}m ${s}s`; };
+const fmtNum = n => (Math.round(n * 100) / 100).toString();
+
+let ALL = [];
+let picked = null;
+
+if (API.isDemo()) {
+  $("modeNote").innerHTML = '<div class="notice">Demo mode: sample questions and results are stored in this browser only. Set <code>API_URL</code> in config.js to connect your sheet.</div>';
+}
+
+/* ---------- filters ---------- */
+const branchKey = r => `${r.exam}|${r.branch}`;
+const uniq = a => [...new Set(a)];
+
+function fillBranches() {
+  const keys = uniq(ALL.map(branchKey)).sort();
+  $("branch").innerHTML = keys.map(k => `<option value="${esc(k)}">${esc(k.replace("|", " "))}</option>`).join("");
+  fillYears();
+}
+function byBranch() { return ALL.filter(r => branchKey(r) === $("branch").value); }
+function fillYears() {
+  const years = uniq(byBranch().map(r => r.year)).sort((a, b) => b - a);
+  $("year").innerHTML = `<option value="all">All years</option>` + years.map(y => `<option>${y}</option>`).join("");
+  fillTopics();
+}
+function byYear() { const y = $("year").value; return byBranch().filter(r => y === "all" || String(r.year) === y); }
+function fillTopics() {
+  const topics = uniq(byYear().map(r => r.subject)).sort();
+  $("topic").innerHTML = `<option value="all">All topics</option>` + topics.map(t => `<option>${esc(t)}</option>`).join("");
+  update();
+}
+function filtered() { const t = $("topic").value; return byYear().filter(r => t === "all" || r.subject === t); }
+
+function update() {
+  const n = filtered().length;
+  $("avail").innerHTML = `<b>${n}</b> question${n === 1 ? "" : "s"} available`;
+  $("count").max = n;
+  if (+$("count").value > n) $("count").value = n || 1;
+  $("startBtn").disabled = n === 0;
+}
+
+$("branch").onchange = fillYears;
+$("year").onchange = fillTopics;
+$("topic").onchange = update;
+
+/* ---------- start ---------- */
+function shuffle(a) { a = [...a]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+
+$("startBtn").onclick = () => {
+  const pool = filtered();
+  const n = Math.min(Math.max(1, parseInt($("count").value) || 1), pool.length);
+  $("count").value = n;
+  picked = shuffle(pool).slice(0, n);
+  const totalMarks = picked.reduce((s, q) => s + q.marks, 0);
+  const minutes = Math.max(1, Math.round(totalMarks * CONFIG.MINUTES_PER_MARK));
+  picked._meta = { totalMarks, minutes };
+  $("dlgStats").innerHTML =
+    `<div class="stat"><b>${n}</b><span>questions</span></div>` +
+    `<div class="stat"><b>${fmtNum(totalMarks)}</b><span>total marks</span></div>` +
+    `<div class="stat"><b>${minutes >= 60 ? Math.floor(minutes / 60) + "h " + (minutes % 60) + "m" : minutes + " min"}</b><span>time allowed</span></div>`;
+  $("dlg").showModal();
+};
+$("dlgCancel").onclick = () => $("dlg").close();
+$("dlgGo").onclick = () => {
+  const session = {
+    questions: picked,
+    totalMarks: picked._meta.totalMarks,
+    durationSec: picked._meta.minutes * 60,
+    startedAt: Date.now(),
+    filters: { branch: $("branch").value.replace("|", " "), year: $("year").value, topic: $("topic").value },
+    answers: {}, marked: [], visited: [], current: 0,
+  };
+  sessionStorage.removeItem("lastResult");
+  sessionStorage.setItem("examSession", JSON.stringify(session));
+  location.href = "exam.html";
+};
+
+/* ---------- results ---------- */
+function showLast() {
+  const raw = sessionStorage.getItem("lastResult");
+  if (!raw) return;
+  const r = JSON.parse(raw);
+  const subj = Object.entries(r.bySubject || {}).map(([name, s]) => {
+    const pct = s.max > 0 ? Math.max(0, s.score) / s.max * 100 : 0;
+    return `<tr><td>${esc(name)}</td><td class="num">${s.correct}/${s.attempted}</td><td class="num">${fmtNum(s.score)} / ${fmtNum(s.max)}</td><td><div class="bar"><i style="width:${pct}%"></i></div></td></tr>`;
+  }).join("");
+  $("lastBody").innerHTML = `
+    <p class="muted">${esc(r.filters.branch)}, ${r.filters.year === "all" ? "all years" : esc(r.filters.year)}, ${r.filters.topic === "all" ? "all topics" : esc(r.filters.topic)}${r.autoSubmitted ? " (time ran out)" : ""}</p>
+    <div class="stats">
+      <div class="stat"><b>${fmtNum(r.score)} / ${fmtNum(r.maxScore)}</b><span>score</span></div>
+      <div class="stat"><b>${r.accuracy}%</b><span>accuracy</span></div>
+      <div class="stat"><b style="color:var(--good)">${r.correct}</b><span>correct</span></div>
+      <div class="stat"><b style="color:var(--bad)">${r.wrong}</b><span>wrong</span></div>
+      <div class="stat"><b>${r.unattempted}</b><span>not attempted</span></div>
+      <div class="stat"><b>${fmtTime(r.timeTakenSec)}</b><span>of ${fmtTime(r.durationSec)}</span></div>
+    </div>
+    ${r.noKey ? `<p class="muted">${r.noKey} question(s) have no answer key and were not scored.</p>` : ""}
+    <div class="scroll"><table><thead><tr><th>Topic</th><th class="num">Correct</th><th class="num">Score</th><th>Progress</th></tr></thead><tbody>${subj}</tbody></table></div>
+    <details style="margin-top:1rem"><summary>Question by question</summary>
+      <div class="scroll"><table><thead><tr><th>Q</th><th>Topic</th><th>Your answer</th><th>Correct answer</th><th class="num">Marks</th></tr></thead><tbody>
+      ${r.detail.map((d, i) => `<tr><td>${i + 1}</td><td>${esc(d.subject)}</td><td>${esc(d.given || "none")}</td><td>${esc(d.answer || "no key")}</td><td class="num" style="color:var(${d.got > 0 ? "--good" : d.got < 0 ? "--bad" : "--muted"})">${d.got > 0 ? "+" : ""}${fmtNum(d.got)}</td></tr>`).join("")}
+      </tbody></table></div>
+    </details>`;
+  $("lastCard").hidden = false;
+}
+
+async function showHistory() {
+  try {
+    const list = (await API.getResults()).slice().reverse();
+    if (!list.length) { $("history").innerHTML = '<span class="muted">No attempts yet. Your finished tests will appear here.</span>'; return; }
+    $("history").innerHTML = `<table><thead><tr><th>Date</th><th>Test</th><th class="num">Questions</th><th class="num">Score</th><th class="num">Accuracy</th><th class="num">Time</th></tr></thead><tbody>` +
+      list.map(r => `<tr><td>${new Date(r.finishedAt).toLocaleString()}</td><td>${esc(r.filters.branch)}, ${r.filters.year === "all" ? "all years" : esc(r.filters.year)}, ${r.filters.topic === "all" ? "all topics" : esc(r.filters.topic)}</td><td class="num">${r.total}</td><td class="num">${fmtNum(r.score)} / ${fmtNum(r.maxScore)}</td><td class="num">${r.accuracy}%</td><td class="num">${fmtTime(r.timeTakenSec)}</td></tr>`).join("") +
+      `</tbody></table>`;
+  } catch (e) {
+    $("history").innerHTML = `<div class="notice err">Could not load past attempts: ${esc(e.message)}</div>`;
+  }
+}
+
+/* ---------- start-up ---------- */
+(async () => {
+  showLast();
+  showHistory();
+  try {
+    ALL = await API.getQuestions();
+    $("loadMsg").hidden = true;
+    if (!ALL.length) { $("loadMsg").hidden = false; $("loadMsg").innerHTML = 'No questions yet. <a href="upload.html">Upload some</a> first.'; return; }
+    $("form").hidden = false;
+    fillBranches();
+  } catch (e) {
+    $("loadMsg").innerHTML = `<div class="notice err">Could not load questions: ${esc(e.message)}</div>`;
+  }
+})();
+</script>
+</body>
+</html>

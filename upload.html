@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Upload questions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Serif:wght@400;600&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top"><div class="in">
+  <span class="brand">Exam Practice</span>
+  <nav><a href="index.html">Practice</a><a href="upload.html" aria-current="page">Upload</a></nav>
+</div></header>
+
+<main class="wrap">
+  <h1>Upload questions</h1>
+  <p class="muted">Choose one or more question files (.json, in the format of your scraped data). Every question is added to one sheet. If a question id already exists, it is updated.</p>
+  <div id="modeNote"></div>
+
+  <section class="card">
+    <div class="drop">
+      <label for="files">Question files</label>
+      <input id="files" type="file" accept=".json,application/json" multiple>
+    </div>
+    <div id="msg" style="margin-top:1rem"></div>
+  </section>
+
+  <section class="card" id="previewCard" hidden>
+    <h2>Ready to upload</h2>
+    <div class="stats" id="totals"></div>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>File</th><th>Exam</th><th>Branch</th><th>Year</th><th>Subject</th><th class="num">Questions</th></tr></thead>
+        <tbody id="fileRows"></tbody>
+      </table>
+    </div>
+    <div id="warnings" style="margin-top:1rem"></div>
+    <p class="muted" id="imgNote"></p>
+    <div class="row" style="margin-top:1rem">
+      <button class="btn primary" id="uploadBtn">Upload to sheet</button>
+      <button class="btn" id="clearBtn">Clear</button>
+    </div>
+    <progress id="prog" value="0" max="1" hidden style="margin-top:1rem"></progress>
+  </section>
+</main>
+
+<script src="config.js"></script>
+<script src="api.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+let rows = [];
+
+if (API.isDemo()) {
+  $("modeNote").innerHTML = '<div class="notice">Demo mode: no backend is connected, so uploads are saved in this browser only. Set <code>API_URL</code> in config.js to use your sheet.</div>';
+}
+
+const text = v => (v === null || v === undefined) ? "" : String(v);
+
+function flatten(file, name) {
+  const out = [];
+  (file.questions || []).forEach(q => {
+    out.push({
+      id: q.id,
+      exam: file.exam || "",
+      branch: file.branch || "",
+      year: q.year ?? file.year ?? "",
+      subject: q.subject || file.subject || "",
+      question_number: q.question_number ?? "",
+      question_type: q.question_type || "",
+      answer_format: q.answer_format || "",
+      marks: q.marks ?? 1,
+      negative_marks: q.negative_marks ?? 0,
+      exam_label: q.exam || "",
+      question: text(q.question),
+      options: q.options ? JSON.stringify(q.options) : "",
+      answer: Array.isArray(q.answer) ? q.answer.join(";") : text(q.answer),
+      explanation: text(q.explanation),
+      images: JSON.stringify(q.images || []),
+      source_page: text(q.source_page),
+      answer_status: text(q.answer_status),
+    });
+  });
+  return out;
+}
+
+$("files").addEventListener("change", async e => {
+  const files = [...e.target.files];
+  rows = [];
+  $("msg").innerHTML = "";
+  const summary = [];
+  const problems = [];
+
+  for (const f of files) {
+    try {
+      let data = JSON.parse(await f.text());
+      const list = Array.isArray(data) ? data : [data];
+      list.forEach(d => {
+        const r = flatten(d);
+        if (!r.length) problems.push(`${f.name}: no "questions" found.`);
+        summary.push({ file: f.name, exam: d.exam, branch: d.branch, year: d.year, subject: d.subject, n: r.length });
+        rows.push(...r);
+      });
+    } catch (err) {
+      problems.push(`${f.name}: not valid JSON (${err.message}).`);
+    }
+  }
+
+  // validation
+  const ids = new Map();
+  const warn = [...problems];
+  rows.forEach(r => { if (!r.id) warn.push("A question has no id and will be skipped."); ids.set(r.id, (ids.get(r.id) || 0) + 1); });
+  rows = rows.filter(r => r.id);
+  const dup = [...ids].filter(([id, c]) => id && c > 1).length;
+  if (dup) warn.push(`${dup} duplicate id(s) in the selected files. The last copy wins.`);
+  const noKey = rows.filter(r => !r.answer).length;
+  if (noKey) warn.push(`${noKey} question(s) have no answer. They will upload, but are not scored in exams.`);
+
+  const withImg = rows.filter(r => JSON.parse(r.images).length).length;
+  $("imgNote").textContent = withImg
+    ? `${withImg} question(s) reference images. Make sure they are in the images folder on GitHub, named <question id>.png (or .jpg / .jpeg / .webp).`
+    : "";
+
+  if (!rows.length) {
+    $("previewCard").hidden = true;
+    if (files.length) $("msg").innerHTML = `<div class="notice err">${warn.join("<br>") || "Nothing to upload."}</div>`;
+    return;
+  }
+
+  $("fileRows").innerHTML = summary.map(s => `<tr><td>${esc(s.file)}</td><td>${esc(s.exam)}</td><td>${esc(s.branch)}</td><td>${esc(s.year)}</td><td>${esc(s.subject)}</td><td class="num">${s.n}</td></tr>`).join("");
+  const unique = new Set(rows.map(r => r.id)).size;
+  $("totals").innerHTML = `<div class="stat"><b>${summary.length}</b><span>files</span></div><div class="stat"><b>${unique}</b><span>unique questions</span></div>`;
+  $("warnings").innerHTML = warn.length ? `<div class="notice">${warn.map(esc).join("<br>")}</div>` : "";
+  $("previewCard").hidden = false;
+  $("uploadBtn").disabled = false;
+});
+
+function esc(s) { return String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
+
+$("clearBtn").onclick = () => { rows = []; $("files").value = ""; $("previewCard").hidden = true; $("msg").innerHTML = ""; };
+
+$("uploadBtn").onclick = async () => {
+  const btn = $("uploadBtn");
+  btn.disabled = true;
+  const prog = $("prog");
+  prog.hidden = false;
+  prog.max = rows.length; prog.value = 0;
+  const BATCH = 100;
+  let added = 0, updated = 0;
+  try {
+    for (let i = 0; i < rows.length; i += BATCH) {
+      const res = await API.uploadQuestions(rows.slice(i, i + BATCH));
+      added += res.added || 0; updated += res.updated || 0;
+      prog.value = Math.min(rows.length, i + BATCH);
+    }
+    $("msg").innerHTML = `<div class="notice ok">Upload finished: ${added} added, ${updated} updated.</div>`;
+    rows = []; $("files").value = ""; $("previewCard").hidden = true;
+  } catch (err) {
+    $("msg").innerHTML = `<div class="notice err">Upload stopped: ${esc(err.message)}. Fix the problem and upload again. Questions already sent are safe to re-send.</div>`;
+    btn.disabled = false;
+  }
+  prog.hidden = true;
+};
+</script>
+</body>
+</html>

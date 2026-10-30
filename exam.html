@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Exam</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Serif:wght@400;600&display=swap">
+<link rel="stylesheet" href="style.css">
+<style>
+  .bar-top { position: sticky; top: 0; z-index: 5; background: var(--card); border-bottom: 1px solid var(--line); }
+  .bar-top .in { max-width: 1100px; margin: 0 auto; padding: .6rem 1rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; }
+  .timer { font-size: 1.5rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .timer.low { color: var(--bad); }
+  .layout { max-width: 1100px; margin: 0 auto; padding: 1rem; display: grid; gap: 1rem; grid-template-columns: minmax(0, 1fr) 260px; align-items: start; }
+  @media (max-width: 800px) { .layout { grid-template-columns: 1fr; } }
+  .qhead { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-bottom: .75rem; }
+  .qtext { font-family: var(--serif); font-size: 1.1rem; line-height: 1.65; white-space: pre-wrap; }
+  .opt { display: flex; gap: .7rem; align-items: flex-start; padding: .65rem .8rem; border: 1px solid var(--line); border-radius: 6px; margin: .5rem 0; cursor: pointer; }
+  .opt:hover { background: var(--soft); }
+  .opt.sel { border-color: var(--accent); background: var(--soft); }
+  .opt input { margin-top: .3rem; }
+  .opt .k { font-weight: 600; min-width: 1.2rem; }
+  .nat { max-width: 260px; font-size: 1.1rem; }
+  .palette { display: grid; grid-template-columns: repeat(5, 1fr); gap: .4rem; }
+  .pq { font: inherit; font-weight: 600; padding: .45rem 0; border-radius: 6px; border: 1px solid var(--line); background: var(--card); color: var(--ink); cursor: pointer; position: relative; }
+  .pq.visited { border-color: var(--bad); color: var(--bad); }
+  .pq.answered { background: var(--good); border-color: var(--good); color: #fff; }
+  .pq.marked { border-radius: 50%; border-color: var(--warn); }
+  .pq.marked.answered { background: var(--warn); border-color: var(--warn); color: #fff; }
+  .pq.current { outline: 3px solid var(--accent); outline-offset: 1px; }
+  .legend { font-size: .82rem; color: var(--muted); margin-top: .8rem; line-height: 1.8; }
+  .legend i { display: inline-block; width: .9rem; height: .9rem; border-radius: 3px; vertical-align: -2px; margin-right: .3rem; border: 1px solid var(--line); }
+  .actions { display: flex; gap: .6rem; flex-wrap: wrap; margin-top: 1.25rem; }
+</style>
+</head>
+<body>
+<div class="bar-top"><div class="in">
+  <div><b id="title">Exam</b><div class="muted" id="sub"></div></div>
+  <div class="timer" id="timer" role="timer" aria-live="off">--:--</div>
+  <button class="btn danger" id="submitBtn">Submit exam</button>
+</div></div>
+
+<div class="layout">
+  <main class="card" id="qcard" aria-live="polite"></main>
+  <aside class="card">
+    <h3>Questions</h3>
+    <div class="palette" id="palette"></div>
+    <div class="legend">
+      <div><i></i>Not visited</div>
+      <div><i style="border-color:var(--bad)"></i>Visited, not answered</div>
+      <div><i style="background:var(--good);border-color:var(--good)"></i>Answered</div>
+      <div><i style="border-color:var(--warn);border-radius:50%"></i>Marked for review</div>
+    </div>
+    <p class="muted" id="counts" style="margin-bottom:0"></p>
+  </aside>
+</div>
+
+<dialog id="dlg">
+  <h2>Submit the exam?</h2>
+  <p id="dlgText"></p>
+  <div class="row" style="justify-content:flex-end">
+    <button class="btn" id="dlgNo">Keep working</button>
+    <button class="btn danger" id="dlgYes">Submit</button>
+  </div>
+</dialog>
+
+<script src="config.js"></script>
+<script src="api.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const raw = sessionStorage.getItem("examSession");
+if (!raw) location.replace("index.html");
+const S = JSON.parse(raw || "{}");
+const Q = S.questions || [];
+const endAt = S.startedAt + S.durationSec * 1000;
+let finished = false;
+
+const save = () => sessionStorage.setItem("examSession", JSON.stringify(S));
+const fmtNum = n => (Math.round(n * 100) / 100).toString();
+
+/* ---------- helpers ---------- */
+function qType(q) {
+  const t = (q.question_type || "").toUpperCase();
+  if (t.includes("NAT")) return "NAT";
+  if (t.includes("MSQ")) return "MSQ";
+  if (t.includes("MCQ")) return "MCQ";
+  return q.options ? "MCQ" : "NAT";
+}
+function optionList(q) {
+  const o = q.options;
+  if (!o) return qType(q) === "NAT" ? [] : ["A", "B", "C", "D"].map(k => ({ key: k, text: "" }));
+  if (Array.isArray(o)) return o.map((x, i) => (typeof x === "object" && x) ? { key: x.key || x.label || String.fromCharCode(65 + i), text: x.text ?? x.value ?? "" } : { key: String.fromCharCode(65 + i), text: String(x) });
+  return Object.entries(o).map(([k, v]) => ({ key: k, text: String(v) }));
+}
+
+/* ---------- timer ---------- */
+function tick() {
+  const left = Math.max(0, Math.round((endAt - Date.now()) / 1000));
+  const h = Math.floor(left / 3600), m = Math.floor(left % 3600 / 60), s = left % 60;
+  $("timer").textContent = `${h ? h + ":" : ""}${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+  $("timer").classList.toggle("low", left <= 300);
+  if (left === 0 && !finished) finish(true);
+}
+setInterval(tick, 1000);
+
+/* ---------- rendering ---------- */
+function render() {
+  const i = S.current, q = Q[i], type = qType(q);
+  if (!S.visited.includes(i)) S.visited.push(i);
+  const given = S.answers[i] || "";
+  const box = $("qcard");
+  box.innerHTML = "";
+
+  const head = document.createElement("div");
+  head.className = "qhead";
+  head.innerHTML = `<b>Question ${i + 1} of ${Q.length}</b><span class="muted">${type === "NAT" ? "Numerical answer" : type === "MSQ" ? "Select all that apply" : "Select one"} &nbsp; ${q.marks} mark${q.marks === 1 ? "" : "s"}${type === "MCQ" && q.negative_marks && CONFIG.NEGATIVE_FOR_TYPES.includes("MCQ") ? `, −${fmtNum(q.negative_marks)} for wrong` : ""}</span>`;
+  box.append(head);
+
+  const sub = document.createElement("div");
+  sub.className = "muted";
+  sub.style.marginBottom = ".5rem";
+  sub.textContent = `${q.subject} (${q.exam_label || q.year})`;
+  box.append(sub);
+
+  const t = document.createElement("div");
+  t.className = "qtext";
+  t.textContent = q.question;
+  box.append(t);
+
+  if (q.images && q.images.length) box.append(questionImage(q.id));
+
+  if (type === "NAT") {
+    const inp = document.createElement("input");
+    inp.type = "text"; inp.inputMode = "decimal"; inp.className = "nat"; inp.placeholder = "Type your answer";
+    inp.setAttribute("aria-label", "Your numerical answer");
+    inp.style.marginTop = "1rem";
+    inp.value = given;
+    inp.oninput = () => { setAnswer(i, inp.value.trim()); paletteRender(); };
+    box.append(inp);
+  } else {
+    const chosen = new Set(given ? given.split(";") : []);
+    optionList(q).forEach(o => {
+      const lab = document.createElement("label");
+      lab.className = "opt" + (chosen.has(o.key) ? " sel" : "");
+      lab.style.fontWeight = "400";
+      const inp = document.createElement("input");
+      inp.type = type === "MSQ" ? "checkbox" : "radio";
+      inp.name = "opt"; inp.value = o.key; inp.checked = chosen.has(o.key);
+      inp.onchange = () => {
+        if (type === "MSQ") { inp.checked ? chosen.add(o.key) : chosen.delete(o.key); }
+        else { chosen.clear(); chosen.add(o.key); }
+        setAnswer(i, [...chosen].sort().join(";"));
+        [...box.querySelectorAll(".opt")].forEach(el => el.classList.toggle("sel", chosen.has(el.querySelector("input").value)));
+        paletteRender();
+      };
+      const k = document.createElement("span"); k.className = "k"; k.textContent = o.key + ".";
+      const tx = document.createElement("span"); tx.textContent = o.text; tx.style.whiteSpace = "pre-wrap";
+      lab.append(inp, k, tx);
+      box.append(lab);
+    });
+  }
+
+  const act = document.createElement("div");
+  act.className = "actions";
+  const btn = (txt, fn, cls = "") => { const b = document.createElement("button"); b.className = "btn " + cls; b.textContent = txt; b.onclick = fn; act.append(b); return b; };
+  btn("Previous", () => go(i - 1)).disabled = i === 0;
+  btn("Clear answer", () => { setAnswer(i, ""); render(); });
+  btn(S.marked.includes(i) ? "Remove review mark" : "Mark for review", () => {
+    S.marked = S.marked.includes(i) ? S.marked.filter(x => x !== i) : [...S.marked, i]; save(); render();
+  });
+  btn("Save and next", () => go(i + 1), "primary").disabled = i === Q.length - 1;
+  box.append(act);
+
+  save();
+  paletteRender();
+}
+
+function setAnswer(i, v) { if (v) S.answers[i] = v; else delete S.answers[i]; save(); }
+function go(n) { if (n >= 0 && n < Q.length) { S.current = n; render(); window.scrollTo(0, 0); } }
+
+function paletteRender() {
+  const p = $("palette");
+  p.innerHTML = "";
+  Q.forEach((_, i) => {
+    const b = document.createElement("button");
+    const answered = !!S.answers[i];
+    b.className = "pq" + (answered ? " answered" : S.visited.includes(i) ? " visited" : "") + (S.marked.includes(i) ? " marked" : "") + (i === S.current ? " current" : "");
+    b.textContent = i + 1;
+    b.setAttribute("aria-label", `Question ${i + 1}${answered ? ", answered" : ""}${S.marked.includes(i) ? ", marked for review" : ""}`);
+    b.onclick = () => go(i);
+    p.append(b);
+  });
+  const a = Object.keys(S.answers).length;
+  $("counts").textContent = `${a} answered, ${Q.length - a} not answered, ${S.marked.length} marked`;
+}
+
+/* ---------- marking ---------- */
+function numbers(s) { return String(s).match(/-?\d*\.?\d+(?:e-?\d+)?/gi)?.map(Number) || []; }
+function isCorrect(q, given) {
+  const type = qType(q), key = String(q.answer).trim();
+  if (type === "NAT") {
+    const g = parseFloat(given);
+    if (Number.isNaN(g)) return false;
+    const range = key.match(/^\s*(-?\d*\.?\d+)\s*(?:to|–|—|-|:)\s*(-?\d*\.?\d+)\s*$/i);
+    if (range) { const lo = Math.min(+range[1], +range[2]), hi = Math.max(+range[1], +range[2]); return g >= lo - 1e-9 && g <= hi + 1e-9; }
+    const k = parseFloat(key);
+    return !Number.isNaN(k) && Math.abs(g - k) <= 0.005 + 1e-9;
+  }
+  const norm = s => String(s).toUpperCase().split(/[;,\s]+/).filter(Boolean).sort().join(";");
+  return norm(given) === norm(Array.isArray(q.answer) ? q.answer.join(";") : key);
+}
+
+function buildResult(auto) {
+  let score = 0, maxScore = 0, correct = 0, wrong = 0, unattempted = 0, noKey = 0;
+  const bySubject = {}, detail = [];
+  Q.forEach((q, i) => {
+    const given = S.answers[i] || "";
+    const hasKey = q.answer !== null && q.answer !== undefined && String(q.answer).trim() !== "";
+    const sub = bySubject[q.subject] ||= { score: 0, max: 0, correct: 0, attempted: 0 };
+    let got = 0;
+    if (!hasKey) { noKey++; }
+    else {
+      sub.max += q.marks; maxScore += q.marks;
+      if (!given) { unattempted++; }
+      else {
+        sub.attempted++;
+        if (isCorrect(q, given)) { got = q.marks; correct++; sub.correct++; }
+        else { wrong++; if (CONFIG.NEGATIVE_FOR_TYPES.includes(qType(q))) got = -q.negative_marks; }
+      }
+      score += got; sub.score += got;
+    }
+    detail.push({ id: q.id, subject: q.subject, type: qType(q), marks: q.marks, given, answer: hasKey ? String(q.answer) : "", got });
+  });
+  const attempted = correct + wrong;
+  const timeTakenSec = Math.min(S.durationSec, Math.round((Date.now() - S.startedAt) / 1000));
+  return {
+    finishedAt: new Date().toISOString(), filters: S.filters, total: Q.length,
+    score: Math.round(score * 100) / 100, maxScore, correct, wrong, unattempted, noKey,
+    accuracy: attempted ? Math.round(correct / attempted * 100) : 0,
+    timeTakenSec, durationSec: S.durationSec, autoSubmitted: !!auto, bySubject, detail,
+  };
+}
+
+async function finish(auto) {
+  if (finished) return;
+  finished = true;
+  document.querySelectorAll("button, input").forEach(el => el.disabled = true);
+  $("title").textContent = "Saving your result…";
+  const result = buildResult(auto);
+  sessionStorage.setItem("lastResult", JSON.stringify(result));
+  try { await API.saveResult(result); } catch (e) { console.error("Could not save result:", e); }
+  sessionStorage.removeItem("examSession");
+  location.href = "index.html";
+}
+
+/* ---------- submit dialog ---------- */
+$("submitBtn").onclick = () => {
+  const a = Object.keys(S.answers).length;
+  $("dlgText").textContent = `You answered ${a} of ${Q.length} questions${S.marked.length ? ` and marked ${S.marked.length} for review` : ""}. You cannot change answers after submitting.`;
+  $("dlg").showModal();
+};
+$("dlgNo").onclick = () => $("dlg").close();
+$("dlgYes").onclick = () => { $("dlg").close(); finish(false); };
+
+window.addEventListener("beforeunload", e => { if (!finished) { e.preventDefault(); e.returnValue = ""; } });
+
+/* ---------- start ---------- */
+if (Q.length) {
+  $("title").textContent = S.filters.branch;
+  $("sub").textContent = `${Q.length} questions, ${fmtNum(S.totalMarks)} marks`;
+  tick();
+  render();
+}
+</script>
+</body>
+</html>
