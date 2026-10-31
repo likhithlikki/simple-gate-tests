@@ -84,44 +84,27 @@
 
   <section class="card" id="imgCard">
     <h2>Find problems in data</h2>
-    <p class="muted">Choose the question JSON files, pick filters, then check whether every image they use is really in its folder. This does not upload anything.</p>
+    <p class="muted">Checks the questions already saved in your sheet. For every image they use, this page requests the same URL the exam requests, and lists the ones that cannot be reached (not uploaded to GitHub, or uploaded to a different path). Nothing needs to be selected or uploaded.</p>
+    <p class="muted">Images are requested from: <code id="baseTxt"></code></p>
 
-    <div class="drop">
-      <label for="dataFiles">Question files to check</label>
-      <input id="dataFiles" type="file" accept=".json,application/json" multiple>
-    </div>
-    <div class="drop" style="margin:.8rem 0 1rem">
-      <label for="dataFolder">…or a whole folder (for example <code>data</code>)</label>
-      <input id="dataFolder" type="file" webkitdirectory multiple>
-    </div>
-    <div id="dataMsg"></div>
-
-    <div class="radios" role="radiogroup" aria-label="Where to look for the images">
-      <label><input type="radio" name="imgMode" value="site" checked> Check the live site / GitHub (<span id="baseTxt"></span>)</label>
-      <label><input type="radio" name="imgMode" value="local"> Check an images folder on this computer</label>
-    </div>
-    <div class="drop" id="localBox" hidden style="margin-bottom:1rem">
-      <label for="imgFolder">Pick your <code>images</code> folder (or the project folder that contains it)</label>
-      <input id="imgFolder" type="file" webkitdirectory multiple>
-      <div class="muted" id="localNote" style="margin-top:.4rem"></div>
-    </div>
+    <div id="upSummary"><p class="muted">Loading uploaded data…</p></div>
 
     <div class="grid">
       <div><label for="fBranch">Branch</label><select id="fBranch"><option value="all">All</option></select></div>
       <div><label for="fYear">Year</label><select id="fYear"><option value="all">All</option></select></div>
       <div><label for="fKind">Images of</label>
-        <select id="fKind"><option value="all">All</option><option value="question">Questions</option><option value="option">Options</option><option value="solution">Solutions</option></select></div>
+        <select id="fKind"><option value="all">All</option><option value="question">Questions</option><option value="option">Options</option><option value="solution">Solutions</option><option value="other">Others</option></select></div>
     </div>
 
     <div class="row">
-      <button class="btn primary" id="runCheck">Check images</button>
+      <button class="btn primary" id="runCheck" disabled>Check images</button>
       <button class="btn" id="copyReport" disabled>Copy report</button>
       <span class="muted" id="copyMsg" role="status"></span>
     </div>
-    <progress id="imgProg" value="0" max="1" hidden style="margin-top:1rem"></progress>
+    <div class="muted" id="stage" style="margin-top:.8rem"></div>
+    <progress id="imgProg" value="0" max="1" hidden style="margin-top:.4rem"></progress>
 
     <div class="stats" id="imgStats" style="margin-top:1rem"></div>
-
     <div id="redBox"></div>
 
     <div id="greenWrap" hidden style="margin-top:1rem">
@@ -277,129 +260,52 @@ async function loadFiles(list) {
   }
 }
 
-/* ---------- image checker ---------- */
+/* ---------- image checker (works on the questions already in the sheet) ---------- */
 const ImgCheck = (() => {
-  let all = [];
-  let siteResult = new Map();
-  let local = null;
-  let redRows = [], greenRows = [], checked = false;
-  const KIND_LABEL = { question: "Question", option: "Option", solution: "Solution" };
-  const FOLDER = { question: "questions", option: "options", solution: "solutions" };
+  let meta = [];                 // [{id, branch, year, ...}] of every uploaded question
+  const qCache = new Map();      // id -> full question (only fetched when you press Check)
+  const result = new Map();      // path -> true (reachable) / false (not reachable)
+  let refs = [];                 // image references of the questions checked in the last run
+  let redRows = [], greenRows = [];
+  const KIND_LABEL = { question: "Question", option: "Option", solution: "Solution", other: "Other" };
 
-  const kindOf = p => /(^|\/)options\//i.test(p) ? "option" : /(^|\/)solutions?\//i.test(p) ? "solution" : "question";
-  const isStd = p => /^images\/(questions|options|solutions)\//i.test(p);
-  const ext = p => (String(p).split("?")[0].match(/\.([A-Za-z0-9]+)$/) || [, "jpg"])[1].toLowerCase();
-  const dirOf = p => p.includes("/") ? p.slice(0, p.lastIndexOf("/")) : "";
+  const dirOf = p => p.includes("/") ? p.slice(0, p.lastIndexOf("/")) : "(no folder)";
   const fileOf = p => p.split("/").pop();
+  const kindOf = p => /(^|\/)options\//i.test(p) ? "option" : /(^|\/)solutions?\//i.test(p) ? "solution" : /(^|\/)questions\//i.test(p) ? "question" : "other";
+  const yearTxt = y => String(y);
 
-  function expected(path, kind, id, n) {
-    if (isStd(path)) return path.replace(/^\.?\//, "");
-    const nn = String(n).padStart(2, "0");
-    if (kind === "option") {
-      const lab = (fileOf(path).match(/_([A-Za-z])_\d+\./) || [, "A"])[1].toUpperCase();
-      return `images/options/${id}_${lab}_${nn}.${ext(path)}`;
-    }
-    return `images/${FOLDER[kind]}/${id}_${nn}.${ext(path)}`;
+  /* ----- what is uploaded ----- */
+  function summary() {
+    const by = {};
+    meta.forEach(m => { const b = (by[m.branch || "UNKNOWN"] ||= { n: 0, years: {} }); b.n++; b.years[m.year] = (b.years[m.year] || 0) + 1; });
+    const rows = Object.keys(by).sort().map(br => {
+      const ys = Object.keys(by[br].years).sort((a, b) => (a === "Unmapped") - (b === "Unmapped") || a.localeCompare(b));
+      return `<tr><td><b>${esc(br)}</b></td><td class="num">${by[br].n}</td><td class="num">${ys.length}</td><td>${ys.map(y => `${esc(y)} <span class="muted">(${by[br].years[y]})</span>`).join(", ")}</td></tr>`;
+    }).join("");
+    $("upSummary").innerHTML = meta.length
+      ? `<div class="scroll"><table><thead><tr><th>Branch uploaded</th><th class="num">Questions</th><th class="num">Years</th><th>Years uploaded (questions)</th></tr></thead><tbody>${rows}</tbody></table></div>`
+      : '<div class="notice">No questions are uploaded yet.</div>';
   }
 
-  function setItems(items) {
-    all = []; siteResult = new Map(); checked = !!local;
-    items.forEach(({ ctx, q }) => {
-      const id = Importer.text(q.id).trim();
-      if (!id) return;
-      const lab = Importer.labelParts(q.exam);
-      const branch = Importer.text(q.branch || ctx.branch || lab.branch).trim() || "UNKNOWN";
-      const yr = q.year || ctx.year || lab.year;
-      const year = /^\d{4}$/.test(String(yr)) ? String(yr) : "Unmapped";
-      const base = { id, branch, year };
-      const count = { question: 0, option: 0, solution: 0 };
-      const add = (path, forced) => {
-        const kind = forced || kindOf(path);
-        count[kind]++;
-        all.push({ ...base, kind, path, want: expected(path, kind, id, count[kind]) });
-      };
-      (Array.isArray(q.images) ? q.images : []).filter(p => typeof p === "string" && p.trim()).forEach(p => add(p.trim()));
-      (Array.isArray(q.solution_images) ? q.solution_images : []).filter(p => typeof p === "string" && p.trim()).forEach(p => add(p.trim(), "solution"));
-      if (q.image_status === "reference_only" && !count.question && !count.option)
-        all.push({ ...base, kind: "question", path: "", want: expected("", "question", id, 1), noRef: true });
-    });
-    fillFilters();
-    render();
+  function fillBranch() {
+    const brs = [...new Set(meta.map(m => m.branch || "UNKNOWN"))].sort();
+    $("fBranch").innerHTML = '<option value="all">All branches</option>' + brs.map(b => `<option value="${esc(b)}">${esc(b)} (${meta.filter(m => (m.branch || "UNKNOWN") === b).length})</option>`).join("");
+    fillYear();
   }
-
-  function fillFilters() {
-    const keep = { b: $("fBranch").value, y: $("fYear").value };
-    const opts = (sel, vals, prev) => {
-      sel.innerHTML = '<option value="all">All</option>' + vals.map(v => `<option value="${esc(v)}">${esc(v)}</option>`).join("");
-      sel.value = vals.includes(prev) ? prev : "all";
-    };
-    opts($("fBranch"), [...new Set(all.map(r => r.branch))].sort(), keep.b);
-    opts($("fYear"), [...new Set(all.map(r => r.year))].sort((a, b) => (a === "Unmapped") - (b === "Unmapped") || a.localeCompare(b)), keep.y);
+  function fillYear() {
+    const b = $("fBranch").value, prev = $("fYear").value;
+    const list = meta.filter(m => b === "all" || (m.branch || "UNKNOWN") === b);
+    const cnt = {}; list.forEach(m => cnt[m.year] = (cnt[m.year] || 0) + 1);
+    const ys = Object.keys(cnt).sort((a, c) => (a === "Unmapped") - (c === "Unmapped") || a.localeCompare(c));
+    $("fYear").innerHTML = `<option value="all">All years (${ys.length})</option>` + ys.map(y => `<option value="${esc(y)}">${esc(y)} (${cnt[y]})</option>`).join("");
+    $("fYear").value = ys.includes(prev) ? prev : "all";
   }
+  const selectedMeta = () => {
+    const b = $("fBranch").value, y = $("fYear").value;
+    return meta.filter(m => (b === "all" || (m.branch || "UNKNOWN") === b) && (y === "all" || yearTxt(m.year) === y));
+  };
 
-  function filtered() {
-    const b = $("fBranch").value, y = $("fYear").value, k = $("fKind").value;
-    return all.filter(r => (b === "all" || r.branch === b) && (y === "all" || r.year === y) && (k === "all" || r.kind === k));
-  }
-
-  function statusOf(r) {
-    if (r.noRef) return { s: "noref" };
-    if (local) {
-      if (local.set.has(r.want)) return { s: "found" };
-      const other = local.byBase.get(fileOf(r.want).toLowerCase());
-      return other ? { s: "misplaced", at: other } : { s: "missing" };
-    }
-    if (!siteResult.has(r.path)) return { s: "unchecked" };
-    return { s: siteResult.get(r.path) ? "found" : "missing" };
-  }
-
-  const sortRows = (a, b) => a.r.want.localeCompare(b.r.want, undefined, { numeric: true });
-  function groupByFolder(rows) {
-    const g = new Map();
-    rows.forEach(x => { const d = dirOf(x.r.want) || "(no folder)"; if (!g.has(d)) g.set(d, []); g.get(d).push(x); });
-    return [...g.entries()].sort((a, b) => a[0].localeCompare(b[0]));
-  }
-
-  function redItem({ r, st }) {
-    const why = st.s === "noref" ? "no image path in the JSON for this question. Add the file here and list it in the question's images"
-              : st.s === "misplaced" ? `found in the wrong place: ${esc(st.at)}. Move it to this folder`
-              : "missing in this folder";
-    return `<div class="item red"><span class="f">${esc(fileOf(r.want))}</span><span class="muted">${esc(r.branch)} ${esc(r.year)} · ${esc(r.id)} · ${KIND_LABEL[r.kind]} · ${why}</span></div>`;
-  }
-  function greenItem({ r }) {
-    return `<div class="item green"><span class="f">${esc(fileOf(r.want))}</span><span class="muted">${esc(r.branch)} ${esc(r.year)} · ${esc(r.id)} · ${KIND_LABEL[r.kind]} · placed at the correct path</span></div>`;
-  }
-  function groups(rows, item, cls) {
-    return groupByFolder(rows).map(([dir, list]) =>
-      `<div class="grp ${cls}"><h3><span>Folder <code>${esc(dir)}/</code></span><span>${list.length}</span></h3>${list.map(item).join("")}</div>`).join("");
-  }
-
-  function render() {
-    const rows = filtered().map(r => ({ r, st: statusOf(r) }));
-    const bad = rows.filter(x => ["missing", "misplaced", "noref"].includes(x.st.s)).sort(sortRows);
-    const good = rows.filter(x => x.st.s === "found").sort(sortRows);
-    const unchecked = rows.filter(x => x.st.s === "unchecked").length;
-    redRows = bad; greenRows = good;
-
-    $("imgStats").innerHTML = !all.length ? "" :
-      `<div class="stat"><b>${rows.length}</b><span>images used by these questions</span></div>` +
-      `<div class="stat"><b style="color:var(--bad)">${bad.length}</b><span>missing / problem (red)</span></div>` +
-      `<div class="stat"><b style="color:var(--good)">${good.length}</b><span>at correct path (green)</span></div>` +
-      (unchecked ? `<div class="stat"><b>${unchecked}</b><span>not checked yet</span></div>` : "");
-
-    if (!all.length) $("redBox").innerHTML = '<p class="muted">Choose question files above to begin.</p>';
-    else if (unchecked && !bad.length && !good.length) $("redBox").innerHTML = '<p class="muted">Press “Check images” to start.</p>';
-    else if (!rows.length) $("redBox").innerHTML = '<p class="muted">No images are used by the questions in this filter.</p>';
-    else $("redBox").innerHTML = bad.length
-      ? `<h3 style="margin:.2rem 0 .6rem;color:var(--bad)">Missing images (${bad.length})</h3>` + groups(bad, redItem, "")
-      : (unchecked ? "" : '<div class="notice ok">No problems. Every image is at its correct path.</div>');
-
-    $("greenWrap").hidden = !good.length;
-    $("greenBox").innerHTML = groups(good, greenItem, "good");
-    $("toggleGreen").textContent = ($("greenBox").hidden ? "Show" : "Hide") + ` all green (${good.length})`;
-    $("copyReport").disabled = !bad.length;
-  }
-
+  /* ----- run ----- */
   function probe(url) {
     return new Promise(res => {
       const im = new Image();
@@ -411,79 +317,107 @@ const ImgCheck = (() => {
     });
   }
 
-  async function run() {
-    if (!all.length) { $("copyMsg").textContent = "Choose question files first."; return; }
-    if (document.querySelector('input[name="imgMode"]:checked').value === "local") {
-      if (!local) { $("copyMsg").textContent = "Pick your images folder first."; return; }
-      render(); return;
-    }
-    const todo = [...new Set(filtered().filter(r => !r.noRef && !siteResult.has(r.path)).map(r => r.path))];
-    const prog = $("imgProg");
-    $("runCheck").disabled = true;
-    if (todo.length) { prog.hidden = false; prog.max = todo.length; prog.value = 0; }
-    let i = 0, done = 0;
-    const worker = async () => {
-      while (i < todo.length) {
-        const p = todo[i++];
-        siteResult.set(p, await probe(IMG.url(p)));
-        prog.value = ++done;
-        if (done % 25 === 0) render();
-      }
-    };
-    await Promise.all(Array.from({ length: Math.min(12, todo.length) }, worker));
-    prog.hidden = true;
-    $("runCheck").disabled = false;
-    render();
-  }
-
-  function readLocal(fileList) {
-    const set = new Set(), byBase = new Map();
-    [...fileList].forEach(f => {
-      const parts = (f.webkitRelativePath || f.name).split("/");
-      const at = parts.findIndex(x => /^(questions|options|solutions)$/i.test(x));
-      if (at < 0 || !/\.(jpe?g|png|webp|gif|svg)$/i.test(f.name)) return;
-      const path = "images/" + parts.slice(at).join("/");
-      set.add(path); byBase.set(f.name.toLowerCase(), path);
+  function buildRefs(qs) {
+    const out = [];
+    qs.forEach(q => {
+      const id = String(q.id);
+      IMG.paths(q).forEach(path => {
+        const kind = kindOf(path);
+        let note = "";
+        if (kind === "option" && !IMG.forOption(q, (fileOf(path).match(new RegExp("^" + id + "_([A-Za-z])_", "i")) || [])[1] || "?").includes(path))
+          note = "file name does not match the pattern <id>_<option letter>_01, so the exam will not show it inside an option";
+        out.push({ id, branch: q.branch || "UNKNOWN", year: yearTxt(q.year), kind, path, url: new URL(IMG.url(path), location.href).href, note });
+      });
     });
-    local = set.size ? { set, byBase } : null;
-    $("localNote").textContent = set.size ? `${set.size} image file(s) found in that folder.`
-      : "No images found. Pick the folder named images (it holds the questions, options and solutions folders).";
+    return out;
+  }
+
+  async function run() {
+    const ids = selectedMeta().map(m => String(m.id));
+    if (!ids.length) { $("stage").textContent = "No uploaded questions match this branch / year."; return; }
+    $("runCheck").disabled = true; $("copyReport").disabled = true;
+    const prog = $("imgProg");
+    try {
+      // 1. load the questions (only for this filter)
+      const need = ids.filter(id => !qCache.has(id));
+      prog.hidden = false; prog.max = Math.max(need.length, 1); prog.value = 0;
+      for (let i = 0; i < need.length; i += 150) {
+        $("stage").textContent = `Loading uploaded questions… ${Math.min(i + 150, need.length)} of ${need.length}`;
+        const part = need.slice(i, i + 150);
+        (await API.getQuestionsByIds(part)).forEach(q => qCache.set(String(q.id), q));
+        prog.value = Math.min(i + 150, need.length);
+      }
+      refs = buildRefs(ids.map(id => qCache.get(id)).filter(Boolean));
+      const kind = $("fKind").value;
+      const want = refs.filter(r => kind === "all" || r.kind === kind);
+
+      // 2. request every image the same way the exam does
+      const todo = [...new Set(want.filter(r => !result.has(r.path)).map(r => r.path))];
+      prog.max = Math.max(todo.length, 1); prog.value = 0;
+      let i = 0, done = 0;
+      const worker = async () => {
+        while (i < todo.length) {
+          const pth = todo[i++];
+          result.set(pth, await probe(IMG.url(pth)));
+          prog.value = ++done;
+          if (done % 20 === 0) { $("stage").textContent = `Checking images… ${done} of ${todo.length}`; }
+        }
+      };
+      await Promise.all(Array.from({ length: Math.min(12, todo.length) }, worker));
+      $("stage").textContent = `Done. Checked ${want.length} image reference(s) from ${ids.length} question(s).`;
+    } catch (err) {
+      $("stage").innerHTML = `<span style="color:var(--bad)">Stopped: ${esc(err.message)}</span>`;
+    }
+    prog.hidden = true; $("runCheck").disabled = false;
     render();
   }
 
-  async function readData(list) {
-    const files = [...list].filter(f => /\.json$/i.test(f.name) && !Importer.SIDE_FILES.test(f.webkitRelativePath || f.name));
-    const items = [], problems = [];
-    $("dataMsg").innerHTML = files.length ? `<div class="notice">Reading ${files.length} file(s)…</div>` : "";
-    for (const f of files) {
-      try { items.push(...Importer.extract(JSON.parse(await f.text()))); }
-      catch (e) { problems.push(`${f.name}: not valid JSON`); }
-    }
-    setItems(items);
-    $("dataMsg").innerHTML = problems.length ? `<div class="notice err">${problems.map(esc).join("<br>")}</div>`
-      : files.length ? `<div class="notice ok">${files.length} file(s), ${items.length} question(s) read.</div>` : "";
+  /* ----- display ----- */
+  function groups(rows, item, cls) {
+    const g = new Map();
+    rows.forEach(r => { const d = dirOf(r.path); if (!g.has(d)) g.set(d, []); g.get(d).push(r); });
+    return [...g.entries()].sort((a, b) => a[0].localeCompare(b[0])).map(([dir, list]) =>
+      `<div class="grp ${cls}"><h3><span>Path <code>${esc(dir)}/</code></span><span>${list.length}</span></h3>${list.map(item).join("")}</div>`).join("");
+  }
+  const meta1 = r => `${esc(r.branch)} ${esc(r.year)} · ${esc(r.id)} · ${KIND_LABEL[r.kind]}`;
+  const redItem = r => `<div class="item red"><span class="f">${esc(fileOf(r.path))}</span><span class="muted">${meta1(r)} · not reachable at <code>${esc(r.path)}</code></span>${r.note ? `<span class="muted" style="flex-basis:100%">${esc(r.note)}</span>` : ""}</div>`;
+  const greenItem = r => `<div class="item green"><span class="f">${esc(fileOf(r.path))}</span><span class="muted">${meta1(r)} · loads from <code>${esc(r.path)}</code></span></div>`;
+
+  function render() {
+    const kind = $("fKind").value;
+    const ids = new Set(selectedMeta().map(m => String(m.id)));
+    const rows = refs.filter(r => ids.has(r.id) && (kind === "all" || r.kind === kind) && result.has(r.path));
+    const bad = rows.filter(r => !result.get(r.path)).sort((a, b) => a.path.localeCompare(b.path, undefined, { numeric: true }));
+    const good = rows.filter(r => result.get(r.path)).sort((a, b) => a.path.localeCompare(b.path, undefined, { numeric: true }));
+    redRows = bad; greenRows = good;
+
+    $("imgStats").innerHTML = rows.length
+      ? `<div class="stat"><b>${rows.length}</b><span>images used by these questions</span></div>` +
+        `<div class="stat"><b style="color:var(--bad)">${bad.length}</b><span>not reachable (red)</span></div>` +
+        `<div class="stat"><b style="color:var(--good)">${good.length}</b><span>reachable (green)</span></div>` : "";
+    $("redBox").innerHTML = !rows.length ? "" : bad.length
+      ? `<h3 style="margin:.2rem 0 .6rem;color:var(--bad)">Not reachable (${bad.length})</h3>` + groups(bad, redItem, "")
+      : '<div class="notice ok">All images are reachable.</div>';
+    $("greenWrap").hidden = !good.length;
+    $("greenBox").innerHTML = $("greenBox").hidden ? "" : groups(good, greenItem, "good");
+    $("toggleGreen").textContent = ($("greenBox").hidden ? "Show" : "Hide") + ` all green (${good.length})`;
+    $("copyReport").disabled = !bad.length;
   }
 
   function reportText() {
-    const mode = local ? "images folder on this computer" : `site (${CONFIG.IMAGE_BASE || "same host as this page"})`;
     const v = id => $(id).value === "all" ? "All" : $(id).value;
-    const lines = ["IMAGE CHECK REPORT", `Checked against: ${mode}`,
+    const lines = ["IMAGE CHECK REPORT", `Requested from: ${CONFIG.IMAGE_BASE || location.href.replace(/[^/]*$/, "")}`,
       `Filters: Branch = ${v("fBranch")} | Year = ${v("fYear")} | Images of = ${$("fKind").selectedOptions[0].textContent}`,
-      `Missing / problem: ${redRows.length} | Correct: ${greenRows.length}`, ""];
-    groupByFolder(redRows).forEach(([dir, list]) => {
+      `Not reachable: ${redRows.length} | Reachable: ${greenRows.length}`, ""];
+    const g = new Map();
+    redRows.forEach(r => { const d = dirOf(r.path); if (!g.has(d)) g.set(d, []); g.get(d).push(r); });
+    [...g.entries()].sort((a, b) => a[0].localeCompare(b[0])).forEach(([dir, list]) => {
       lines.push(`== ${dir}/ (${list.length} missing) ==`);
-      list.forEach(({ r, st }) => {
-        let l = `${fileOf(r.want)}  [${r.branch} ${r.year} ${r.id} ${KIND_LABEL[r.kind]}]`;
-        if (st.s === "misplaced") l += `  -> now at ${st.at}, move to ${r.want}`;
-        else if (st.s === "noref") l += `  -> no path in JSON, add file at ${r.want}`;
-        else l += `  -> missing, put at ${r.want}`;
-        lines.push(l);
-      });
+      list.forEach(r => lines.push(`${fileOf(r.path)}  [${r.branch} ${r.year} ${r.id} ${KIND_LABEL[r.kind]}]  -> not found at ${r.url}` + (r.note ? `  (${r.note})` : "")));
       lines.push("");
     });
     return lines.join("\n");
   }
-
   async function copy() {
     const text = reportText();
     try { await navigator.clipboard.writeText(text); }
@@ -497,26 +431,27 @@ const ImgCheck = (() => {
     setTimeout(() => $("copyMsg").textContent = "", 3000);
   }
 
-  function hide() { /* kept so the upload form can call it; the section stays visible */ }
+  async function init() {
+    $("baseTxt").textContent = CONFIG.IMAGE_BASE || (location.href.replace(/[^/]*$/, "") + "images/…  (this site's own images folder)");
+    try {
+      meta = await API.getMeta();
+      summary(); fillBranch();
+      $("runCheck").disabled = !meta.length;
+    } catch (err) {
+      $("upSummary").innerHTML = `<div class="notice err">Could not read the uploaded questions: ${esc(err.message)}</div>`;
+    }
+  }
 
-  $("baseTxt").textContent = CONFIG.IMAGE_BASE || "this site's own images folder";
-  document.querySelectorAll('input[name="imgMode"]').forEach(r => r.addEventListener("change", () => {
-    const isLocal = document.querySelector('input[name="imgMode"]:checked').value === "local";
-    $("localBox").hidden = !isLocal;
-    if (!isLocal) local = null;
-    $("runCheck").textContent = isLocal ? "Compare" : "Check images";
-    render();
-  }));
-  ["fBranch", "fYear", "fKind"].forEach(id => $(id).addEventListener("change", render));
-  $("imgFolder").addEventListener("change", e => readLocal(e.target.files));
-  $("dataFiles").addEventListener("change", e => readData(e.target.files));
-  $("dataFolder").addEventListener("change", e => readData(e.target.files));
+  $("fBranch").addEventListener("change", () => { fillYear(); render(); });
+  $("fYear").addEventListener("change", render);
+  $("fKind").addEventListener("change", render);
   $("runCheck").addEventListener("click", run);
   $("copyReport").addEventListener("click", copy);
   $("toggleGreen").addEventListener("click", () => { $("greenBox").hidden = !$("greenBox").hidden; render(); });
-  render();
-  return { setItems, hide };
+  // refresh the list after an upload finishes
+  return { init, refresh: init };
 })();
+ImgCheck.init();
 
 $("files").addEventListener("change", e => loadFiles(e.target.files));
 $("folder").addEventListener("change", e => loadFiles(e.target.files));
@@ -539,6 +474,7 @@ $("uploadBtn").onclick = async () => {
     }
     $("msg").innerHTML = `<div class="notice ok">Upload finished: ${added} added, ${skipped} skipped because the id already existed.</div>`;
     toUpload = []; $("files").value = ""; $("folder").value = ""; $("previewCard").hidden = true;
+    ImgCheck.refresh();
   } catch (err) {
     $("msg").innerHTML = `<div class="notice err">Upload stopped after ${added} added: ${esc(err.message)}<br>Choose the files again. Questions already added are skipped automatically, so nothing is duplicated.</div>`;
     btn.disabled = false;
