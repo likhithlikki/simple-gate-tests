@@ -1,0 +1,15 @@
+﻿id,branch,year,question_type,topic,issues,question_preview
+ec2014142,EC,2014,MCQ,PN-Junction Diodes and Special Diodes,MCQ requires at least 2 options; found 1,"When the optical power incident on a photodiode is 10[latex]\mu[/latex]W and the responsivity
+is 0.8 A/W, the photocurrent generated (in [latex]\mu[/latex]  A) is _____."
+ec2014156,EC,2014,MCQ,Information Theory and Coding,MCQ requires at least 2 options; found 1,"In a code-division multiple access (CDMA) system with N = 8 chips, the
+maximum number of users who can be assigned mutually orthogonal signature
+sequences is____."
+ee2015296,EE,2015,MCQ,Power Electronics,MCQ requires at least 2 options; found 1,A buck converter feeding a variable resistive load is shown in the figure. The switching frequency of the switch S is 100 kHz and the duty ratio is 0.6. The output voltage [latex]V
+ee2015297,EE,2015,MCQ,Power Electronics,MCQ requires at least 2 options; found 1,"For the switching converter shown in the following figure, assume steady-state operation. Also assume that the components are ideal, the inductor current is always positive and con"
+ee2015298,EE,2015,MCQ,Phase Controlled Rectifiers,MCQ requires at least 2 options; found 1,"In the given rectifier, the delay angle of the thyristor [latex]T_1[/latex] measured from the positive going zero crossing of [latex]V_s[/latex] is 30[latex]^{\circ}[/latex]. If th"
+me2015178,ME,2015,MCQ,Thermodynamics,MCQ requires at least 2 options; found 1,Temperature of nitrogen in a vessel of volume 2 [latex]m^{3}[/latex]  is 288 K. A U-tube manometer connected to the vessel shows a reading of 70 cm of mercury (level higher in the 
+me2015179,ME,2015,MCQ,"Viscous, Turbulent Flow and Boundary Layer Theory",MCQ requires at least 2 options; found 1,"Air ([latex]\rho =1.2 kg/m^{3}[/latex] and kinematic viscosity, [latex]v=2\times 10^{-5}m^{2}/s[/latex] ) with a velocity of 2 m/s flows over the top surface of a flat plate of len"
+me2015180,ME,2015,MCQ,Fluid Mechanics,MCQ requires at least 2 options; found 1,Water ([latex]\rho =1000 kg/m^{3}[/latex]) flows through a venturimeter with inlet diameter 80 mm and throat diameter 40 mm. The inlet and throat gauge pressures are measured to be
+me2015181,ME,2015,MCQ,Thermodynamics,MCQ requires at least 2 options; found 1,A well insulated rigid container of volume 1[latex]m^{3}[/latex]  contains 1.0 kg of an ideal gas [[latex]C_{p}[/latex] = 1000 J/(kg.K) and [latex]C_{v}[/latex] = 800 J/(kg.K)] at 
+me2015182,ME,2015,MCQ,Power System,MCQ requires at least 2 options; found 1,"Steam enters a well insulated turbine and expands isentropically throughout. At an intermediate pressure, 20 percent of the mass is extracted for process heating and the remaining "
+me20162117,ME,2016,MCQ,"FBD, Equilirbium, Plane Trusses and Virtual work",MCQ requires at least 2 options; found 1,"In the figure, the load P = 1 N, length L = 1 m, Young's modulus E = 70 [latex]GP_{a}[/latex], and the cross-section of the links is a square with dimension 10 mm x 10 mm. All join"

@@ -1,1 +1,938 @@
-
+[
+  {
+    "id": "1101138",
+    "question_number": 20,
+    "question_type": "MCQ",
+    "marks": 1,
+    "question": "Consider the following data path of a simple non-pilelined CPU. The registers\nA, B, A1, A2, MDR, the bus and the ALU are 8-bit wide. SP and MAR are 16-\nbit registers. The MUX is of size 8x(2:1) and the DEMUX is of size 8x(1:2). Each memory operation takes 2 CPU clock cycles and uses MAR (Memory\nAddress Register) and MDR (Memory Date Register). SP can be decremented\nlocally. The CPU instruction \"push r\", where = A or B, has the specification M[SP][latex]\\rightarrow[/latex]r SP [latex]\\rightarrow[/latex] SP - 1 How many CPU clock cycles are needed to execute the \"push r\" instruction ?",
+    "options": [
+      {
+        "label": "A",
+        "text": "2"
+      },
+      {
+        "label": "B",
+        "text": "3"
+      },
+      {
+        "label": "C",
+        "text": "4"
+      },
+      {
+        "label": "D",
+        "text": "5"
+      }
+    ],
+    "answer": {
+      "option_index": 3,
+      "option_text": "5"
+    },
+    "numerical_answer": null,
+    "solution": "Click here for detail solution by gateoverflow",
+    "solution_html": "<a href=\"https://gateoverflow.in/731/gate2001-2-13#a_list\" target=\"_blank\">Click here for detail solution by gateoverflow</a> ",
+    "topic": "GATE CSE 2001",
+    "source_page": "/gate-cse/alu-data-path-and-control-unit",
+    "source_file": "D:\\My Web Sites\\GATE\\practicepaper.in\\gate-cse\\alu-data-path-and-control-unit254d.html"
+  },
+  {
+    "id": "1102142",
+    "question_number": 380,
+    "question_type": "MCQ",
+    "marks": 1,
+    "question": "The binary relation?S = [latex]\\phi[/latex] (empty set) on set A = {1,2,3} is",
+    "options": [
+      {
+        "label": "A",
+        "text": "Neither reflexive nor symmetric"
+      },
+      {
+        "label": "B",
+        "text": "Symmetric and reflexive"
+      },
+      {
+        "label": "C",
+        "text": "Transitive and reflexive"
+      },
+      {
+        "label": "D",
+        "text": "Transitive and symmetric"
+      }
+    ],
+    "answer": {
+      "option_index": 3,
+      "option_text": "Transitive and symmetric"
+    },
+    "numerical_answer": null,
+    "solution": "Click here for detail solution by gateoverflow",
+    "solution_html": "<a href=\"https://gateoverflow.in/847/gate2002-2-17#a_list\" target=\"_blank\">Click here for detail solution by gateoverflow</a> ",
+    "topic": "GATE CSE 2002",
+    "source_page": "/gate-cse/discrete-mathematics",
+    "source_file": "D:\\My Web Sites\\GATE\\practicepaper.in\\gate-cse\\discrete-mathematics024e.html"
+  },
+  {
+    "id": "1103120",
+    "question_number": 239,
+    "question_type": "MCQ",
+    "marks": 1,
+    "question": "Consider the following three claims 1. [latex](n+k)^{m}=\\ominus (n^{m})[/latex] , where k and m are constants 2. [latex] 2^{n+1}=O(2^{n})[/latex] 3. [latex] 2^{2^{n}}+1=O(2^{n})[/latex] Which of these claims are correct?",
+    "options": [
+      {
+        "label": "A",
+        "text": "1 and 2"
+      },
+      {
+        "label": "B",
+        "text": "1 and 3"
+      },
+      {
+        "label": "C",
+        "text": "2 and 3"
+      },
+      {
+        "label": "D",
+        "text": "1, 2 and 3"
+      }
+    ],
+    "answer": {
+      "option_index": 0,
+      "option_text": "1 and 2"
+    },
+    "numerical_answer": null,
+    "solution": "Click here for detail solution by gateoverflow",
+    "solution_html": "<a href=\"https://gateoverflow.in/910/gate2003-20#a_list\" target=\"_blank\">Click here for detail solution by gateoverflow</a> ",
+    "topic": "GATE CSE 2003",
+    "source_page": "/gate-cse/algorithm",
+    "source_file": "D:\\My Web Sites\\GATE\\practicepaper.in\\gate-cse\\algorithm16aa.html"
+  },
+  {
+    "id": "1105268",
+    "question_number": 230,
+    "question_type": "MCQ",
+    "marks": 1,
+    "question": "A table 'student' with schema (roll, name, hostel, marks), and another table 'hobby' with schema (roll, hobbyname) contains records as shown below: [latex]\\overset{\\text{Table: student}}{\\begin{array}{|c|c|c|c|} \\hline \\textbf{Roll} & \\textbf {Name} & \\textbf {Hostel} & \\textbf{Marks} \\\\\\hline \\text{1798} & \\text{Manoj Rathor} & \\text{7} & \\text{95} \\\\\\hline \\text{2154} & \\text{Soumic Banerjee} & \\text{5} & \\text{68}\\\\\\hline \\text{2369} & \\text{Gumma Reddy} & \\text{7} & \\text{86}\\\\\\hline\\text{2581} & \\text{Pradeep pendse} & \\text{6} & \\text{92}\\\\\\hline \\text{2643} & \\text{Suhas Kulkarni} & \\text{5} & \\text{78} \\\\\\hline \\text{2711} & \\text{Nitin Kadam} & \\text{8} & \\text{72}\\\\\\hline \\text{2872}& \\text{Kiran Vora} & \\text{5} & \\text{92}\\\\\\hline\\text{2926} & \\text{Manoj Kunkalikar} & \\text{5} & \\text{94}\\\\\\hline \\text{2959}& \\text{Hemant Karkhanis} & \\text{7} & \\text{88}\\\\\\hline\\text{3125} & \\text{Rajesh Doshi} & \\text{5} & \\text{82}\\\\\\hline \\end{array}}[/latex] [latex]\\overset{\\text{Table: hobby}}{}\\\\\\begin{array}{|c|c|} \\hline \\textbf{Roll} & \\textbf {Hobby Name} \\\\\\hline \\text{1798} & \\text{chess} \\\\\\hline \\text{1798} & \\text{music} \\\\\\hline \\text{2154} & \\text{music} \\\\\\hline \\text{2369} & \\text{swimming}\\\\\\hline \\text{2581} & \\text{cricket} \\\\\\hline \\text{2643} & \\text{chess}\\\\\\hline\\text{2643} & \\text{hockey} \\\\\\hline \\text{2711} & \\text{volleyball}\\\\\\hline \\text{2872} & \\text{football} \\\\\\hline \\text{2926} & \\text{cricket} \\\\\\hline \\text{2959} & \\text{photography} \\\\\\hline \\text{3125} & \\text{music}\\\\\\hline \\text{3125}& \\text{chess}\\\\\\hline \\end{array}[/latex] The following SQL query is executed on the above tables: select hostel\nfrom student natural join hobby\nwhere marks >= 75 and roll between 2000 and 3000; Relations S and H with the same schema as those of these two tables respectively contain the same information as tuples. A new relation S is obtained by the following relational algebra operation: [latex]S' = \\Pi_{\\text{hostel}} ((\\sigma_{s.roll = H.roll} (\\sigma_{marks \\gt 75\\text{ and }roll \\gt 2000\\text{ and }roll \\lt 3000} (S)) \\times (H))[/latex] The difference between the number of rows output by the SQL statement and the number of tuples in S' is",
+    "options": [
+      {
+        "label": "A",
+        "text": "6"
+      },
+      {
+        "label": "B",
+        "text": "4"
+      },
+      {
+        "label": "C",
+        "text": "2"
+      },
+      {
+        "label": "D",
+        "text": "0"
+      }
+    ],
+    "answer": {
+      "option_index": 1,
+      "option_text": "4"
+    },
+    "numerical_answer": null,
+    "solution": "Click here for detail solution by gateoverflow",
+    "solution_html": "<a href=\"https://gateoverflow.in/3831/gate2005-it-68\" target=_blank\">Click here for detail solution by gateoverflow</a> ",
+    "topic": "GATE IT 2005",
+    "source_page": "/gate-cse/database-management-system",
+    "source_file": "D:\\My Web Sites\\GATE\\practicepaper.in\\gate-cse\\database-management-system2fbb.html"
+  },
+  {
+    "id": "1106143",
+    "question_number": 270,
+    "question_type": "MCQ",
+    "marks": 1,
+    "question": "Consider a new instruction named branch-on-bit-set (mnemonic bbs). The\ninstruction \"bbs reg, pos, labbel\" jumps to label if bit in position pos of register\noperand reg is one. a register is 32 bits wide and the bits are numbered 0 to 31,\nbit in position 0 being the least significant. Consider the following emulation of\nthis instruction on a processor that does not have bbs implemented. temp[latex]\\leftarrow[/latex]reg & mask Branch to label if temp is non-zero The variable temp is a temporary register. For correct emulation the variable\nmask must be generated by",
+    "options": [
+      {
+        "label": "A",
+        "text": "mask [latex]\\leftarrow 0 \\times 1 \\lt \\lt pos[/latex]"
+      },
+      {
+        "label": "B",
+        "text": "musk [latex]\\leftarrow 0 \\times ffffffff \\gt \\gt  pos[/latex]"
+      },
+      {
+        "label": "C",
+        "text": "mask [latex]\\leftarrow[/latex] pos"
+      },
+      {
+        "label": "D",
+        "text": "msdk [latex]\\leftarrow 0 \\times f[/latex]"
+      }
+    ],
+    "answer": {
+      "option_index": 0,
+      "option_text": "mask [latex]\\leftarrow 0 \\times 1 \\lt \\lt pos[/latex]"
+    },
+    "numerical_answer": null,
+    "solution": "Click here for detail solution by gateoverflow",
+    "solution_html": "<a href=\"https://gateoverflow.in/1819/gate2006-43#a_list\" target=\"_blank\">Click here for detail solution by gateoverflow</a> ",
+    "topic": "GATE CSE 2006",
+    "source_page": "/gate-cse/computer-organization",
+    "source_file": "D:\\My Web Sites\\GATE\\practicepaper.in\\gate-cse\\computer-organizatione23d.html"
+  },
+  {
+    "id": "1109156",
+    "question_number": 179,
+    "question_type": "MCQ",
+    "marks": 2,
+    "question": "Consider the following relational schema: Suppliers(sid:integer, sname:string, city:string, street:string)\nParts(pid:integer, pname:string, color:string)\nCatalog(sid:integer, pid:integer, cost:real) Assume that, in the suppliers relation above, each supplier and each street within\na city has a unique name, and (sname, city) forms a candidate key. No other\nfunctional dependencies are implied other than those implied by primary and\ncandidate keys. Which one of the following is TRUE about the above schema?",
+    "options": [
+      {
+        "label": "A",
+        "text": "The schema is in BCNF"
+      },
+      {
+        "label": "B",
+        "text": "The schema is in 3NF but not in BCNF"
+      },
+      {
+        "label": "C",
+        "text": "The schema is in 2NF but not in 3NF"
+      },
+      {
+        "label": "D",
+        "text": "The schema is not in 2NF"
+      }
+    ],
+    "answer": {
+      "option_index": 0,
+      "option_text": "The schema is in BCNF"
+    },
+    "numerical_answer": null,
+    "solution": "Click here for detail solution by gateoverflow",
+    "solution_html": "<a href=\"https://gateoverflow.in/43474/gate2009-56#a_list\" target=\"_blank\">Click here for detail solution by gateoverflow</a> ",
+    "topic": "GATE CSE 2009",
+    "source_page": "/gate-cse/database-management-system",
+    "source_file": "D:\\My Web Sites\\GATE\\practicepaper.in\\gate-cse\\database-management-systemfbca.html"
+  },
+  {
+    "id": "1110146",
+    "question_number": 24,
+    "question_type": "MCQ",
+    "marks": 2,
+    "question": "A system has n resources [latex]R_{0},...R_{n-1}[/latex], and k processes [latex]P_{0},...P_{k-1}[/latex]. The\nimplementation of the resource request logic of each process [latex]P_{i}[/latex] is as follows: if (i%2= = 0) {\n        if (i[latex]\\lt[/latex]n) request [latex]R_{i}[/latex] ;\n        if (i+2[latex]\\lt[/latex]n)request [latex]R_{i+2}[/latex];\n}\nelse {\n         if (i[latex]\\lt[/latex]n) request [latex]R_{n-i}[/latex];\n         if (i+2[latex]\\lt[/latex]n)request [latex]R_{n-i-2}[/latex] ;\n} In which one of the following situations is a deadlock possible?",
+    "options": [
+      {
+        "label": "A",
+        "text": "n = 40,k = 26"
+      },
+      {
+        "label": "B",
+        "text": "n = 21,k = 12"
+      },
+      {
+        "label": "C",
+        "text": "n = 20,k = 10"
+      },
+      {
+        "label": "D",
+        "text": "n = 41,k = 19"
+      }
+    ],
+    "answer": {
+      "option_index": 1,
+      "option_text": "n = 21,k = 12"
+    },
+    "numerical_answer": null,
+    "solution": "Deadlock needs an even process i holding [latex]R_i[/latex] and waiting for [latex]R_{i+2}[/latex], while an odd process j holds [latex]R_{n-j}=R_{i+2}[/latex] and waits for [latex]R_{n-j-2}=R_i[/latex]. So j = n [latex]-[/latex] i [latex]-[/latex] 2 must be odd, with both i, j [latex]\\lt[/latex] k. - n = 21, k = 12: i = 8, j = 11 works [latex]\\rightarrow[/latex] deadlock possible. - n = 40 or 20: j = n [latex]-[/latex] i [latex]-[/latex] 2 is even [latex]\\rightarrow[/latex] impossible. - n = 41, k = 19: i + j = 39 needs one of them [latex]\\ge[/latex] 20 [latex]\\rightarrow[/latex] impossible. Answer: n = 21, k = 12 Click here for detail solution by gateoverflow",
+    "solution_html": "Deadlock needs an even process i holding [latex]R_i[/latex] and waiting for [latex]R_{i+2}[/latex], while an odd process j holds [latex]R_{n-j}=R_{i+2}[/latex] and waits for [latex]R_{n-j-2}=R_i[/latex]. So j = n [latex]-[/latex] i [latex]-[/latex] 2 must be odd, with both i, j [latex]\\lt[/latex] k.<br><br>\n- n = 21, k = 12: i = 8, j = 11 works [latex]\\rightarrow[/latex] deadlock possible.<br>\n- n = 40 or 20: j = n [latex]-[/latex] i [latex]-[/latex] 2 is even [latex]\\rightarrow[/latex] impossible.<br>\n- n = 41, k = 19: i + j = 39 needs one of them [latex]\\ge[/latex] 20 [latex]\\rightarrow[/latex] impossible.<br><br>\n<b>Answer: n = 21, k = 12</b><br><br><a href=\"https://gateoverflow.in/2348/gate2010-46#a_list\" target=\"_blank\">Click here for detail solution by gateoverflow</a> ",
+    "topic": "GATE CSE 2010",
+    "source_page": "/gate-cse/deadlock",
+    "source_file": "D:\\My Web Sites\\GATE\\practicepaper.in\\gate-cse\\deadlockdd01.html"
+  },
+  {
+    "id": "1115263",
+    "question_number": 63,
+    "question_type": "MCQ",
+    "marks": 2,
+    "question": "In a triangle [latex]PQR,PS[/latex] is the angle bisector of [latex]\\angle QPR \\text{ and } \\angle QPS =60^\\circ[/latex]. What is the length of [latex]PS[/latex] ?",
+    "options": [
+      {
+        "label": "A",
+        "text": "[latex]\\left(\\dfrac{(q+r)} {qr}\\right)[/latex]"
+      },
+      {
+        "label": "B",
+        "text": "[latex]\\left(\\frac{qr} {q+r}\\right)[/latex]"
+      },
+      {
+        "label": "C",
+        "text": "[latex]\\sqrt {(q^2 + r^2)}[/latex]"
+      },
+      {
+        "label": "D",
+        "text": "[latex]\\left(\\frac{(q+r)^2} {qr}\\right)[/latex]"
+      }
+    ],
+    "answer": {
+      "option_index": 1,
+      "option_text": "[latex]\\left(\\frac{qr} {q+r}\\right)[/latex]"
+    },
+    "numerical_answer": null,
+    "solution": "[latex]\\angle QPR=120^\\circ[/latex]. Area of PQR = area of PQS + area of PSR: [latex]\\frac12 rq\\sin120^\\circ=\\frac12 r\\cdot PS\\sin60^\\circ+\\frac12 q\\cdot PS\\sin60^\\circ[/latex] Since [latex]\\sin120^\\circ=\\sin60^\\circ[/latex]: [latex]rq=PS(r+q)\\Rightarrow PS=\\frac{qr}{q+r}[/latex] Answer: [latex]\\frac{qr}{q+r}[/latex] Click here for detail solution by gateoverflow",
+    "solution_html": "[latex]\\angle QPR=120^\\circ[/latex]. Area of PQR = area of PQS + area of PSR:<br><br>\n[latex]\\frac12 rq\\sin120^\\circ=\\frac12 r\\cdot PS\\sin60^\\circ+\\frac12 q\\cdot PS\\sin60^\\circ[/latex]<br><br>\nSince [latex]\\sin120^\\circ=\\sin60^\\circ[/latex]: [latex]rq=PS(r+q)\\Rightarrow PS=\\frac{qr}{q+r}[/latex]<br><br>\n<b>Answer: [latex]\\frac{qr}{q+r}[/latex]</b><br><br><a href=\"https://gateoverflow.in/8039/gate-cse-2015-set-2-question-ga-8#a_list\" target=_blank\">Click here for detail solution by gateoverflow</a> ",
+    "topic": "General Aptitude",
+    "source_page": "/gate-cse/gate-cse-2015-set-2",
+    "source_file": "D:\\My Web Sites\\GATE\\practicepaper.in\\gate-cse\\gate-cse-2015-set-2216a.html"
+  },
+  {
+    "id": "1115308",
+    "question_number": 8,
+    "question_type": "MCQ",
+    "marks": 1,
+    "question": "In a web server, ten WebPages are stored with the URLs of the form http://www.yourname.com/var.html; where, var is a different number from 1 to 10 for each Webpage. Suppose, the client stores the Webpage with var =1 (say W1) in local machine, edits and then tests. Rest of the WebPages remains on the web server. W1 contains several relative URLs of the form \"var.html\" referring to the other WebPages. Which one of the following statements needs to be added in W1, so that all the relative URLs in W1 refer to the appropriate WebPages on the web server?",
+    "options": [
+      {
+        "label": "A",
+        "text": "[latex] \\lt[/latex] a href: \"http://www.yourname.com/\", href: \"...var.html\" [latex]\\gt [/latex]"
+      },
+      {
+        "label": "B",
+        "text": "[latex] \\lt [/latex] base href: \"http://www.yourname.com/\" [latex] \\gt [/latex]"
+      },
+      {
+        "label": "C",
+        "text": "[latex] \\lt [/latex] a href: \"http://www.yourname.com/\"  [latex] \\gt [/latex]"
+      },
+      {
+        "label": "D",
+        "text": "[latex] \\lt [/latex] base href: \"gate-cse-2015-set-3e7ef.html//www.yourname.com/\", range:\"…var.html\" [latex] \\gt [/latex]"
+      }
+    ],
+    "answer": {
+      "option_index": 1,
+      "option_text": "[latex] \\lt [/latex] base href: \"http://www.yourname.com/\" [latex] \\gt [/latex]"
+    },
+    "numerical_answer": null,
+    "solution": "The HTML base tag sets the base URL for all relative links in the page. With base href = \"http://www.yourname.com/\", the link \"var.html\" points to the page on the server. Answer: base href: \"http://www.yourname.com/\" Click here for detail solution by gateoverflow",
+    "solution_html": "The HTML base tag sets the base URL for all relative links in the page. With base href = \"http://www.yourname.com/\", the link \"var.html\" points to the page on the server.<br><br>\n<b>Answer: base href: \"http://www.yourname.com/\"</b><br><br><a href=\"https://gateoverflow.in/8402/gate2015-3-8#a_list\" target=\"_blank\">Click here for detail solution by gateoverflow</a> ",
+    "topic": "Web Technology",
+    "source_page": "/gate-cse/gate-cse-2015-set-3",
+    "source_file": "D:\\My Web Sites\\GATE\\practicepaper.in\\gate-cse\\gate-cse-2015-set-3e7ef.html"
+  },
+  {
+    "id": "1116126",
+    "question_number": 65,
+    "question_type": "NAT",
+    "marks": 2,
+    "question": "The coefficient of [latex]x^{12}[/latex] in [latex](x^{3}+x^{4}+x^{5}+x^{6}+. . . )^{3}[/latex] is ______.",
+    "options": [],
+    "answer": null,
+    "numerical_answer": {
+      "minimum": 10,
+      "maximum": 10
+    },
+    "solution": "[latex](x^3+x^4+\\cdots)^3=x^9(1+x+x^2+\\cdots)^3=x^9(1-x)^{-3}[/latex] We need the coefficient of [latex]x^3[/latex] in [latex](1-x)^{-3}[/latex]: [latex]\\binom{3+2}{2}=10[/latex]. Answer: 10 Click here for detail solution by gateoverflow",
+    "solution_html": "[latex](x^3+x^4+\\cdots)^3=x^9(1+x+x^2+\\cdots)^3=x^9(1-x)^{-3}[/latex]<br><br>\nWe need the coefficient of [latex]x^3[/latex] in [latex](1-x)^{-3}[/latex]: [latex]\\binom{3+2}{2}=10[/latex].<br><br>\n<b>Answer: 10</b><br><br><a href=\"https://gateoverflow.in/39693/gate2016-1-26#a_list\" target=\"_blank\">Click here for detail solution by gateoverflow</a> ",
+    "topic": "GATE CSE 2016 SET-1",
+    "source_page": "/gate-cse/engineering-mathematics",
+    "source_file": "D:\\My Web Sites\\GATE\\practicepaper.in\\gate-cse\\engineering-mathematics216a.html"
+  },
+  {
+    "id": "1116260",
+    "question_number": 60,
+    "question_type": "MCQ",
+    "marks": 1,
+    "question": "In a quadratic function, the value of the product of the roots [latex](\\\\alpha ,\\\\beta )[/latex] is 4. Find the value of [latex]\\\\frac{\\\\alpha^{n}+\\\\beta^{n}}{\\\\alpha^{-n}+\\\\beta^{-n}}[/latex]",
+    "options": [
+      {
+        "label": "A",
+        "text": "[latex]n^4[/latex]"
+      },
+      {
+        "label": "B",
+        "text": "[latex]4^n[/latex]"
+      },
+      {
+        "label": "C",
+        "text": "[latex]2^{2n-1}[/latex]"
+      },
+      {
+        "label": "D",
+        "text": "[latex]4^{n-1}[/latex]"
+      }
+    ],
+    "answer": {
+      "option_index": 1,
+      "option_text": "[latex]4^n[/latex]"
+    },
+    "numerical_answer": null,
+    "solution": "[latex]\\alpha^{-n}+\\beta^{-n}=\\frac{\\alpha^n+\\beta^n}{(\\alpha\\beta)^n}[/latex], so the ratio is [latex](\\alpha\\beta)^n=4^n[/latex]. Answer: [latex]4^n[/latex] Click here for detail solution by gateoverflow",
+    "solution_html": "[latex]\\alpha^{-n}+\\beta^{-n}=\\frac{\\alpha^n+\\beta^n}{(\\alpha\\beta)^n}[/latex], so the ratio is [latex](\\alpha\\beta)^n=4^n[/latex].<br><br>\n<b>Answer: [latex]4^n[/latex]</b><br><br><a href=\"https://gateoverflow.in/39532/gate-cse-2016-set-2-question-ga-05#a_list\" target=_blank\">Click here for detail solution by gateoverflow</a> ",
+    "topic": "General Aptitude",
+    "source_page": "/gate-cse/gate-cse-2016-set-2",
+    "source_file": "D:\\My Web Sites\\GATE\\practicepaper.in\\gate-cse\\gate-cse-2016-set-231c4.html"
+  },
+  {
+    "id": "1121109",
+    "question_number": 39,
+    "question_type": "MCQ",
+    "marks": 1,
+    "question": "Consider the following array. [latex]\\begin{array}{|l|l|l|l|l|l|l|l|}  \\hline 23&32&45&69&72&73&89&97 \\\\ \\hline\\end{array}[/latex] Which algorithm out of the following options uses the least number of comparisons (among the array elements) to sort the above array in ascending order?",
+    "options": [
+      {
+        "label": "A",
+        "text": "Selection sort"
+      },
+      {
+        "label": "B",
+        "text": "Mergesort"
+      },
+      {
+        "label": "C",
+        "text": "Insertion sort"
+      },
+      {
+        "label": "D",
+        "text": "Quicksort using the last element as pivot"
+      }
+    ],
+    "answer": {
+      "option_index": 2,
+      "option_text": "Insertion sort"
+    },
+    "numerical_answer": null,
+    "solution": "The array is already sorted. - Insertion sort : each element is compared once with its left neighbour [latex]\\rightarrow[/latex] n [latex]-[/latex] 1 = 7 comparisons (best case). - Selection sort always does n(n [latex]-[/latex] 1)/2 = 28. - Merge sort needs more than 7 (about 12 here). - Quicksort with the last element as pivot on sorted input is the worst case (28). Answer: Insertion sort Click here for detail solution by gateoverflow",
+    "solution_html": "The array is already sorted.<br>\n- <b>Insertion sort</b>: each element is compared once with its left neighbour [latex]\\rightarrow[/latex] n [latex]-[/latex] 1 = 7 comparisons (best case).<br>\n- Selection sort always does n(n [latex]-[/latex] 1)/2 = 28.<br>\n- Merge sort needs more than 7 (about 12 here).<br>\n- Quicksort with the last element as pivot on sorted input is the worst case (28).<br><br>\n<b>Answer: Insertion sort</b><br><br><a href=\"https://gateoverflow.in/357443/gate-cse-2021-set-1-question-9#a_list_title\" target=_blank\">Click here for detail solution by gateoverflow</a> ",
+    "topic": "GATE CSE 2021 SET-1",
+    "source_page": "/gate-cse/algorithm",
+    "source_file": "D:\\My Web Sites\\GATE\\practicepaper.in\\gate-cse\\algorithm8393.html"
+  },
+  {
+    "id": "1215130",
+    "question_number": 63,
+    "question_type": "NAT",
+    "marks": 2,
+    "question": "The directional derivative of the field [latex]u(x,y,z)=x^{2}-3xy[/latex] in the direction of the vector [latex](\\hat{i}+\\hat{j}-2\\hat{k})[/latex] and point (2, -1, 4) is _________.",
+    "options": [],
+    "answer": null,
+    "numerical_answer": {
+      "minimum": -5.72,
+      "maximum": -5.7
+    },
+    "solution": "[latex]\\begin{aligned}u (x, y, z)&=x^{2}-3yz \\\\  \\triangledown u&=2x\\hat{i}-3z\\hat{j}-3y\\hat{k} \\\\  \\triangledown ul_{at\\: \\left ( 2,\\, -1\\, 4 \\right )}&=4\\hat{i}+12\\hat{j}-3\\hat{k}\\\\ &\\text{Directional derivative}\\\\   &= \\left ( 4\\hat{i}+12\\hat{j}-3\\hat{k} \\right ).\\frac{\\hat{i}+\\hat{j}-\\hat{k}}{\\sqrt{6}} \\\\   &= \\frac{4-12-6}{\\sqrt{6}} =-\\frac{14}{\\sqrt{6}} \\\\   &= -\\frac{7\\sqrt{6}}{3}=-5.715\\end{aligned}[/latex]",
+    "solution_html": "[latex]\\begin{aligned}u (x, y, z)&=x^{2}-3yz \\\\  \\triangledown u&=2x\\hat{i}-3z\\hat{j}-3y\\hat{k} \\\\  \\triangledown ul_{at\\: \\left ( 2,\\, -1\\, 4 \\right )}&=4\\hat{i}+12\\hat{j}-3\\hat{k}\\\\ &\\text{Directional derivative}\\\\   &= \\left ( 4\\hat{i}+12\\hat{j}-3\\hat{k} \\right ).\\frac{\\hat{i}+\\hat{j}-\\hat{k}}{\\sqrt{6}} \\\\   &= \\frac{4-12-6}{\\sqrt{6}} =-\\frac{14}{\\sqrt{6}} \\\\   &= -\\frac{7\\sqrt{6}}{3}=-5.715\\end{aligned}[/latex]",
+    "topic": "GATE CE 2015 SET-1",
+    "source_page": "/gate-ce/calculus",
+    "source_file": "D:\\My Web Sites\\GATE\\practicepaper.in\\gate-ce\\calculus216a.html"
+  },
+  {
+    "id": "1216161",
+    "question_number": 61,
+    "question_type": "MCQ",
+    "marks": 2,
+    "question": "A shaving set company sells 4 different types of razors, Elegance, Smooth, Soft and Executive. Elegance sells at Rs. 48, Smooth at Rs. 63, Soft at Rs. 78 Executive at Rs. 173 per piece. The table below shows the numbers of each razor sold in each quarter of a year. [latex]  \\begin{array}{|c|c|c|c|c|} \\hline \\text{Quarter \\Product} & \\text{Elegance} & \\text{Smooth} & \\text{Soft} & \\text{Executive} \\\\ \\hline Q1 & 27300 & 20009 & 17602 & 9999 \\\\ \\hline Q2 & 25222 & 19392 & 18445 & 8942 \\\\ \\hline Q3 & 28976 & 22429 & 19544 & 10234 \\\\ \\hline Q4 & 21012 & 18229 & 16595 & 10109 \\\\ \\hline \\end{array} [/latex] Which product contributes the greatest fraction to the revenue of the company in that year?",
+    "options": [
+      {
+        "label": "A",
+        "text": "Elegance"
+      },
+      {
+        "label": "B",
+        "text": "Executive"
+      },
+      {
+        "label": "C",
+        "text": "Smooth"
+      },
+      {
+        "label": "D",
+        "text": "Soft"
+      }
+    ],
+    "answer": {
+      "option_index": 1,
+      "option_text": "Executive"
+    },
+    "numerical_answer": null,
+    "solution": "",
+    "solution_html": "",
+    "topic": "General Aptitude",
+    "source_page": "/gate-ce/gate-ce-2016-set-1",
+    "source_file": "D:\\My Web Sites\\GATE\\practicepaper.in\\gate-ce\\gate-ce-2016-set-1216a.html"
+  },
+  {
+    "id": "1219159",
+    "question_number": 59,
+    "question_type": "MCQ",
+    "marks": 1,
+    "question": "If E=10, J=20, O=30, and T=40, what will be P+E+S+T?",
+    "options": [
+      {
+        "label": "A",
+        "text": "51"
+      },
+      {
+        "label": "B",
+        "text": "82"
+      },
+      {
+        "label": "C",
+        "text": "120"
+      },
+      {
+        "label": "D",
+        "text": "164"
+      }
+    ],
+    "answer": {
+      "option_index": 2,
+      "option_text": "120"
+    },
+    "numerical_answer": null,
+    "solution": "",
+    "solution_html": "",
+    "topic": "General Aptitude",
+    "source_page": "/gate-ce/gate-ce-2019-set-1",
+    "source_file": "D:\\My Web Sites\\GATE\\practicepaper.in\\gate-ce\\gate-ce-2019-set-131c4.html"
+  },
+  {
+    "id": "1312103",
+    "question_number": 3,
+    "question_type": "MCQ",
+    "marks": 1,
+    "question": "In an interchangeable assemble, shafts of size [latex]25.000^{_{-0.010}^{+0.040}}[/latex]\n mm mate with holes of size [latex]25.000^{_{+0.020}^{+0.030}}[/latex]\n  mm. The maximum interference (in microns) in the assembly is",
+    "options": [
+      {
+        "label": "A",
+        "text": "40"
+      },
+      {
+        "label": "B",
+        "text": "30"
+      },
+      {
+        "label": "C",
+        "text": "20"
+      },
+      {
+        "label": "D",
+        "text": "10"
+      }
+    ],
+    "answer": {
+      "option_index": 2,
+      "option_text": "20"
+    },
+    "numerical_answer": null,
+    "solution": "[latex]\\begin{array}{l} \\text { Size of shaft }=25.000^{\\overset{+0.040}{-0.010}} \\mathrm{mm} \\\\ \\text { Size of hole }=25.000^{\\overset{+0.030}{+0.020}} \\mathrm{mm} \\end{array}[/latex] Maximum interference [latex] =0.040-0.020=0.020 \\mathrm{mm}=20 \\mu \\mathrm{m}[/latex]",
+    "solution_html": "[latex]\\begin{array}{l} \\text { Size of shaft }=25.000^{\\overset{+0.040}{-0.010}} \\mathrm{mm} \\\\ \\text { Size of hole }=25.000^{\\overset{+0.030}{+0.020}} \\mathrm{mm} \\end{array}[/latex]<br><img src=\"/wp-content/uploads/GATE/ME/20121/a03.jpg\" /><br> Maximum interference<br>[latex] =0.040-0.020=0.020 \\mathrm{mm}=20 \\mu \\mathrm{m}[/latex]\n",
+    "topic": "Manufacturing Engineering",
+    "source_page": "/gate-me/gate-me-2012",
+    "source_file": "D:\\My Web Sites\\GATE\\practicepaper.in\\gate-me\\gate-me-2012.html"
+  },
+  {
+    "id": "1317217",
+    "question_number": 77,
+    "question_type": "MCQ",
+    "marks": 1,
+    "question": "Consider a laminar flow at zero incidence over a flat plate. The shear stress at the wall is denoted by [latex]t_{w}[/latex].  The axial positions [latex]x_1[/latex] and [latex]x_1[/latex] on the plate are measured from the leading edge in the direction of flow. If [latex]x_{2\\gt x_{1}}[/latex], then",
+    "options": [
+      {
+        "label": "A",
+        "text": "[latex]t\\,_{w}|_{x_{1}}=t\\,_{w}|_{x_{2}}=0[/latex]"
+      },
+      {
+        "label": "B",
+        "text": "[latex]t\\,_{w}|_{x_{1}}=t\\,_{w}|_{x_{2}}\\neq 0[/latex]"
+      },
+      {
+        "label": "C",
+        "text": "[latex]t\\,_{w}|_{x_{1}} > t\\,_{w}|_{x_{2}}[/latex]"
+      },
+      {
+        "label": "D",
+        "text": "[latex]t\\,_{w}|_{x_{1}} \\lt t\\,_{w}|_{x_{2}}[/latex]"
+      }
+    ],
+    "answer": {
+      "option_index": 2,
+      "option_text": "[latex]t\\,_{w}|_{x_{1}} > t\\,_{w}|_{x_{2}}[/latex]"
+    },
+    "numerical_answer": null,
+    "solution": "Laminar flow over plate As per Blasius [latex] \\begin{aligned} C_{l_{x}}&=\\frac{0.664}{\\sqrt{R_{e x}}}\\\\ \r\n \\text{and} \\;  \\quad C_{f x}&=\\frac{\\tau_{\\omega}}{\\frac{1}{2} \\rho u_{\\infty}^{2}} \\\\ \\frac{0.664}{\\sqrt{\\frac{U_{\\infty} x}{v}}}&=\\frac{\\tau_{\\omega}}{\\frac{1}{2} \\rho u_{\\infty}^{2}} \\\\ \\tau_{\\omega} &\\propto \\frac{1}{\\sqrt{x}}\\\\ \\text{as }\\quad x_{2}&  \\gt x_{1} \\\\ \\tau_{\\omega 2}& \\lt \\tau_{\\omega 1} \\end{aligned}[/latex]",
+    "solution_html": "Laminar flow over plate As per Blasius <br>[latex] \\begin{aligned} C_{l_{x}}&=\\frac{0.664}{\\sqrt{R_{e x}}}\\\\ \r\n \\text{and} \\;  \\quad C_{f x}&=\\frac{\\tau_{\\omega}}{\\frac{1}{2} \\rho u_{\\infty}^{2}} \\\\ \\frac{0.664}{\\sqrt{\\frac{U_{\\infty} x}{v}}}&=\\frac{\\tau_{\\omega}}{\\frac{1}{2} \\rho u_{\\infty}^{2}} \\\\ \\tau_{\\omega} &\\propto \\frac{1}{\\sqrt{x}}\\\\ \\text{as }\\quad x_{2}&  \\gt x_{1} \\\\ \\tau_{\\omega 2}& \\lt \\tau_{\\omega 1} \\end{aligned}[/latex]\r\n",
+    "topic": "GATE ME 2017 SET-2",
+    "source_page": "/gate-me/fluid-mechanics",
+    "source_file": "D:\\My Web Sites\\GATE\\practicepaper.in\\gate-me\\fluid-mechanics2c7a.html"
+  },
+  {
+    "id": "1322103",
+    "question_number": 17,
+    "question_type": "MCQ",
+    "marks": 1,
+    "question": "Given a function [latex]\\varphi =\\frac{1}{2}(x^2+y^2+z^2) [/latex] in threedimensional Cartesian space, the value of the\r\nsurface integral [latex]\\oiint_{S}{\\hat{n}.\\triangledown \\varphi dS}[/latex] where S is the surface of a sphere of unit radius and\r\n[latex]\\hat{n}[/latex] is the outward unit normal vector on S, is",
+    "options": [
+      {
+        "label": "A",
+        "text": "[latex]4 \\pi[/latex]"
+      },
+      {
+        "label": "B",
+        "text": "[latex]3 \\pi[/latex]"
+      },
+      {
+        "label": "C",
+        "text": "[latex]4 \\pi/3[/latex]"
+      },
+      {
+        "label": "D",
+        "text": "[latex]0[/latex]"
+      }
+    ],
+    "answer": {
+      "option_index": 0,
+      "option_text": "[latex]4 \\pi[/latex]"
+    },
+    "numerical_answer": null,
+    "solution": "[latex] \\begin{aligned}\n \\varphi &=\\frac{1}{2}(x^2+y^2+z^2)\\\\\n\\triangledown \\varphi &=(x\\hat{i}+y\\hat{j}+z\\hat{k})=\\bar{F}\\\\\n\\oiint_{S}(\\triangledown \\varphi\\cdot \\bar{n})dS&=\\int \\int _v\\int Div\\; \\bar{F} dv\\\\\n&=\\int \\int \\int 3dv\\\\\n&=3v\\\\\n&=3\\left ( \\frac{4}{3} \\pi \\right )=4\\pi\n\\end{aligned}[/latex]",
+    "solution_html": "[latex] \\begin{aligned}\n \\varphi &=\\frac{1}{2}(x^2+y^2+z^2)\\\\\n\\triangledown \\varphi &=(x\\hat{i}+y\\hat{j}+z\\hat{k})=\\bar{F}\\\\\n\\oiint_{S}(\\triangledown \\varphi\\cdot \\bar{n})dS&=\\int \\int _v\\int Div\\; \\bar{F} dv\\\\\n&=\\int \\int \\int 3dv\\\\\n&=3v\\\\\n&=3\\left ( \\frac{4}{3} \\pi \\right )=4\\pi\n\\end{aligned}[/latex]",
+    "topic": "GATE ME 2022 SET-1",
+    "source_page": "/gate-me/calculus",
+    "source_file": "D:\\My Web Sites\\GATE\\practicepaper.in\\gate-me\\calculus254d.html"
+  },
+  {
+    "id": "1416119",
+    "question_number": 70,
+    "question_type": "MCQ",
+    "marks": 1,
+    "question": "Match the inferences X, Y, and Z, about a system, to the corresponding properties of the elements of first column in Routh?s Table of the system characteristic equation.",
+    "options": [
+      {
+        "label": "A",
+        "text": "X[latex]\\rightarrow[/latex]P, Y[latex]\\rightarrow[/latex]Q, Z[latex]\\rightarrow[/latex]R"
+      },
+      {
+        "label": "B",
+        "text": "X[latex]\\rightarrow[/latex]Q, Y[latex]\\rightarrow[/latex]P, Z[latex]\\rightarrow[/latex]R"
+      },
+      {
+        "label": "C",
+        "text": "X[latex]\\rightarrow[/latex]R, Y[latex]\\rightarrow[/latex]Q, Z[latex]\\rightarrow[/latex]P"
+      },
+      {
+        "label": "D",
+        "text": "X[latex]\\rightarrow[/latex]P, Y[latex]\\rightarrow[/latex]R, Z[latex]\\rightarrow[/latex]Q"
+      }
+    ],
+    "answer": {
+      "option_index": 3,
+      "option_text": "X[latex]\\rightarrow[/latex]P, Y[latex]\\rightarrow[/latex]R, Z[latex]\\rightarrow[/latex]Q"
+    },
+    "numerical_answer": null,
+    "solution": "When all elements are positive, the system is \r\nstable. When any element is zero, the test breaks \r\ndown. When there is change in sign of \r\ncoefficients, the system is unstable.",
+    "solution_html": "When all elements are positive, the system is \r\nstable. When any element is zero, the test breaks \r\ndown. When there is change in sign of \r\ncoefficients, the system is unstable.",
+    "topic": "GATE EC 2016-SET-1",
+    "source_page": "/gate-ec/control-systems",
+    "source_file": "D:\\My Web Sites\\GATE\\practicepaper.in\\gate-ec\\control-systems20b5.html"
+  },
+  {
+    "id": "1416219",
+    "question_number": 65,
+    "question_type": "NAT",
+    "marks": 1,
+    "question": "The response of the system [latex]G(s)=\\frac{s-2}{(s+1)(s+3)}[/latex] to the unit step input u(t) is y(t). The value of [latex]\\frac{dy}{dt}[/latex] at t=[latex]0^{+}[/latex] is _________",
+    "options": [],
+    "answer": null,
+    "numerical_answer": {
+      "minimum": 0.96,
+      "maximum": 1.04
+    },
+    "solution": "[latex]\\begin{aligned} L\\left(\\frac{d y}{d t}\\right) &=(s Y(s)-y(0)) \\\\ Y(s) &=G(s) \\times \\frac{1}{s}=\\frac{s-2}{s(s+1)(s+3)} \\\\ y(0)&=\\lim _{s \\rightarrow \\infty} s Y(s) \\\\ \\text{(Applying } & \\text{initial value theorem) } \\\\ &=\\lim _{s \\rightarrow \\infty} \\frac{s-2}{(s+1)(s+3)} \\\\ &=\\frac{\\left(1-\\frac{2}{s}\\right)}{s\\left(1+\\frac{1}{s}\\right)\\left(1+\\frac{3}{s}\\right)} \\\\ y(0)&=0 \\\\ L\\left(\\frac{d y}{d t}\\right) &=s Y(s)=\\frac{s \\times(s-2)}{s(s+1)(s+3)} \\\\ &=\\frac{s-2}{(s+1)(s+3)} \\\\ \\left.\\frac{d y}{d t}\\right|_{t=0} &=\\lim _{s \\rightarrow \\infty} s L\\left(\\frac{d y}{d t}\\right) \\\\ &=\\lim _{s \\rightarrow \\infty} \\frac{s \\times(s-2)}{(s+1)(s+3)}\\\\ &=\\frac{\\left(1-\\frac{2}{s}\\right)}{\\left(1+\\frac{1}{s}\\right)\\left(1+\\frac{3}{s}\\right)}=1 \\end{aligned}[/latex]",
+    "solution_html": "[latex]\\begin{aligned} L\\left(\\frac{d y}{d t}\\right) &=(s Y(s)-y(0)) \\\\ Y(s) &=G(s) \\times \\frac{1}{s}=\\frac{s-2}{s(s+1)(s+3)} \\\\ y(0)&=\\lim _{s \\rightarrow \\infty} s Y(s) \\\\ \\text{(Applying } & \\text{initial value theorem) } \\\\ &=\\lim _{s \\rightarrow \\infty} \\frac{s-2}{(s+1)(s+3)} \\\\ &=\\frac{\\left(1-\\frac{2}{s}\\right)}{s\\left(1+\\frac{1}{s}\\right)\\left(1+\\frac{3}{s}\\right)} \\\\ y(0)&=0 \\\\ L\\left(\\frac{d y}{d t}\\right) &=s Y(s)=\\frac{s \\times(s-2)}{s(s+1)(s+3)} \\\\ &=\\frac{s-2}{(s+1)(s+3)} \\\\ \\left.\\frac{d y}{d t}\\right|_{t=0} &=\\lim _{s \\rightarrow \\infty} s L\\left(\\frac{d y}{d t}\\right) \\\\ &=\\lim _{s \\rightarrow \\infty} \\frac{s \\times(s-2)}{(s+1)(s+3)}\\\\ &=\\frac{\\left(1-\\frac{2}{s}\\right)}{\\left(1+\\frac{1}{s}\\right)\\left(1+\\frac{3}{s}\\right)}=1 \\end{aligned}[/latex]",
+    "topic": "GATE EC 2016-SET-2",
+    "source_page": "/gate-ec/control-systems",
+    "source_file": "D:\\My Web Sites\\GATE\\practicepaper.in\\gate-ec\\control-systems216a.html"
+  },
+  {
+    "id": "1416220",
+    "question_number": 64,
+    "question_type": "MCQ",
+    "marks": 1,
+    "question": "The number and direction of encirclements around the point -1+j0 in the complex plane by the Nyquist plot of [latex]G(s)=\\frac{1-s}{4+2s}[/latex] is",
+    "options": [
+      {
+        "label": "A",
+        "text": "zero"
+      },
+      {
+        "label": "B",
+        "text": "one, anti-clockwise"
+      },
+      {
+        "label": "C",
+        "text": "one, clockwise."
+      },
+      {
+        "label": "D",
+        "text": "two, clockwise."
+      }
+    ],
+    "answer": {
+      "option_index": 0,
+      "option_text": "zero"
+    },
+    "numerical_answer": null,
+    "solution": "[latex]G(s)=\\frac{1-s}{4+2 s}[/latex] and [latex]\\angle G(s)=-\\tan ^{-1} \\omega-\\tan ^{-1} \\frac{\\omega}{2}[/latex] at [latex]s=0, \\quad|G(s)|=\\frac{1}{4}=0.25 [/latex] and [latex]\\left.\\angle G(s)\\right|_{\\omega=0}=0^{\\circ} [/latex] at [latex]s=\\infty, \\quad|G(s)|=-\\frac{1}{2}=-0.5 [/latex] and [latex]\\left.\\angle G(s)\\right|_{m \\times \\infty}=-180^{\\circ} [/latex] Nyquist plot is Hence, number of encirclements of (-1 + j0) = 0",
+    "solution_html": "[latex]G(s)=\\frac{1-s}{4+2 s}[/latex]<br> and [latex]\\angle G(s)=-\\tan ^{-1} \\omega-\\tan ^{-1} \\frac{\\omega}{2}[/latex]<br> at [latex]s=0, \\quad|G(s)|=\\frac{1}{4}=0.25 [/latex]<br> and [latex]\\left.\\angle G(s)\\right|_{\\omega=0}=0^{\\circ} [/latex]<br> at [latex]s=\\infty, \\quad|G(s)|=-\\frac{1}{2}=-0.5 [/latex]<br> and [latex]\\left.\\angle G(s)\\right|_{m \\times \\infty}=-180^{\\circ} [/latex]<br> Nyquist plot is<br><br><img src=\"/wp-content/uploads/GATE/EC/20162/a20.jpg\" /><br> Hence, number of encirclements of (-1 + j0) = 0",
+    "topic": "GATE EC 2016-SET-2",
+    "source_page": "/gate-ec/control-systems",
+    "source_file": "D:\\My Web Sites\\GATE\\practicepaper.in\\gate-ec\\control-systems216a.html"
+  },
+  {
+    "id": "1418155",
+    "question_number": 12,
+    "question_type": "NAT",
+    "marks": 2,
+    "question": "Let [latex]X[k]=k+1[/latex], [latex]0\\leq k \\leq 7[/latex] be 8-point DFT of a sequence [latex]x[n][/latex], where [latex]  X[k]=  \\sum_{n=0}^{N-1} x[n]e^{-\\frac{j2nk\\pi }{N}}[/latex]. The value (correct to two decimal places) of [latex]\\sum_{n=0}^{3}x[2n][/latex]  is ______.",
+    "options": [],
+    "answer": null,
+    "numerical_answer": {
+      "minimum": 2.9,
+      "maximum": 3.1
+    },
+    "solution": "[latex]\\begin{aligned} x(k) &=\\{1,2,3,4,5,6,7,8\\} \\\\ x(k) &=\\sum_{n=0}^{7} x[n] e^{-j \\frac{2 \\pi}{8} k n} \\\\ &=\\sum_{n=0}^{7} x[n] e^{-i \\frac{\\pi}{4} k n} \\\\ \\sum_{n=0}^{3} x[2 n] &=\\sum_{n=0.2 .4 .6} x[n] \\\\ &=\\frac{1}{2} \\sum_{n=0}^{7}\\left(x[n]+(-1)^{n} x[n]\\right) \\\\ \\sum_{n=0}^{7} x[n] &=x(0)=1 \\\\ \\sum_{n=0}^{7}(-1)^{n} x[n] &=\\sum_{n=0}^{7} x[n] e^{-i \\frac{\\pi}{4} 4 n}=x(4)=5 \\\\ \\sum_{n=0}^{3} x[2 n] &=\\frac{1}{2}[1+5]=3 \\end{aligned}[/latex]",
+    "solution_html": "[latex]\\begin{aligned} x(k) &=\\{1,2,3,4,5,6,7,8\\} \\\\ x(k) &=\\sum_{n=0}^{7} x[n] e^{-j \\frac{2 \\pi}{8} k n} \\\\ &=\\sum_{n=0}^{7} x[n] e^{-i \\frac{\\pi}{4} k n} \\\\ \\sum_{n=0}^{3} x[2 n] &=\\sum_{n=0.2 .4 .6} x[n] \\\\ &=\\frac{1}{2} \\sum_{n=0}^{7}\\left(x[n]+(-1)^{n} x[n]\\right) \\\\ \\sum_{n=0}^{7} x[n] &=x(0)=1 \\\\ \\sum_{n=0}^{7}(-1)^{n} x[n] &=\\sum_{n=0}^{7} x[n] e^{-i \\frac{\\pi}{4} 4 n}=x(4)=5 \\\\ \\sum_{n=0}^{3} x[2 n] &=\\frac{1}{2}[1+5]=3 \\end{aligned}[/latex]",
+    "topic": "GATE EC 2018",
+    "source_page": "/gate-ec/dtfs-dtft-and-dft",
+    "source_file": "D:\\My Web Sites\\GATE\\practicepaper.in\\gate-ec\\dtfs-dtft-and-dft1744.html"
+  },
+  {
+    "id": "1515230",
+    "question_number": 27,
+    "question_type": "MCQ",
+    "marks": 2,
+    "question": "The coils of a wattmeter have resistances 0.01[latex]\\Omega[/latex] and 1000[latex]\\Omega[/latex]; their inductances may be neglected. The wattmeter is connected as shown in the figure, to measure the power consumed by a load, which draws 25A at power factor 0.8. The voltage across the load terminals is 30V. The percentage error on the wattmeter reading is _________.",
+    "options": [
+      {
+        "label": "A",
+        "text": "0.14"
+      }
+    ],
+    "answer": {
+      "option_index": 0,
+      "option_text": "0.14"
+    },
+    "numerical_answer": null,
+    "solution": "True value of power [latex]=VI \\cos \\phi [/latex] [latex]=30 \\times 25 \\times 0.8 =600W [/latex] In the give diagram, Measured power=Power loss in pressure coil +Power in loead [latex]=\\frac{V^2}{R_P} +VI \\cos \\phi [/latex] [latex]=\\frac{30^2}{1000}+600W=600.9W [/latex] Therefore, percentage error in wattmeter reading [/latex] [latex]=\\frac{\\text{Measured value}-\\text{True value}}{\\text{True value}} [/latex] [latex]=\\frac{600.9-600}{600}\\times 100=0.15\\%[/latex]",
+    "solution_html": "True value of power<br>[latex]=VI \\cos \\phi [/latex] <br> [latex]=30 \\times 25 \\times 0.8 =600W [/latex] <br> In the give diagram, <br>Measured power=Power loss in pressure coil +Power in loead <br> [latex]=\\frac{V^2}{R_P} +VI \\cos \\phi [/latex] <br> [latex]=\\frac{30^2}{1000}+600W=600.9W [/latex] <br> Therefore, percentage error in wattmeter reading [/latex] <br> [latex]=\\frac{\\text{Measured value}-\\text{True value}}{\\text{True value}} [/latex] <br> [latex]=\\frac{600.9-600}{600}\\times 100=0.15\\%[/latex]\n",
+    "topic": "GATE EE 2015-SET-2",
+    "source_page": "/gate-ee/electrical-and-electronic-measurements",
+    "source_file": "D:\\My Web Sites\\GATE\\practicepaper.in\\gate-ee\\electrical-and-electronic-measurementsb2ae.html"
+  },
+  {
+    "id": "1515242",
+    "question_number": 42,
+    "question_type": "NAT",
+    "marks": 2,
+    "question": "A 3-phase transformer rated for 33 kV/11 kV is connected in delta/star as shown in figure. The current transformers (CTs) on low and high voltage sides have a ratio of 500/5. Find the currents [latex]i_1 \\; and \\; i_2[/latex], if the fault current is 300 A as shown in figure.",
+    "options": [],
+    "answer": null,
+    "numerical_answer": {
+      "minimum": 0,
+      "maximum": 0
+    },
+    "solution": "[latex]i_2=0[/latex],  since entire current flows through fault [latex]i_1=\\frac{1}{\\sqrt{3}}A[/latex]",
+    "solution_html": "[latex]i_2=0[/latex],  since entire current flows through fault<br>[latex]i_1=\\frac{1}{\\sqrt{3}}A[/latex]",
+    "topic": "Power Systems",
+    "source_page": "/gate-ee/gate-ee-2015-set-2",
+    "source_file": "D:\\My Web Sites\\GATE\\practicepaper.in\\gate-ee\\gate-ee-2015-set-248b9.html"
+  },
+  {
+    "id": "1520155",
+    "question_number": 39,
+    "question_type": "NAT",
+    "marks": 2,
+    "question": "A conducting square loop of side length 1 m is placed at a distance of 1 m from a\nlong straight wire carrying a current l=2 A as shown below. The mutual inductance,\nin nH (rounded off to 2 decimal places), between the conducting loop and the long wire\nis __________.",
+    "options": [],
+    "answer": null,
+    "numerical_answer": {
+      "minimum": 198,
+      "maximum": 139.2
+    },
+    "solution": "[latex]\\begin{aligned}\r\n\\phi &\\propto I  \\\\  \\phi &=MI  \\\\ \\vec{B}&=\\frac{\\mu _{o}I}{2\\pi \\rho }\\hat{a_{\\phi }} \\;\\; (\\vec{B} \\text{ due to infinite long line}) \\\\ \\text{Magnetic flux}& \\text{  crossing square loop is}\\\\ \\phi &=\\int \\int \\vec{B}\\cdot \\vec{ds} \\\\ &=\\int \\int \\frac{\\mu _{o}I}{2\\pi \\rho }\\hat{a_{\\phi }}\\cdot (d\\rho dz)\\hat{a_{\\phi }}\\\\ &=\\frac{\\mu _{0}I}{2\\pi }\\int_{\\rho =1}^{2}\\frac{d\\rho }{\\rho }\\int_{z=0}^{1}dz \\\\ \\phi &=\\frac{\\mu _{o} I}{2\\pi }(\\ln \\rho )_{\\rho =1}^{2}(z)_{z=0}^{1} \\\\ \\phi &=\\frac{\\mu _{o} I}{2\\pi }(\\ln 2)\\\\ M&=\\frac{\\phi }{I} \\\\ M&=\\frac{\\phi_{o}(\\ln2)}{2\\pi }=\\frac{4\\pi \\times 10^{-7}(\\ln _{2})}{2\\pi } \\\\  M&=1.386\\times 10^{-7}\\, Henry \\simeq 138.63\\, nH\r\n\\end{aligned}[/latex]",
+    "solution_html": "[latex]\\begin{aligned}\r\n\\phi &\\propto I  \\\\  \\phi &=MI  \\\\ \\vec{B}&=\\frac{\\mu _{o}I}{2\\pi \\rho }\\hat{a_{\\phi }} \\;\\; (\\vec{B} \\text{ due to infinite long line}) \\\\ \\text{Magnetic flux}& \\text{  crossing square loop is}\\\\ \\phi &=\\int \\int \\vec{B}\\cdot \\vec{ds} \\\\ &=\\int \\int \\frac{\\mu _{o}I}{2\\pi \\rho }\\hat{a_{\\phi }}\\cdot (d\\rho dz)\\hat{a_{\\phi }}\\\\ &=\\frac{\\mu _{0}I}{2\\pi }\\int_{\\rho =1}^{2}\\frac{d\\rho }{\\rho }\\int_{z=0}^{1}dz \\\\ \\phi &=\\frac{\\mu _{o} I}{2\\pi }(\\ln \\rho )_{\\rho =1}^{2}(z)_{z=0}^{1} \\\\ \\phi &=\\frac{\\mu _{o} I}{2\\pi }(\\ln 2)\\\\ M&=\\frac{\\phi }{I} \\\\ M&=\\frac{\\phi_{o}(\\ln2)}{2\\pi }=\\frac{4\\pi \\times 10^{-7}(\\ln _{2})}{2\\pi } \\\\  M&=1.386\\times 10^{-7}\\, Henry \\simeq 138.63\\, nH\r\n\\end{aligned}[/latex]\r\n",
+    "topic": "GATE EE 2020",
+    "source_page": "/gate-ee/electrical-machines",
+    "source_file": "D:\\My Web Sites\\GATE\\practicepaper.in\\gate-ee\\electrical-machines8393.html"
+  },
+  {
+    "id": "21012101",
+    "question_number": 5,
+    "question_type": "MCQ",
+    "marks": 1,
+    "question": "void fun(int n) \r\n{\r\n int sum=0; \r\n for (int i = n; i > -n; i--)\r\n {\r\n  for (int j = 0; j < i; j++) \r\n  {\r\n   sum++;\r\n  }\r\n }\r\n return sum;\r\n} Which of the following claims about the return value of this function is/are true? [MSQ Question]",
+    "options": [
+      {
+        "label": "A",
+        "text": "[latex]\\Theta (n^2)[/latex]"
+      },
+      {
+        "label": "B",
+        "text": "[latex]O (n^3)[/latex]"
+      },
+      {
+        "label": "C",
+        "text": "[latex]\\Theta  (n)[/latex]"
+      },
+      {
+        "label": "D",
+        "text": "[latex]\\Omega (n)[/latex]"
+      }
+    ],
+    "answer": {
+      "option_index": 0,
+      "option_text": "[latex]\\Theta (n^2)[/latex]"
+    },
+    "numerical_answer": null,
+    "solution": "Here, inner for loop executes [latex]i[/latex] times for each iteration of outer loop. So total number of times sum++ executes is [latex]\\sum_{i=n}^{i=1}i=\\frac{n(n+1)}{2}=O(n^2)[/latex] Option A: is true. Option B: is true. Option C: is false. Option D: is true. (For any confusion, See the basic property of Asymptotic Notation PDF || Video ) Click to Join Our Telegram Group for Latest Update of MOCK TEST",
+    "solution_html": "Here, inner for loop executes [latex]i[/latex] times for each iteration of outer loop.<br><br>So total number of times sum++ executes is [latex]\\sum_{i=n}^{i=1}i=\\frac{n(n+1)}{2}=O(n^2)[/latex]\r\n<br><br>Option A: is true. <br>Option B: is true. <br>Option C: is false. <br>Option D: is true.<br><br>(For any confusion, See the basic property of <a href=\"https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-046j-introduction-to-algorithms-sma-5503-fall-2005/video-lectures/lecture-2-asymptotic-notation-recurrences-substitution-master-method/lec2.pdf \">Asymptotic Notation PDF</a> || <a href=\"https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-046j-introduction-to-algorithms-sma-5503-fall-2005/video-lectures/lecture-2-asymptotic-notation-recurrences-substitution-master-method/  \">    Video</a> ) <br> <br><img src= \"/wp-content/uploads/GATE/Market_image/telegram.png\" width=\"20\" height=\"20\"> <a href =\"https://t.me/gatecsepracticepaper\">Click to Join Our Telegram Group for Latest Update of MOCK TEST</a> <img src=\"/wp-content/uploads/GATE/Market_image/telegram.png\" width=\"20\" height=\"20\">",
+    "topic": "",
+    "source_page": "/gate-cse/asymptotic-notation-algorithm-mock-test-1",
+    "source_file": "D:\\My Web Sites\\GATE\\practicepaper.in\\gate-cse\\asymptotic-notation-algorithm-mock-test-1.html"
+  },
+  {
+    "id": "21012102",
+    "question_number": 4,
+    "question_type": "MCQ",
+    "marks": 1,
+    "question": "void fun(int n) \r\n{\r\n for (int i = n; i > -n; i--)\r\n {\r\n  for (int j = 0; j < i; j++) \r\n  {\r\n   printf(\"%d\",j);\r\n  }\r\n }\r\n} Which of the following claims about the overall asymptotic runtime for this function is/are true? [MSQ Question]",
+    "options": [
+      {
+        "label": "A",
+        "text": "[latex]\\Theta (n^2)[/latex]"
+      },
+      {
+        "label": "B",
+        "text": "[latex]O (n^3)[/latex]"
+      },
+      {
+        "label": "C",
+        "text": "[latex]\\Theta  (n)[/latex]"
+      },
+      {
+        "label": "D",
+        "text": "[latex]\\Omega (n)[/latex]"
+      }
+    ],
+    "answer": {
+      "option_index": 0,
+      "option_text": "[latex]\\Theta (n^2)[/latex]"
+    },
+    "numerical_answer": null,
+    "solution": "(For any confusion, See the basic property of Asymptotic Notation PDF || Video ) Click to Join Our Telegram Group for Latest Update of MOCK TEST",
+    "solution_html": "<br><img src= \"/wp-content/uploads/GATE/CS/AMOCK/ALGO/Asymptoticnotation/MT1/q4.jpg\"><br>(For any confusion, See the basic property of <a href=\"https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-046j-introduction-to-algorithms-sma-5503-fall-2005/video-lectures/lecture-2-asymptotic-notation-recurrences-substitution-master-method/lec2.pdf \">Asymptotic Notation PDF</a> || <a href=\"https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-046j-introduction-to-algorithms-sma-5503-fall-2005/video-lectures/lecture-2-asymptotic-notation-recurrences-substitution-master-method/  \">    Video</a> ) <br> <br><img src= \"/wp-content/uploads/GATE/Market_image/telegram.png\" width=\"20\" height=\"20\"> <a href =\"https://t.me/gatecsepracticepaper\">Click to Join Our Telegram Group for Latest Update of MOCK TEST</a> <img src=\"/wp-content/uploads/GATE/Market_image/telegram.png\" width=\"20\" height=\"20\">",
+    "topic": "",
+    "source_page": "/gate-cse/asymptotic-notation-algorithm-mock-test-1",
+    "source_file": "D:\\My Web Sites\\GATE\\practicepaper.in\\gate-cse\\asymptotic-notation-algorithm-mock-test-1.html"
+  },
+  {
+    "id": "21012103",
+    "question_number": 3,
+    "question_type": "MCQ",
+    "marks": 1,
+    "question": "int fun(int n) \r\n{\r\n int temp = 0;\r\n if (n < 100000000) \r\n {\r\n  for (int i = 0; i < n * n * n; i++) \r\n  {\r\n  temp++;\r\n  } \r\n  return temp;\r\n } \r\n if (n % 2 == 0) \r\n {\r\n  for (int i = 0; i < n; i++) \r\n  {\r\n   temp++;\r\n  }\r\n }\r\n else \r\n {\r\n  for (int i = 0; i < n * n; i++) \r\n  {\r\n  temp++;\r\n  }\r\n } \r\n return temp;\r\n}\r\n} Which of the following claims about the return value temp using asymptotic notation for this function is/are true? [MSQ Question]",
+    "options": [
+      {
+        "label": "A",
+        "text": "[latex]\\Theta (n)[/latex]"
+      },
+      {
+        "label": "B",
+        "text": "[latex]O (n^2)[/latex]"
+      },
+      {
+        "label": "C",
+        "text": "[latex]O (n^3)[/latex]"
+      },
+      {
+        "label": "D",
+        "text": "[latex]\\Omega (1)[/latex]"
+      }
+    ],
+    "answer": {
+      "option_index": 1,
+      "option_text": "[latex]O (n^2)[/latex]"
+    },
+    "numerical_answer": null,
+    "solution": "NOTE: For asymptotic notation, consider large value of [latex]n (n \\gt 100000000)[/latex] hence, efffect of [latex]if (n \\lt 100000000)[/latex] can be ingnored as it is true only for value of [latex](n \\lt 100000000)[/latex] Here, Even values of n will trigger the best case behavior. (if(n%2) condition becomes true) Odd values of n will trigger the worse case behavior. (if(n%2) condition becomes false). Considering the worse case For [latex] (n \\gt 100000000)[/latex] and odd value of n, following code executes else {\r\nfor (int i = 0; i < n * n; i++) {\r\ntemp++;\r\n} So, temp valaue can be [latex]O (n^2)[/latex]. Based on above anlysis, we can say that. Option A: is false. Option B: is true. Option C: is true. Option D: is true. (For any confusion, See the basic property of Asymptotic Notation PDF || Video ) Click to Join Our Telegram Group for Latest Update of MOCK TEST",
+    "solution_html": "NOTE: For asymptotic notation, consider large value of [latex]n (n \\gt 100000000)[/latex]<br><br> hence, efffect of [latex]if (n \\lt 100000000)[/latex] can be ingnored as it is true only for value of [latex](n \\lt 100000000)[/latex]<br><br>Here, <br>Even values of n will trigger the best case behavior. (if(n%2) condition becomes true)<br> Odd values of n will trigger the worse case behavior. (if(n%2) condition becomes false).<br><br>Considering the worse case <br><br>For [latex] (n \\gt 100000000)[/latex] and odd value of n, following code executes <br><pre><code>else {\r\nfor (int i = 0; i < n * n; i++) {\r\ntemp++;\r\n} </pre></code>  <br><br> So, temp valaue can be [latex]O (n^2)[/latex].<br><br>Based on above anlysis, we can say that.<br><br>Option A: is false. <br>Option B: is true. <br>Option C: is true. <br>Option D: is true.<br>(For any confusion, See the basic property of <a href=\"https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-046j-introduction-to-algorithms-sma-5503-fall-2005/video-lectures/lecture-2-asymptotic-notation-recurrences-substitution-master-method/lec2.pdf \">Asymptotic Notation PDF</a> || <a href=\"https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-046j-introduction-to-algorithms-sma-5503-fall-2005/video-lectures/lecture-2-asymptotic-notation-recurrences-substitution-master-method/  \">    Video</a> ) <br> <br><img src= \"/wp-content/uploads/GATE/Market_image/telegram.png\" width=\"20\" height=\"20\"> <a href =\"https://t.me/gatecsepracticepaper\">Click to Join Our Telegram Group for Latest Update of MOCK TEST</a> <img src=\"/wp-content/uploads/GATE/Market_image/telegram.png\" width=\"20\" height=\"20\">",
+    "topic": "",
+    "source_page": "/gate-cse/asymptotic-notation-algorithm-mock-test-1",
+    "source_file": "D:\\My Web Sites\\GATE\\practicepaper.in\\gate-cse\\asymptotic-notation-algorithm-mock-test-1.html"
+  },
+  {
+    "id": "21012104",
+    "question_number": 2,
+    "question_type": "MCQ",
+    "marks": 1,
+    "question": "int fun(int n) \r\n{\r\n int temp = 0;\r\n if (n < 100000000) \r\n {\r\n  for (int i = 0; i < n * n * n; i++) \r\n  {\r\n  temp++;\r\n  } \r\n  return temp;\r\n } \r\n if (n % 2 == 0) \r\n {\r\n  for (int i = 0; i < n; i++) \r\n  {\r\n   temp++;\r\n  }\r\n }\r\n else \r\n {\r\n  for (int i = 0; i < n * n; i++) \r\n  {\r\n  temp++;\r\n  }\r\n } \r\n return temp;\r\n}\r\n} Which of the following claims about the overall asymptotic runtime for this function is/are true? [MSQ Question]",
+    "options": [
+      {
+        "label": "A",
+        "text": "[latex]\\Theta (n)[/latex]"
+      },
+      {
+        "label": "B",
+        "text": "[latex]O (n^2)[/latex]"
+      },
+      {
+        "label": "C",
+        "text": "[latex]O (n^3)[/latex]"
+      },
+      {
+        "label": "D",
+        "text": "[latex]\\Omega (1)[/latex]"
+      }
+    ],
+    "answer": {
+      "option_index": 1,
+      "option_text": "[latex]O (n^2)[/latex]"
+    },
+    "numerical_answer": null,
+    "solution": "Here, Even values of n will trigger the best case behavior. (if(n%2) condition becomes true) Odd values of n will trigger the worse case behavior. (if(n%2) condition becomes false). Considering the worse case For asymptotic notation, consider large value of [latex]n (n \\gt 100000000)[/latex] hence, efffect of [latex]if (n \\lt 100000000)[/latex] can be ingnored as it is true only for value of [latex](n \\lt 100000000)[/latex] For [latex] (n \\gt 100000000)[/latex] and odd value of n, following code executes else {\r\nfor (int i = 0; i < n * n; i++) {\r\ntemp++;\r\n} with [latex]O(n^2)[/latex] time complexity. Therefore, Overall time comlexity of the above code is [latex]O(n^2)[/latex]. Based on obove anlysis, Option A is false. Option B is true. Option C is true Option D is true. (For any confusion, See the basic property of Asymptotic Notation PDF || Video ) Click to Join Our Telegram Group for Latest Update of MOCK TEST",
+    "solution_html": "Here, <br>Even values of n will trigger the best case behavior. (if(n%2) condition becomes true)<br> Odd values of n will trigger the worse case behavior. (if(n%2) condition becomes false).<br><br>Considering the worse case <br><br>For asymptotic notation, consider large value of [latex]n (n \\gt 100000000)[/latex]<br> hence, efffect of [latex]if (n \\lt 100000000)[/latex] can be ingnored as it is true only for value of [latex](n \\lt 100000000)[/latex]<br><br>For [latex] (n \\gt 100000000)[/latex] and odd value of n, following code executes <br><pre><code>else {\r\nfor (int i = 0; i < n * n; i++) {\r\ntemp++;\r\n} </pre></code>  with [latex]O(n^2)[/latex] time complexity.<br><br>Therefore, Overall time comlexity of the above code is [latex]O(n^2)[/latex].\r\n<br><br>Based on obove anlysis, <br>Option A is false.<br>Option B is true.<br>Option C is true<br>Option D is true.  <br><br>(For any confusion, See the basic property of <a href=\"https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-046j-introduction-to-algorithms-sma-5503-fall-2005/video-lectures/lecture-2-asymptotic-notation-recurrences-substitution-master-method/lec2.pdf \">Asymptotic Notation PDF</a> || <a href=\"https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-046j-introduction-to-algorithms-sma-5503-fall-2005/video-lectures/lecture-2-asymptotic-notation-recurrences-substitution-master-method/  \">    Video</a> ) <br> <br><img src= \"/wp-content/uploads/GATE/Market_image/telegram.png\" width=\"20\" height=\"20\"> <a href =\"https://t.me/gatecsepracticepaper\">Click to Join Our Telegram Group for Latest Update of MOCK TEST</a> <img src=\"/wp-content/uploads/GATE/Market_image/telegram.png\" width=\"20\" height=\"20\">",
+    "topic": "",
+    "source_page": "/gate-cse/asymptotic-notation-algorithm-mock-test-1",
+    "source_file": "D:\\My Web Sites\\GATE\\practicepaper.in\\gate-cse\\asymptotic-notation-algorithm-mock-test-1.html"
+  },
+  {
+    "id": "21012105",
+    "question_number": 1,
+    "question_type": "MCQ",
+    "marks": 1,
+    "question": "Consider two function [latex]f(n)=n^{1+\\frac{1}{\\log n}}[/latex] [latex]g(n)=n \\log ( \\log n)[/latex] Which of the following is/are true? [MSQ Question]",
+    "options": [
+      {
+        "label": "A",
+        "text": "[latex]f(n)=O(g(n))[/latex]"
+      },
+      {
+        "label": "B",
+        "text": "[latex]g(n)=O(f(n))[/latex]"
+      },
+      {
+        "label": "C",
+        "text": "[latex]f(n)=\\Theta (g(n))[/latex]"
+      },
+      {
+        "label": "D",
+        "text": "[latex]g(n)=\\Omega (f(n))[/latex]"
+      }
+    ],
+    "answer": {
+      "option_index": 0,
+      "option_text": "[latex]f(n)=O(g(n))[/latex]"
+    },
+    "numerical_answer": null,
+    "solution": "In this types of complex function, we can not directly compare given functions [latex]f(n)[/latex]\r\n and [latex]g(n)[/latex] by putting value of n. So, we have to use the concept of taking log on both function  [latex]f(n)[/latex]\r\n and [latex]g(n)[/latex] and then compare both to find the relation in terms of which function is of higher order. [latex]\\begin{aligned} \\log (f(n))&=\\log (n^{1+\\frac{1}{\\log n}}) \\\\ &= \\left ( 1+\\frac{1}{\\log n} \\right ) \\log n\\\\ &= \\log n+1 \\end{aligned}[/latex] [latex]\\begin{aligned} \\log (g(n))&=\\log ( n \\log (\\log n)) \\\\ &= \\log n + \\log ( \\log (\\log n)) \\end{aligned}[/latex] Now, comparing both function is easy by just taking differen value of n. NOTE: Take higher value of n when comparing both function and choose value of n which makes calculation easy. For example [latex]n=2^{2^{2^{100}}}[/latex] (Value of n is selected such that  calculation of three times log become easy) Then, value of [latex]\\begin{aligned}\\log (f(n))&=\\log(2^{2^{2^{100}}})+1\\\\& =2^{2^{100}}+1\\end{aligned}[/latex] [latex]\\begin{aligned}\\log (g(n))&=\\log (2^{2^{2^{100}}}) + \\log ( \\log (\\log (2^{2^{2^{100}}}))) \\\\ &=2^{2^{100}}+ \\log (\\log {2^{2^{100}}})\\\\ & =2^{2^{100}}+\\log( {2^{100}})\\\\ &=2^{2^{100}}+100\\end{aligned}[/latex]. Based on above anlysis, we can say that, [latex]g(n)[/latex] is of higher order compared to [latex]f(n)[/latex]. Option A: [latex]f(n)=O(g(n))[/latex] is true as said above [latex]g(n)[/latex] is of higher order than  [latex]f(n)[/latex] Option B: [latex]g(n)=O(f(n))[/latex] is false. Option C: [latex]f(n)=\\Theta (g(n))[/latex] is false as [latex]f(n)=\\Omega (g(n))[/latex] is not true. Option D: [latex]g(n)=\\Omega (f(n))[/latex] is true as said above [latex]g(n)[/latex] is higher order than  [latex]f(n)[/latex]. (For any confusion, See the basic property of Asymptotic Notation PDF || Video ) Click to Join Our Telegram Group for Latest Update of MOCK TEST",
+    "solution_html": "In this types of complex function, we can not directly compare given functions [latex]f(n)[/latex]\r\n and [latex]g(n)[/latex] by putting value of n.<br><br>So, we have to use the concept of taking log on both function  [latex]f(n)[/latex]\r\n and [latex]g(n)[/latex] and then compare both to find the relation in terms of which function is of higher order.<br><br>[latex]\\begin{aligned} \\log (f(n))&=\\log (n^{1+\\frac{1}{\\log n}}) \\\\ &= \\left ( 1+\\frac{1}{\\log n} \\right ) \\log n\\\\ &= \\log n+1 \\end{aligned}[/latex]\r\n<br><br>[latex]\\begin{aligned} \\log (g(n))&=\\log ( n \\log (\\log n)) \\\\ &= \\log n + \\log ( \\log (\\log n)) \\end{aligned}[/latex]\r\n<br><br>Now, comparing both function is easy by just taking differen value of n.<br>NOTE: Take higher value of n when comparing both function and choose value of n which makes calculation easy.<br><br>For example<br>[latex]n=2^{2^{2^{100}}}[/latex] <br><br>(Value of n is selected such that  calculation of three times log become easy)<br>\r\n<br>Then, value of<br> [latex]\\begin{aligned}\\log (f(n))&=\\log(2^{2^{2^{100}}})+1\\\\& =2^{2^{100}}+1\\end{aligned}[/latex]<br><br>[latex]\\begin{aligned}\\log (g(n))&=\\log (2^{2^{2^{100}}}) + \\log ( \\log (\\log (2^{2^{2^{100}}}))) \\\\ &=2^{2^{100}}+ \\log (\\log {2^{2^{100}}})\\\\ & =2^{2^{100}}+\\log( {2^{100}})\\\\ &=2^{2^{100}}+100\\end{aligned}[/latex].\r\n<br><br>Based on above anlysis, we can say that, [latex]g(n)[/latex] is of higher order compared to [latex]f(n)[/latex].<br><br>Option A:<br>\r\n[latex]f(n)=O(g(n))[/latex] is true as said above [latex]g(n)[/latex] is of higher order than  [latex]f(n)[/latex]<br><br>Option B:<br>\r\n[latex]g(n)=O(f(n))[/latex] is false. <br><br>Option C:<br>\r\n[latex]f(n)=\\Theta (g(n))[/latex] is false as [latex]f(n)=\\Omega (g(n))[/latex] is not true. <br><br>Option D:<br>\r\n[latex]g(n)=\\Omega (f(n))[/latex] is true as said above [latex]g(n)[/latex] is higher order than  [latex]f(n)[/latex]. <br><br>(For any confusion, See the basic property of <a href=\"https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-046j-introduction-to-algorithms-sma-5503-fall-2005/video-lectures/lecture-2-asymptotic-notation-recurrences-substitution-master-method/lec2.pdf \">Asymptotic Notation PDF</a> || <a href=\"https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-046j-introduction-to-algorithms-sma-5503-fall-2005/video-lectures/lecture-2-asymptotic-notation-recurrences-substitution-master-method/  \">    Video</a> ) <br> <br><img src= \"/wp-content/uploads/GATE/Market_image/telegram.png\" width=\"20\" height=\"20\"> <a href =\"https://t.me/gatecsepracticepaper\">Click to Join Our Telegram Group for Latest Update of MOCK TEST</a> <img src=\"/wp-content/uploads/GATE/Market_image/telegram.png\" width=\"20\" height=\"20\">\r\n\r\n",
+    "topic": "",
+    "source_page": "/gate-cse/asymptotic-notation-algorithm-mock-test-1",
+    "source_file": "D:\\My Web Sites\\GATE\\practicepaper.in\\gate-cse\\asymptotic-notation-algorithm-mock-test-1.html"
+  }
+]

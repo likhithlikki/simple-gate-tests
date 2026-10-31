@@ -1,0 +1,991 @@
+{
+  "exam": "GATE",
+  "dataset_kind": "branch_year_question_bank_enriched",
+  "id_convention": "branch + year + set_number + question_number; set 0 means no set",
+  "total_questions": 15110,
+  "unique_question_ids": 15110,
+  "branch_question_counts": {
+    "CE": 2896,
+    "CS": 4010,
+    "DA": 311,
+    "EC": 2315,
+    "EE": 2112,
+    "IT": 434,
+    "ME": 2967,
+    "UNKNOWN_BRANCH": 65
+  },
+  "year_json_file_count": 155,
+  "answer_coverage": {
+    "MCQ": 11955,
+    "MSQ": 379,
+    "NAT_numerical_ranges": 2776,
+    "objective_answers_mapped_to_option_labels": 12334,
+    "answer_option_mapping_errors": 0
+  },
+  "solution_coverage": {
+    "external_link_only": 4531,
+    "html_only": 70,
+    "missing": 992,
+    "text_available": 9517
+  },
+  "image_recovery": {
+    "question_type_counts": {
+      "both": 3,
+      "none": 11407,
+      "question": 3700
+    },
+    "image_status_counts": {
+      "available": 3663,
+      "none": 11407,
+      "reference_only": 40
+    },
+    "curated_local_files": {
+      "options": 9,
+      "question": 3843,
+      "solution": 2
+    },
+    "curated_unique_source_files": {
+      "options": 9,
+      "question": 3616,
+      "solution": 2
+    },
+    "source_asset_files": 3634
+  },
+  "full_mirror_source": {
+    "patched_jsonl_rows": 46279,
+    "unique_source_ids": 15140,
+    "source_ids_not_in_current_bank": 30
+  },
+  "files": [
+    {
+      "path": "CE/2001.json",
+      "branch": "CE",
+      "year": 2001,
+      "question_count": 58
+    },
+    {
+      "path": "CE/2002.json",
+      "branch": "CE",
+      "year": 2002,
+      "question_count": 57
+    },
+    {
+      "path": "CE/2003.json",
+      "branch": "CE",
+      "year": 2003,
+      "question_count": 95
+    },
+    {
+      "path": "CE/2004.json",
+      "branch": "CE",
+      "year": 2004,
+      "question_count": 97
+    },
+    {
+      "path": "CE/2005.json",
+      "branch": "CE",
+      "year": 2005,
+      "question_count": 102
+    },
+    {
+      "path": "CE/2006.json",
+      "branch": "CE",
+      "year": 2006,
+      "question_count": 96
+    },
+    {
+      "path": "CE/2007.json",
+      "branch": "CE",
+      "year": 2007,
+      "question_count": 94
+    },
+    {
+      "path": "CE/2008.json",
+      "branch": "CE",
+      "year": 2008,
+      "question_count": 96
+    },
+    {
+      "path": "CE/2009.json",
+      "branch": "CE",
+      "year": 2009,
+      "question_count": 69
+    },
+    {
+      "path": "CE/2010.json",
+      "branch": "CE",
+      "year": 2010,
+      "question_count": 64
+    },
+    {
+      "path": "CE/2011.json",
+      "branch": "CE",
+      "year": 2011,
+      "question_count": 73
+    },
+    {
+      "path": "CE/2012.json",
+      "branch": "CE",
+      "year": 2012,
+      "question_count": 73
+    },
+    {
+      "path": "CE/2013.json",
+      "branch": "CE",
+      "year": 2013,
+      "question_count": 70
+    },
+    {
+      "path": "CE/2014.json",
+      "branch": "CE",
+      "year": 2014,
+      "question_count": 143
+    },
+    {
+      "path": "CE/2015.json",
+      "branch": "CE",
+      "year": 2015,
+      "question_count": 146
+    },
+    {
+      "path": "CE/2016.json",
+      "branch": "CE",
+      "year": 2016,
+      "question_count": 148
+    },
+    {
+      "path": "CE/2017.json",
+      "branch": "CE",
+      "year": 2017,
+      "question_count": 150
+    },
+    {
+      "path": "CE/2018.json",
+      "branch": "CE",
+      "year": 2018,
+      "question_count": 145
+    },
+    {
+      "path": "CE/2019.json",
+      "branch": "CE",
+      "year": 2019,
+      "question_count": 144
+    },
+    {
+      "path": "CE/2020.json",
+      "branch": "CE",
+      "year": 2020,
+      "question_count": 146
+    },
+    {
+      "path": "CE/2021.json",
+      "branch": "CE",
+      "year": 2021,
+      "question_count": 146
+    },
+    {
+      "path": "CE/2022.json",
+      "branch": "CE",
+      "year": 2022,
+      "question_count": 146
+    },
+    {
+      "path": "CE/2023.json",
+      "branch": "CE",
+      "year": 2023,
+      "question_count": 148
+    },
+    {
+      "path": "CE/2024.json",
+      "branch": "CE",
+      "year": 2024,
+      "question_count": 130
+    },
+    {
+      "path": "CE/2025.json",
+      "branch": "CE",
+      "year": 2025,
+      "question_count": 130
+    },
+    {
+      "path": "CE/2026.json",
+      "branch": "CE",
+      "year": 2026,
+      "question_count": 130
+    },
+    {
+      "path": "CS/1987.json",
+      "branch": "CS",
+      "year": 1987,
+      "question_count": 29
+    },
+    {
+      "path": "CS/1988.json",
+      "branch": "CS",
+      "year": 1988,
+      "question_count": 1
+    },
+    {
+      "path": "CS/1989.json",
+      "branch": "CS",
+      "year": 1989,
+      "question_count": 9
+    },
+    {
+      "path": "CS/1990.json",
+      "branch": "CS",
+      "year": 1990,
+      "question_count": 11
+    },
+    {
+      "path": "CS/1991.json",
+      "branch": "CS",
+      "year": 1991,
+      "question_count": 14
+    },
+    {
+      "path": "CS/1992.json",
+      "branch": "CS",
+      "year": 1992,
+      "question_count": 25
+    },
+    {
+      "path": "CS/1993.json",
+      "branch": "CS",
+      "year": 1993,
+      "question_count": 26
+    },
+    {
+      "path": "CS/1994.json",
+      "branch": "CS",
+      "year": 1994,
+      "question_count": 24
+    },
+    {
+      "path": "CS/1995.json",
+      "branch": "CS",
+      "year": 1995,
+      "question_count": 50
+    },
+    {
+      "path": "CS/1996.json",
+      "branch": "CS",
+      "year": 1996,
+      "question_count": 50
+    },
+    {
+      "path": "CS/1997.json",
+      "branch": "CS",
+      "year": 1997,
+      "question_count": 50
+    },
+    {
+      "path": "CS/1998.json",
+      "branch": "CS",
+      "year": 1998,
+      "question_count": 55
+    },
+    {
+      "path": "CS/1999.json",
+      "branch": "CS",
+      "year": 1999,
+      "question_count": 50
+    },
+    {
+      "path": "CS/2000.json",
+      "branch": "CS",
+      "year": 2000,
+      "question_count": 49
+    },
+    {
+      "path": "CS/2001.json",
+      "branch": "CS",
+      "year": 2001,
+      "question_count": 50
+    },
+    {
+      "path": "CS/2002.json",
+      "branch": "CS",
+      "year": 2002,
+      "question_count": 52
+    },
+    {
+      "path": "CS/2003.json",
+      "branch": "CS",
+      "year": 2003,
+      "question_count": 91
+    },
+    {
+      "path": "CS/2004.json",
+      "branch": "CS",
+      "year": 2004,
+      "question_count": 95
+    },
+    {
+      "path": "CS/2005.json",
+      "branch": "CS",
+      "year": 2005,
+      "question_count": 93
+    },
+    {
+      "path": "CS/2006.json",
+      "branch": "CS",
+      "year": 2006,
+      "question_count": 86
+    },
+    {
+      "path": "CS/2007.json",
+      "branch": "CS",
+      "year": 2007,
+      "question_count": 89
+    },
+    {
+      "path": "CS/2008.json",
+      "branch": "CS",
+      "year": 2008,
+      "question_count": 93
+    },
+    {
+      "path": "CS/2009.json",
+      "branch": "CS",
+      "year": 2009,
+      "question_count": 60
+    },
+    {
+      "path": "CS/2010.json",
+      "branch": "CS",
+      "year": 2010,
+      "question_count": 68
+    },
+    {
+      "path": "CS/2011.json",
+      "branch": "CS",
+      "year": 2011,
+      "question_count": 67
+    },
+    {
+      "path": "CS/2012.json",
+      "branch": "CS",
+      "year": 2012,
+      "question_count": 68
+    },
+    {
+      "path": "CS/2013.json",
+      "branch": "CS",
+      "year": 2013,
+      "question_count": 68
+    },
+    {
+      "path": "CS/2014.json",
+      "branch": "CS",
+      "year": 2014,
+      "question_count": 210
+    },
+    {
+      "path": "CS/2015.json",
+      "branch": "CS",
+      "year": 2015,
+      "question_count": 207
+    },
+    {
+      "path": "CS/2016.json",
+      "branch": "CS",
+      "year": 2016,
+      "question_count": 136
+    },
+    {
+      "path": "CS/2017.json",
+      "branch": "CS",
+      "year": 2017,
+      "question_count": 139
+    },
+    {
+      "path": "CS/2018.json",
+      "branch": "CS",
+      "year": 2018,
+      "question_count": 69
+    },
+    {
+      "path": "CS/2019.json",
+      "branch": "CS",
+      "year": 2019,
+      "question_count": 69
+    },
+    {
+      "path": "CS/2020.json",
+      "branch": "CS",
+      "year": 2020,
+      "question_count": 67
+    },
+    {
+      "path": "CS/2021.json",
+      "branch": "CS",
+      "year": 2021,
+      "question_count": 133
+    },
+    {
+      "path": "CS/2022.json",
+      "branch": "CS",
+      "year": 2022,
+      "question_count": 69
+    },
+    {
+      "path": "CS/2023.json",
+      "branch": "CS",
+      "year": 2023,
+      "question_count": 69
+    },
+    {
+      "path": "CS/2024.json",
+      "branch": "CS",
+      "year": 2024,
+      "question_count": 130
+    },
+    {
+      "path": "CS/2025.json",
+      "branch": "CS",
+      "year": 2025,
+      "question_count": 130
+    },
+    {
+      "path": "CS/2026.json",
+      "branch": "CS",
+      "year": 2026,
+      "question_count": 130
+    },
+    {
+      "path": "CS/UNMAPPED_YEAR.json",
+      "branch": "CS",
+      "year": null,
+      "question_count": 1029
+    },
+    {
+      "path": "DA/2024.json",
+      "branch": "DA",
+      "year": 2024,
+      "question_count": 65
+    },
+    {
+      "path": "DA/2025.json",
+      "branch": "DA",
+      "year": 2025,
+      "question_count": 65
+    },
+    {
+      "path": "DA/2026.json",
+      "branch": "DA",
+      "year": 2026,
+      "question_count": 65
+    },
+    {
+      "path": "DA/UNMAPPED_YEAR.json",
+      "branch": "DA",
+      "year": null,
+      "question_count": 116
+    },
+    {
+      "path": "EC/2001.json",
+      "branch": "EC",
+      "year": 2001,
+      "question_count": 42
+    },
+    {
+      "path": "EC/2002.json",
+      "branch": "EC",
+      "year": 2002,
+      "question_count": 44
+    },
+    {
+      "path": "EC/2003.json",
+      "branch": "EC",
+      "year": 2003,
+      "question_count": 90
+    },
+    {
+      "path": "EC/2004.json",
+      "branch": "EC",
+      "year": 2004,
+      "question_count": 91
+    },
+    {
+      "path": "EC/2005.json",
+      "branch": "EC",
+      "year": 2005,
+      "question_count": 99
+    },
+    {
+      "path": "EC/2006.json",
+      "branch": "EC",
+      "year": 2006,
+      "question_count": 98
+    },
+    {
+      "path": "EC/2007.json",
+      "branch": "EC",
+      "year": 2007,
+      "question_count": 96
+    },
+    {
+      "path": "EC/2008.json",
+      "branch": "EC",
+      "year": 2008,
+      "question_count": 96
+    },
+    {
+      "path": "EC/2009.json",
+      "branch": "EC",
+      "year": 2009,
+      "question_count": 67
+    },
+    {
+      "path": "EC/2010.json",
+      "branch": "EC",
+      "year": 2010,
+      "question_count": 62
+    },
+    {
+      "path": "EC/2011.json",
+      "branch": "EC",
+      "year": 2011,
+      "question_count": 61
+    },
+    {
+      "path": "EC/2012.json",
+      "branch": "EC",
+      "year": 2012,
+      "question_count": 63
+    },
+    {
+      "path": "EC/2013.json",
+      "branch": "EC",
+      "year": 2013,
+      "question_count": 61
+    },
+    {
+      "path": "EC/2014.json",
+      "branch": "EC",
+      "year": 2014,
+      "question_count": 246
+    },
+    {
+      "path": "EC/2015.json",
+      "branch": "EC",
+      "year": 2015,
+      "question_count": 187
+    },
+    {
+      "path": "EC/2016.json",
+      "branch": "EC",
+      "year": 2016,
+      "question_count": 188
+    },
+    {
+      "path": "EC/2017.json",
+      "branch": "EC",
+      "year": 2017,
+      "question_count": 128
+    },
+    {
+      "path": "EC/2018.json",
+      "branch": "EC",
+      "year": 2018,
+      "question_count": 64
+    },
+    {
+      "path": "EC/2019.json",
+      "branch": "EC",
+      "year": 2019,
+      "question_count": 60
+    },
+    {
+      "path": "EC/2020.json",
+      "branch": "EC",
+      "year": 2020,
+      "question_count": 56
+    },
+    {
+      "path": "EC/2021.json",
+      "branch": "EC",
+      "year": 2021,
+      "question_count": 72
+    },
+    {
+      "path": "EC/2022.json",
+      "branch": "EC",
+      "year": 2022,
+      "question_count": 74
+    },
+    {
+      "path": "EC/2023.json",
+      "branch": "EC",
+      "year": 2023,
+      "question_count": 75
+    },
+    {
+      "path": "EC/2024.json",
+      "branch": "EC",
+      "year": 2024,
+      "question_count": 65
+    },
+    {
+      "path": "EC/2025.json",
+      "branch": "EC",
+      "year": 2025,
+      "question_count": 65
+    },
+    {
+      "path": "EC/2026.json",
+      "branch": "EC",
+      "year": 2026,
+      "question_count": 65
+    },
+    {
+      "path": "EE/2001.json",
+      "branch": "EE",
+      "year": 2001,
+      "question_count": 50
+    },
+    {
+      "path": "EE/2002.json",
+      "branch": "EE",
+      "year": 2002,
+      "question_count": 52
+    },
+    {
+      "path": "EE/2003.json",
+      "branch": "EE",
+      "year": 2003,
+      "question_count": 90
+    },
+    {
+      "path": "EE/2004.json",
+      "branch": "EE",
+      "year": 2004,
+      "question_count": 90
+    },
+    {
+      "path": "EE/2005.json",
+      "branch": "EE",
+      "year": 2005,
+      "question_count": 100
+    },
+    {
+      "path": "EE/2006.json",
+      "branch": "EE",
+      "year": 2006,
+      "question_count": 90
+    },
+    {
+      "path": "EE/2007.json",
+      "branch": "EE",
+      "year": 2007,
+      "question_count": 94
+    },
+    {
+      "path": "EE/2008.json",
+      "branch": "EE",
+      "year": 2008,
+      "question_count": 93
+    },
+    {
+      "path": "EE/2009.json",
+      "branch": "EE",
+      "year": 2009,
+      "question_count": 66
+    },
+    {
+      "path": "EE/2010.json",
+      "branch": "EE",
+      "year": 2010,
+      "question_count": 63
+    },
+    {
+      "path": "EE/2011.json",
+      "branch": "EE",
+      "year": 2011,
+      "question_count": 62
+    },
+    {
+      "path": "EE/2012.json",
+      "branch": "EE",
+      "year": 2012,
+      "question_count": 62
+    },
+    {
+      "path": "EE/2013.json",
+      "branch": "EE",
+      "year": 2013,
+      "question_count": 64
+    },
+    {
+      "path": "EE/2014.json",
+      "branch": "EE",
+      "year": 2014,
+      "question_count": 187
+    },
+    {
+      "path": "EE/2015.json",
+      "branch": "EE",
+      "year": 2015,
+      "question_count": 119
+    },
+    {
+      "path": "EE/2016.json",
+      "branch": "EE",
+      "year": 2016,
+      "question_count": 124
+    },
+    {
+      "path": "EE/2017.json",
+      "branch": "EE",
+      "year": 2017,
+      "question_count": 126
+    },
+    {
+      "path": "EE/2018.json",
+      "branch": "EE",
+      "year": 2018,
+      "question_count": 65
+    },
+    {
+      "path": "EE/2019.json",
+      "branch": "EE",
+      "year": 2019,
+      "question_count": 65
+    },
+    {
+      "path": "EE/2020.json",
+      "branch": "EE",
+      "year": 2020,
+      "question_count": 61
+    },
+    {
+      "path": "EE/2021.json",
+      "branch": "EE",
+      "year": 2021,
+      "question_count": 71
+    },
+    {
+      "path": "EE/2022.json",
+      "branch": "EE",
+      "year": 2022,
+      "question_count": 73
+    },
+    {
+      "path": "EE/2023.json",
+      "branch": "EE",
+      "year": 2023,
+      "question_count": 50
+    },
+    {
+      "path": "EE/2024.json",
+      "branch": "EE",
+      "year": 2024,
+      "question_count": 65
+    },
+    {
+      "path": "EE/2025.json",
+      "branch": "EE",
+      "year": 2025,
+      "question_count": 65
+    },
+    {
+      "path": "EE/2026.json",
+      "branch": "EE",
+      "year": 2026,
+      "question_count": 65
+    },
+    {
+      "path": "IT/2004.json",
+      "branch": "IT",
+      "year": 2004,
+      "question_count": 90
+    },
+    {
+      "path": "IT/2005.json",
+      "branch": "IT",
+      "year": 2005,
+      "question_count": 89
+    },
+    {
+      "path": "IT/2006.json",
+      "branch": "IT",
+      "year": 2006,
+      "question_count": 85
+    },
+    {
+      "path": "IT/2007.json",
+      "branch": "IT",
+      "year": 2007,
+      "question_count": 85
+    },
+    {
+      "path": "IT/2008.json",
+      "branch": "IT",
+      "year": 2008,
+      "question_count": 85
+    },
+    {
+      "path": "ME/2001.json",
+      "branch": "ME",
+      "year": 2001,
+      "question_count": 57
+    },
+    {
+      "path": "ME/2002.json",
+      "branch": "ME",
+      "year": 2002,
+      "question_count": 55
+    },
+    {
+      "path": "ME/2003.json",
+      "branch": "ME",
+      "year": 2003,
+      "question_count": 100
+    },
+    {
+      "path": "ME/2004.json",
+      "branch": "ME",
+      "year": 2004,
+      "question_count": 98
+    },
+    {
+      "path": "ME/2005.json",
+      "branch": "ME",
+      "year": 2005,
+      "question_count": 105
+    },
+    {
+      "path": "ME/2006.json",
+      "branch": "ME",
+      "year": 2006,
+      "question_count": 97
+    },
+    {
+      "path": "ME/2007.json",
+      "branch": "ME",
+      "year": 2007,
+      "question_count": 88
+    },
+    {
+      "path": "ME/2008.json",
+      "branch": "ME",
+      "year": 2008,
+      "question_count": 100
+    },
+    {
+      "path": "ME/2009.json",
+      "branch": "ME",
+      "year": 2009,
+      "question_count": 71
+    },
+    {
+      "path": "ME/2010.json",
+      "branch": "ME",
+      "year": 2010,
+      "question_count": 65
+    },
+    {
+      "path": "ME/2011.json",
+      "branch": "ME",
+      "year": 2011,
+      "question_count": 75
+    },
+    {
+      "path": "ME/2012.json",
+      "branch": "ME",
+      "year": 2012,
+      "question_count": 75
+    },
+    {
+      "path": "ME/2013.json",
+      "branch": "ME",
+      "year": 2013,
+      "question_count": 76
+    },
+    {
+      "path": "ME/2014.json",
+      "branch": "ME",
+      "year": 2014,
+      "question_count": 298
+    },
+    {
+      "path": "ME/2015.json",
+      "branch": "ME",
+      "year": 2015,
+      "question_count": 222
+    },
+    {
+      "path": "ME/2016.json",
+      "branch": "ME",
+      "year": 2016,
+      "question_count": 213
+    },
+    {
+      "path": "ME/2017.json",
+      "branch": "ME",
+      "year": 2017,
+      "question_count": 155
+    },
+    {
+      "path": "ME/2018.json",
+      "branch": "ME",
+      "year": 2018,
+      "question_count": 151
+    },
+    {
+      "path": "ME/2019.json",
+      "branch": "ME",
+      "year": 2019,
+      "question_count": 150
+    },
+    {
+      "path": "ME/2020.json",
+      "branch": "ME",
+      "year": 2020,
+      "question_count": 149
+    },
+    {
+      "path": "ME/2021.json",
+      "branch": "ME",
+      "year": 2021,
+      "question_count": 150
+    },
+    {
+      "path": "ME/2022.json",
+      "branch": "ME",
+      "year": 2022,
+      "question_count": 147
+    },
+    {
+      "path": "ME/2023.json",
+      "branch": "ME",
+      "year": 2023,
+      "question_count": 74
+    },
+    {
+      "path": "ME/2024.json",
+      "branch": "ME",
+      "year": 2024,
+      "question_count": 66
+    },
+    {
+      "path": "ME/2025.json",
+      "branch": "ME",
+      "year": 2025,
+      "question_count": 65
+    },
+    {
+      "path": "ME/2026.json",
+      "branch": "ME",
+      "year": 2026,
+      "question_count": 65
+    },
+    {
+      "path": "UNKNOWN_BRANCH/UNMAPPED_YEAR.json",
+      "branch": "UNKNOWN_BRANCH",
+      "year": null,
+      "question_count": 65
+    }
+  ]
+}
