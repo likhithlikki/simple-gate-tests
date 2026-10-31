@@ -103,7 +103,19 @@ let ALL = [];
 let picked = null;
 let CAND = null;          // { name, email, photo }
 let newPhoto = "";        // PNG data URL chosen on this page (optional)
-const getCand = () => { try { return JSON.parse(localStorage.getItem("candidate")); } catch { return null; } };
+// Storage can be full or blocked: never let that stop the user. Only name+email go to localStorage (tiny);
+// the photo goes to sessionStorage, and is re-fetched from the server when missing.
+const getCand = () => {
+  try {
+    const c = JSON.parse(localStorage.getItem("candidate"));
+    if (c) { try { c.photo = sessionStorage.getItem("candPhoto") || ""; } catch { c.photo = ""; } }
+    return c;
+  } catch { return null; }
+};
+const saveCand = () => {
+  try { localStorage.setItem("candidate", JSON.stringify({ name: CAND.name, email: CAND.email })); } catch {}
+  try { if (CAND.photo) sessionStorage.setItem("candPhoto", CAND.photo); } catch {}
+};
 
 /* ---------- candidate details ---------- */
 function pngToSmall(file) {
@@ -112,7 +124,7 @@ function pngToSmall(file) {
     if (file.size > 8 * 1024 * 1024) return reject(new Error("That image is too large (max 8 MB)."));
     const url = URL.createObjectURL(file), img = new Image();
     img.onload = () => {
-      const k = Math.min(1, 240 / Math.max(img.width, img.height));
+      const k = Math.min(1, 150 / Math.max(img.width, img.height));
       const c = document.createElement("canvas");
       c.width = Math.max(1, Math.round(img.width * k)); c.height = Math.max(1, Math.round(img.height * k));
       c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
@@ -156,7 +168,7 @@ $("idBtn").onclick = async () => {
       r = await API.register({ name, email, photo: newPhoto, confirmRename: true });
     }
     CAND = { name: r.name, email: r.email, photo: r.photo || newPhoto || "" };
-    localStorage.setItem("candidate", JSON.stringify(CAND));
+    saveCand();
     enter();
   } catch (e) {
     $("idMsg").innerHTML = `<div class="notice err">${esc(e.message)}</div>`;
@@ -321,7 +333,14 @@ async function loadQuestions() {
 (() => {
   showLast();
   CAND = getCand();
-  if (CAND && CAND.email) { $("cName").value = CAND.name; $("cMail").value = CAND.email; enter(); }
+  if (CAND && CAND.email) {
+    $("cName").value = CAND.name; $("cMail").value = CAND.email; enter();
+    if (!CAND.photo) {            // photo is not kept in the browser: ask the server for it
+      API.register({ name: CAND.name, email: CAND.email }).then(r => {
+        if (r && r.photo) { CAND.photo = r.photo; saveCand(); $("whoImg").src = r.photo; $("whoImg").hidden = false; }
+      }).catch(() => {});
+    }
+  }
 })();
 </script>
 </body>
