@@ -27,31 +27,33 @@
   <section class="card">
     <details open>
       <summary>Accepted file format</summary>
-      <p class="muted">A <b>.json</b> file. Questions whose id is already in the sheet are <b>not uploaded</b>; the existing row is left as it is. Questions with a problem are listed and skipped.</p>
+      <p class="muted">The GATE question files: one <b>.json</b> per branch and year (for example <code>CS/2020.json</code>). You can pick many files, or a whole folder at once. Questions whose id is already in the sheet are <b>not uploaded</b>; the existing row is left as it is. Questions with a problem are listed and skipped. <code>manifest.json</code>, <code>source-metadata.json</code> and <code>image-source-map.json</code> are ignored.</p>
       <pre class="fmt" id="sample"></pre>
 
       <div class="scroll">
         <table>
           <thead><tr><th>Field</th><th>Needed?</th><th>What to put</th></tr></thead>
           <tbody>
-            <tr><td><code>exam</code></td><td><span class="req">required</span></td><td>Exam name, for example <code>GATE</code>. File level, or taken from a question label like <code>GATE EC 2020</code>.</td></tr>
-            <tr><td><code>branch</code></td><td><span class="req">required</span></td><td>For example <code>EC</code>. File level, or on each question.</td></tr>
-            <tr><td><code>year</code></td><td><span class="req">required</span></td><td>Four digits, for example <code>2020</code>. File level, or on each question.</td></tr>
-            <tr><td><code>subject</code></td><td><span class="req">required</span></td><td>The topic shown in the topic filter. File level, or on each question.</td></tr>
-            <tr><td><code>questions</code></td><td><span class="req">required</span></td><td>List of questions. A question's own exam, branch, year and subject win over the file level ones.</td></tr>
-            <tr><td><code>id</code></td><td><span class="req">required</span></td><td>Unique across the whole sheet. Also the image file name: <code>images/&lt;id&gt;.png</code>.</td></tr>
+            <tr><td><code>exam</code></td><td><span class="req">required</span></td><td>For example <code>GATE</code>. File level.</td></tr>
+            <tr><td><code>branch</code></td><td>file level</td><td>For example <code>CS</code>. If a file has no branch (<code>UNKNOWN_BRANCH</code>), its questions are saved as branch <code>UNKNOWN</code>.</td></tr>
+            <tr><td><code>year</code></td><td>file level</td><td>Four digits. If a file has no year (<code>UNMAPPED_YEAR.json</code>), its questions are saved with year <code>Unmapped</code>.</td></tr>
+            <tr><td><code>subject</code></td><td>file level</td><td>Branch name. Not used as the topic when a question has its own <code>topic</code>.</td></tr>
+            <tr><td><code>questions</code></td><td><span class="req">required</span></td><td>List of questions.</td></tr>
+            <tr><td><code>id</code></td><td><span class="req">required</span></td><td>Unique across the whole sheet, for example <code>cs202001</code>.</td></tr>
+            <tr><td><code>topic</code></td><td>recommended</td><td>Shown in the topic filter, and each topic becomes a section in the exam. Empty means <code>Unclassified</code>.</td></tr>
             <tr><td><code>question_type</code></td><td><span class="req">required</span></td><td><code>MCQ</code> (one answer), <code>MSQ</code> (many answers) or <code>NAT</code> (numeric).</td></tr>
             <tr><td><code>marks</code></td><td><span class="req">required</span></td><td>A number above 0.</td></tr>
-            <tr><td><code>question</code></td><td><span class="req">required</span></td><td>The question text.</td></tr>
-            <tr><td><code>options</code></td><td>MCQ and MSQ only</td><td>An object <code>{"A": "...", "B": "..."}</code> or a list. Use <code>null</code> for NAT.</td></tr>
+            <tr><td><code>question</code></td><td><span class="req">required</span></td><td>The question text. Formulas go between <code>[latex]</code> and <code>[/latex]</code>. May be empty only if the question has an image.</td></tr>
+            <tr><td><code>options</code></td><td>MCQ and MSQ only</td><td>An object <code>{"A": "...", "B": "..."}</code>. Use <code>null</code> for NAT. An option may be empty if it has an image.</td></tr>
             <tr><td><code>negative_marks</code></td><td>optional</td><td>Marks lost for a wrong MCQ answer. Default 0.</td></tr>
-            <tr><td><code>answer</code></td><td>optional</td><td><code>"B"</code>, <code>"A;C"</code> (MSQ), <code>"3.5"</code> or a range <code>"3.4 to 3.6"</code> (NAT). Empty means the question is not scored.</td></tr>
-            <tr><td><code>images</code></td><td>optional</td><td>A list. If it is not empty, the exam shows the image named after the id.</td></tr>
-            <tr><td><code>question_number</code>, <code>answer_format</code>, <code>explanation</code>, <code>source_page</code>, <code>answer_status</code></td><td>optional</td><td>Kept as they are.</td></tr>
+            <tr><td><code>answer</code></td><td>optional</td><td><code>"B"</code>, <code>"A;C"</code> (MSQ), <code>"3.5"</code> or a range <code>"3.4 to 3.6"</code> (NAT). Empty (<code>null</code>) means the question is not scored.</td></tr>
+            <tr><td><code>images</code></td><td>optional</td><td>A list of paths. <code>images/questions/&lt;id&gt;_01.jpg</code> shows under the question text. <code>images/options/&lt;id&gt;_A_01.jpg</code> shows inside option A. The files are loaded from your GitHub images folder (see <code>IMAGE_BASE</code> in config.js).</td></tr>
+            <tr><td><code>question_number</code>, <code>answer_format</code>, <code>explanation</code></td><td>optional</td><td>Kept as they are.</td></tr>
+            <tr><td><code>variant</code>, <code>has_images</code>, <code>image_type</code></td><td>ignored</td><td>Not needed by the site.</td></tr>
           </tbody>
         </table>
       </div>
-      <p class="muted">Also accepted: a list of such objects (several exams in one file), or one flat list of questions where every question carries its own exam, branch, year and subject.</p>
+      <p class="muted">Also accepted: a list of such objects (several exams in one file), or one flat list of questions where every question carries its own exam, branch, year and topic.</p>
       <button class="btn" id="sampleBtn">Download sample file</button>
     </details>
   </section>
@@ -60,6 +62,10 @@
     <div class="drop">
       <label for="files">Question files</label>
       <input id="files" type="file" accept=".json,application/json" multiple>
+    </div>
+    <div class="drop" style="margin-top:.8rem">
+      <label for="folder">…or a whole folder (for example the GATE-Questions-By-Branch folder)</label>
+      <input id="folder" type="file" webkitdirectory multiple>
     </div>
     <div id="msg" style="margin-top:1rem"></div>
   </section>
@@ -88,26 +94,29 @@
 <script>
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-const text = v => (v === null || v === undefined) ? "" : String(v);
 let toUpload = [];
 
 if (API.isDemo()) {
-  $("modeNote").innerHTML = '<div class="notice">Demo mode: uploads are saved in this browser only, and the browser can hold about 5 MB. For a large file, set <code>API_URL</code> in config.js first.</div>';
+  $("modeNote").innerHTML = '<div class="notice">Demo mode: uploads are saved in this browser only, and the browser can hold about 5 MB. The full GATE set is about 24 MB, so set <code>API_URL</code> in config.js first.</div>';
 }
 
-/* ---------- sample + format ---------- */
+/* ---------- sample file ---------- */
 const SAMPLE = {
-  exam: "GATE", branch: "EC", year: 2020, subject: "Digital Circuits",
+  exam: "GATE", branch: "CS", year: 2020, subject: "Computer Science and Information Technology",
   questions: [
     {
-      id: "adc-and-dace7ef-q6", question_number: 6, question_type: "NAT", answer_format: "numeric",
-      marks: 1, negative_marks: 0, question: "A 10-bit D/A converter is calibrated over the full range from 0 to 10 V. If the input is 13A (hex), the output is ______ V.",
-      options: null, answer: "3.056", explanation: null, images: [],
+      id: "cs202002", question_number: 2, question_type: "MCQ", answer_format: "option",
+      marks: 1, negative_marks: 0.33,
+      question: "For parameters a and b, T(n)=T(n^{1/a})+1 and T(b)=1. Then T(n) is [latex]\\Theta(\\log_a \\log_b n)[/latex] for:",
+      options: { A: "III only", B: "II only", C: "II and III only", D: "I and III only" },
+      answer: null, explanation: null, images: [], topic: "Recurrence Relation",
     },
     {
-      id: "flipflop-q7", question_number: 7, question_type: "MCQ", answer_format: "option",
-      marks: 1, negative_marks: 0.33, question: "A flip-flop that toggles when J = K = 1 is a:",
-      options: { A: "SR", B: "JK", C: "D", D: "T" }, answer: "B", explanation: null, images: [],
+      id: "cs202010", question_number: 10, question_type: "MCQ", answer_format: "option",
+      marks: 2, negative_marks: 0.67, question: "Consider the circuit in the figure. The output is:",
+      options: { A: "", B: "", C: "", D: "" }, answer: null, explanation: null,
+      images: ["images/questions/cs202010_01.jpg", "images/options/cs202010_A_01.jpg", "images/options/cs202010_B_01.jpg", "images/options/cs202010_C_01.jpg", "images/options/cs202010_D_01.jpg"],
+      topic: "Digital Logic",
     },
   ],
 };
@@ -120,86 +129,34 @@ $("sampleBtn").onclick = () => {
   URL.revokeObjectURL(a.href);
 };
 
-/* ---------- reading a file ---------- */
-function labelParts(s) {
-  const m = String(s || "").match(/^\s*([A-Za-z]+)\s+([A-Za-z]+)\s+(\d{4})\s*$/);
-  return m ? { exam: m[1], branch: m[2], year: +m[3] } : {};
+/* ---------- checking that images really load from GitHub ---------- */
+function probeImages(paths) {
+  // loads a few random images and reports how many were found
+  const pick = [...paths].sort(() => Math.random() - 0.5).slice(0, 8);
+  return Promise.all(pick.map(p => new Promise(res => {
+    const im = new Image();
+    im.onload = () => res({ p, ok: true });
+    im.onerror = () => res({ p, ok: false });
+    im.src = IMG.url(p);
+  })));
 }
 
-// returns [{ ctx, q }]
-function extract(data) {
-  const out = [];
-  const block = b => {
-    if (!b || !Array.isArray(b.questions)) return false;
-    b.questions.forEach(q => out.push({ ctx: b, q }));
-    return true;
-  };
-  if (Array.isArray(data)) {
-    data.forEach(item => { if (!block(item) && item && typeof item === "object" && "question" in item) out.push({ ctx: {}, q: item }); });
-  } else block(data);
-  return out;
-}
-
-function build({ ctx, q }) {
-  const errs = [];
-  const lab = labelParts(q.exam);
-  const exam = ctx.exam || lab.exam || (q.exam && !/\s/.test(q.exam) ? q.exam : "");
-  const branch = q.branch || ctx.branch || lab.branch || "";
-  const year = q.year || ctx.year || lab.year || "";
-  const subject = q.subject || ctx.subject || "";
-  const type = String(q.question_type || "").toUpperCase();
-  const id = text(q.id).trim();
-
-  if (!id) errs.push("no id");
-  if (!["MCQ", "MSQ", "NAT"].includes(type)) errs.push(`question_type must be MCQ, MSQ or NAT (got "${text(q.question_type)}")`);
-  if (!(Number(q.marks) > 0)) errs.push("marks must be a number above 0");
-  if (!text(q.question).trim()) errs.push("question text is empty");
-  if (!exam) errs.push("exam is missing");
-  if (!branch) errs.push("branch is missing");
-  if (!/^\d{4}$/.test(String(year))) errs.push("year must have 4 digits");
-  if (!subject) errs.push("subject is missing");
-  if ((type === "MCQ" || type === "MSQ")) {
-    const o = q.options;
-    const n = !o ? 0 : Array.isArray(o) ? o.length : Object.keys(o).length;
-    if (n < 2) errs.push("MCQ/MSQ needs at least 2 options");
-  }
-  if (errs.length) return { id, errs };
-
-  return {
-    id, errs,
-    row: {
-      id, exam, branch, year: Number(year), subject,
-      question_number: q.question_number ?? "",
-      question_type: type,
-      answer_format: q.answer_format || (type === "NAT" ? "numeric" : "option"),
-      marks: Number(q.marks),
-      negative_marks: Number(q.negative_marks) || 0,
-      exam_label: /\s/.test(text(q.exam)) ? q.exam : `${exam} ${branch} ${year}`,
-      question: text(q.question),
-      options: q.options ? JSON.stringify(q.options) : "",
-      answer: Array.isArray(q.answer) ? q.answer.join(";") : text(q.answer),
-      explanation: text(q.explanation),
-      images: JSON.stringify(q.images || []),
-      source_page: text(q.source_page),
-      answer_status: text(q.answer_status),
-    },
-  };
-}
-
-/* ---------- choosing files ---------- */
-$("files").addEventListener("change", async e => {
-  const files = [...e.target.files];
+/* ---------- reading files ---------- */
+async function loadFiles(list) {
+  const all = [...list].filter(f => /\.json$/i.test(f.name));
   toUpload = [];
   $("msg").innerHTML = "";
   $("previewCard").hidden = true;
-  if (!files.length) return;
-  $("msg").innerHTML = '<div class="notice">Reading files…</div>';
+  if (!all.length) { if (list.length) $("msg").innerHTML = '<div class="notice err">No .json files found in that selection.</div>'; return; }
+  $("msg").innerHTML = `<div class="notice">Reading ${all.length} file(s)…</div>`;
 
   const fileProblems = [];
   const items = [];
-  for (const f of files) {
+  let ignoredSide = 0;
+  for (const f of all) {
+    if (Importer.SIDE_FILES.test(f.webkitRelativePath || f.name)) { ignoredSide++; continue; }
     try {
-      const found = extract(JSON.parse(await f.text()));
+      const found = Importer.extract(JSON.parse(await f.text()));
       if (!found.length) fileProblems.push(`${f.name}: no questions found. Check the format above.`);
       items.push(...found);
     } catch (err) {
@@ -215,20 +172,26 @@ $("files").addEventListener("change", async e => {
   }
 
   const invalid = [];
-  let dupInFile = 0, dupInSheet = 0, noKey = 0, withImg = 0;
+  let dupInFile = 0, dupInSheet = 0, noKey = 0, withImg = 0, unmapped = 0;
+  const imgPaths = [];
   const seen = new Set();
   items.forEach((it, i) => {
-    const r = build(it);
+    const r = Importer.build(it);
     if (r.errs.length) { invalid.push(`${r.id || "question #" + (i + 1)}: ${r.errs.join("; ")}`); return; }
     if (seen.has(r.id)) { dupInFile++; return; }
     seen.add(r.id);
     if (existing.has(r.id)) { dupInSheet++; return; }
     if (!r.row.answer) noKey++;
-    if (JSON.parse(r.row.images).length) withImg++;
+    if (r.row.year === "Unmapped" || r.row.branch === "UNKNOWN") unmapped++;
+    const imgs = JSON.parse(r.row.images);
+    if (imgs.length) { withImg++; imgPaths.push(...imgs); }
     toUpload.push(r.row);
   });
 
-  $("msg").innerHTML = fileProblems.length ? `<div class="notice err">${fileProblems.map(esc).join("<br>")}</div>` : "";
+  const msgs = [];
+  if (fileProblems.length) msgs.push(`<div class="notice err">${fileProblems.map(esc).join("<br>")}</div>`);
+  if (ignoredSide) msgs.push(`<div class="notice">${ignoredSide} side file(s) ignored (manifest / source-metadata / image-source-map).</div>`);
+  $("msg").innerHTML = msgs.join("");
   if (!items.length) return;
 
   // summary by exam + branch
@@ -238,8 +201,10 @@ $("files").addEventListener("change", async e => {
     g.years.add(r.year); g.subjects.add(r.subject); g.n++;
   });
   $("groupRows").innerHTML = Object.values(groups).map(g => {
-    const ys = [...g.years].sort();
-    return `<tr><td>${esc(g.exam)}</td><td>${esc(g.branch)}</td><td>${ys.length > 4 ? ys[0] + " to " + ys[ys.length - 1] : ys.join(", ")}</td><td class="num">${g.subjects.size}</td><td class="num">${g.n}</td></tr>`;
+    const ys = [...g.years].filter(y => typeof y === "number").sort((a, b) => a - b);
+    let yTxt = ys.length > 4 ? ys[0] + " to " + ys[ys.length - 1] : ys.join(", ");
+    if (g.years.has("Unmapped")) yTxt += (yTxt ? ", " : "") + "Unmapped";
+    return `<tr><td>${esc(g.exam)}</td><td>${esc(g.branch)}</td><td>${esc(yTxt)}</td><td class="num">${g.subjects.size}</td><td class="num">${g.n}</td></tr>`;
   }).join("") || '<tr><td colspan="5" class="muted">Nothing new to upload.</td></tr>';
 
   $("totals").innerHTML =
@@ -250,15 +215,28 @@ $("files").addEventListener("change", async e => {
 
   const notes = [];
   if (invalid.length) notes.push(`<div class="notice err"><b>${invalid.length} invalid question(s) will not be uploaded.</b><ul class="errs">${invalid.slice(0, 10).map(x => `<li>${esc(x)}</li>`).join("")}</ul>${invalid.length > 10 ? `<div class="muted">…and ${invalid.length - 10} more.</div>` : ""}</div>`);
-  if (noKey) notes.push(`<div class="notice">${noKey} new question(s) have no answer. They upload, but are not scored in exams.</div>`);
+  if (noKey) notes.push(`<div class="notice">${noKey} new question(s) have no answer. They upload and can be practised, but are not scored in exams.</div>`);
+  if (unmapped) notes.push(`<div class="notice">${unmapped} new question(s) come from files with no year or no branch. They are saved as year <code>Unmapped</code> / branch <code>UNKNOWN</code> and show up under those names in the filters.</div>`);
   $("warnings").innerHTML = notes.join("");
-  $("imgNote").textContent = withImg ? `${withImg} new question(s) have images. Put them in the images folder on GitHub as <question id>.png (or .jpg, .jpeg, .webp).` : "";
 
+  $("imgNote").textContent = withImg
+    ? `${withImg} new question(s) have images (${imgPaths.length} files). Checking that they load from ${CONFIG.IMAGE_BASE || "this site's own images folder"}…`
+    : "";
   $("uploadBtn").disabled = toUpload.length === 0;
   $("previewCard").hidden = false;
-});
 
-$("clearBtn").onclick = () => { toUpload = []; $("files").value = ""; $("previewCard").hidden = true; $("msg").innerHTML = ""; };
+  if (imgPaths.length) {
+    const res = await probeImages(imgPaths);
+    const ok = res.filter(r => r.ok).length, bad = res.filter(r => !r.ok);
+    $("imgNote").innerHTML = ok === res.length
+      ? `${withImg} new question(s) have images (${imgPaths.length} files). Test of ${res.length} random images: all loaded.`
+      : `<span style="color:var(--bad)"><b>${bad.length} of ${res.length} test images did not load</b> (for example <code>${esc(IMG.url(bad[0].p))}</code>).</span> Upload the <code>images</code> folder to GitHub and check <code>IMAGE_BASE</code> in config.js. You can still upload the questions now; images start working as soon as the files are there.`;
+  }
+}
+$("files").addEventListener("change", e => loadFiles(e.target.files));
+$("folder").addEventListener("change", e => loadFiles(e.target.files));
+
+$("clearBtn").onclick = () => { toUpload = []; $("files").value = ""; $("folder").value = ""; $("previewCard").hidden = true; $("msg").innerHTML = ""; };
 
 /* ---------- upload ---------- */
 $("uploadBtn").onclick = async () => {
@@ -275,9 +253,9 @@ $("uploadBtn").onclick = async () => {
       prog.value = Math.min(toUpload.length, i + BATCH);
     }
     $("msg").innerHTML = `<div class="notice ok">Upload finished: ${added} added, ${skipped} skipped because the id already existed.</div>`;
-    toUpload = []; $("files").value = ""; $("previewCard").hidden = true;
+    toUpload = []; $("files").value = ""; $("folder").value = ""; $("previewCard").hidden = true;
   } catch (err) {
-    $("msg").innerHTML = `<div class="notice err">Upload stopped after ${added} added: ${esc(err.message)}<br>Choose the file again. Questions already added are skipped automatically, so nothing is duplicated.</div>`;
+    $("msg").innerHTML = `<div class="notice err">Upload stopped after ${added} added: ${esc(err.message)}<br>Choose the files again. Questions already added are skipped automatically, so nothing is duplicated.</div>`;
     btn.disabled = false;
   }
   prog.hidden = true;

@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light">
 <title>GATE Practice Exam</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
 <style>
   * { box-sizing: border-box; }
   html, body { height: 100%; margin: 0; }
@@ -45,6 +46,12 @@
   .opt { display: flex; align-items: flex-start; gap: 8px; padding: 7px 4px; font-size: 16px; cursor: pointer; line-height: 1.5; }
   .opt input { margin-top: 5px; }
   .opt .t { white-space: pre-wrap; }
+  .opt .t:empty { display: none; }
+  .opt .ob { display: flex; flex-direction: column; gap: 6px; align-items: flex-start; }
+  .oimg { max-width: 100%; max-height: 260px; height: auto; display: block; border: 1px solid #ddd; background: #fff; }
+  .imgmiss { border: 1px dashed #c0392b; color: #c0392b; background: #fdf3f2; padding: 8px 10px; font-size: 12px; margin: 6px 0; word-break: break-all; user-select: text; }
+  .tex { white-space: normal; }
+  .qp .qi .qimg, .qp .qi .oimg { max-height: 220px; width: auto; }
   .natbox { width: 280px; font-size: 20px; padding: 6px 8px; border: 1px solid #777; background: #fff; color: #000; text-align: left; height: 40px; }
   .keypad { display: grid; grid-template-columns: repeat(3, 58px); gap: 6px; margin-top: 10px; }
   .keypad button { height: 40px; font-size: 16px; font-weight: bold; background: #f3f3f3; border: 1px solid #8f8f8f; border-radius: 2px; cursor: pointer; }
@@ -263,6 +270,7 @@
 <div class="ov" id="timeUp" hidden><div class="ovbox"><h2>Time is up</h2><p>Your exam is being submitted automatically.</p></div></div>
 
 <script src="config.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
 <script src="api.js"></script>
 <script>
 const $ = id => document.getElementById(id);
@@ -451,9 +459,9 @@ function render() {
   box.scrollTop = 0;
   const t = document.createElement("div");
   t.className = "qtext";
-  t.textContent = q.question;
+  richText(t, q.question);
   box.append(t);
-  if (q.images && q.images.length) box.append(questionImage(q.id));
+  IMG.forQuestion(q).forEach(p => box.append(IMG.el(p, "qimg")));
 
   const given = S.answers[i] || "";
   if (type === "NAT") {
@@ -499,8 +507,11 @@ function render() {
         palRender();
       };
       const k = document.createElement("b"); k.textContent = `(${o.key})`;
-      const tx = document.createElement("span"); tx.className = "t"; tx.textContent = o.text;
-      lab.append(inp, k, tx);
+      const ob = document.createElement("div"); ob.className = "ob";
+      const tx = document.createElement("span"); tx.className = "t"; richText(tx, o.text);
+      ob.append(tx);
+      IMG.forOption(q, o.key).forEach(p => ob.append(IMG.el(p, "oimg")));
+      lab.append(inp, k, ob);
       box.append(lab);
     });
   }
@@ -565,10 +576,15 @@ $("qpBtn").onclick = () => {
       const d = document.createElement("div"); d.className = "qi";
       const t = document.createElement("div"); t.className = "qt";
       t.innerHTML = `<b>Q.${n + 1}</b> <span style="color:#555">[${type}, ${fmtNum(q.marks)} mark${q.marks === 1 ? "" : "s"}]</span> `;
-      t.append(document.createTextNode(q.question));
+      const qs = document.createElement("span"); richText(qs, q.question); t.append(qs);
       d.append(t);
-      if (q.images && q.images.length) d.append(questionImage(q.id));
-      if (type !== "NAT") optionList(q).forEach(o => { const p = document.createElement("div"); p.className = "qo"; p.textContent = `(${o.key}) ${o.text}`; d.append(p); });
+      IMG.forQuestion(q).forEach(pth => d.append(IMG.el(pth, "qimg")));
+      if (type !== "NAT") optionList(q).forEach(o => {
+        const p = document.createElement("div"); p.className = "qo";
+        p.append(`(${o.key}) `); const os = document.createElement("span"); richText(os, o.text); p.append(os);
+        IMG.forOption(q, o.key).forEach(pth => p.append(IMG.el(pth, "oimg")));
+        d.append(p);
+      });
       body.append(d);
     });
   });

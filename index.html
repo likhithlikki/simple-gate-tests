@@ -80,7 +80,8 @@ function fillBranches() {
 }
 function byBranch() { return ALL.filter(r => branchKey(r) === $("branch").value); }
 function fillYears() {
-  const years = uniq(byBranch().map(r => r.year)).sort((a, b) => b - a);
+  // real years newest first, then "Unmapped"
+  const years = uniq(byBranch().map(r => r.year)).sort((a, b) => (typeof a === "number" && typeof b === "number") ? b - a : (typeof a === "number" ? -1 : typeof b === "number" ? 1 : 0));
   $("year").innerHTML = `<option value="all">All years</option>` + years.map(y => `<option>${y}</option>`).join("");
   fillTopics();
 }

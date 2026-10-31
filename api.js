@@ -30,7 +30,7 @@ const API = (() => {
 
   function normalize(r) {
     const o = { ...r };
-    o.year = Number(r.year);
+    o.year = /^\d+$/.test(String(r.year).trim()) ? Number(r.year) : String(r.year || "Unmapped");
     o.marks = Number(r.marks) || 1;
     o.negative_marks = Number(r.negative_marks) || 0;
     o.question_type = String(r.question_type || "").toUpperCase();
@@ -125,18 +125,155 @@ const API = (() => {
   };
 })();
 
-// Image helper: tries images/<id>.png, .jpg, .jpeg, .webp in order
-function questionImage(id) {
-  const img = document.createElement("img");
-  const exts = [...CONFIG.IMAGE_EXTS];
-  const next = () => {
-    const e = exts.shift();
-    if (!e) { img.remove(); return; }
-    img.src = `${CONFIG.IMAGE_DIR}${encodeURIComponent(id)}.${e}`;
-  };
-  img.onerror = next;
-  img.alt = "Question figure";
-  img.className = "qimg";
-  next();
-  return img;
+/* ------------------------------------------------------------------
+   Images. A question's "images" list holds exact paths from the JSON:
+     images/questions/<id>_<n>.<ext>          -> shown under the question text
+     images/options/<id>_<label>_<n>.<ext>    -> shown inside option <label>
+   Every path is loaded from CONFIG.IMAGE_BASE + path (your GitHub images folder).
+------------------------------------------------------------------- */
+const IMG = {
+  url(p) {
+    p = String(p || "").trim();
+    if (/^(https?:)?\/\//i.test(p)) return p;
+    return (CONFIG.IMAGE_BASE || "") + p.replace(/^\.?\//, "").split("/").map(encodeURIComponent).join("/");
+  },
+  paths(q) { return (Array.isArray(q.images) ? q.images : []).filter(p => typeof p === "string" && p.trim()); },
+  isOption(p) { return /(^|\/)options\//i.test(p); },
+  forQuestion(q) { return IMG.paths(q).filter(p => !IMG.isOption(p)); },
+  forOption(q, key) {
+    const prefix = `${String(q.id).toLowerCase()}_${String(key).toLowerCase()}_`;
+    return IMG.paths(q).filter(p => IMG.isOption(p) && p.split("/").pop().toLowerCase().startsWith(prefix));
+  },
+  el(path, cls) {
+    const img = document.createElement("img");
+    img.className = cls || "qimg";
+    img.alt = "Figure";
+    img.loading = "lazy";
+    img.referrerPolicy = "no-referrer";
+    img.onerror = () => {
+      const m = document.createElement("div");
+      m.className = "imgmiss";
+      m.textContent = "Image not found: " + path;
+      img.replaceWith(m);
+    };
+    img.src = IMG.url(path);
+    return img;
+  },
+};
+
+/* ------------------------------------------------------------------
+   Text. Question text can contain [latex]...[/latex]; everything else is
+   plain text (so things like <stdio.h> show as typed). Needs KaTeX on the
+   page (exam.html loads it); without it the raw formula is shown.
+------------------------------------------------------------------- */
+function fixTex(tex) {
+  tex = String(tex).trim();
+  // Some formulas were double-escaped (\\lt, \\Delta). A "\\" right before a known command name is not a line break.
+  // Only known names are touched, so real row breaks such as "x+y=1 \\ax-ay=5" stay as they are.
+  if (!/\\begin\{/.test(tex)) tex = tex.replace(DOUBLE_ESCAPED, "\\$1");
+  return tex;
 }
+const DOUBLE_ESCAPED = /\\\\(lt|gt|le|ge|leq|geq|ne|neq|infty|pm|mp|times|cdot|approx|to|rightarrow|Delta|delta|alpha|beta|gamma|theta|lambda|mu|pi|sigma|omega|Omega|phi|epsilon|rho|tau|partial|nabla|sum|int|frac|sqrt|text|dot|ddot|hat|vec|bar)(?![A-Za-z])/g;
+function texNode(tex) {
+  const span = document.createElement("span");
+  span.className = "tex";
+  tex = fixTex(tex);
+  if (window.katex) {
+    try { window.katex.render(tex, span, { throwOnError: false, strict: "ignore", output: "html" }); return span; }
+    catch (e) { /* fall through to raw text */ }
+  }
+  span.textContent = tex;
+  return span;
+}
+function richText(el, s) {
+  s = String(s ?? "");
+  el.textContent = "";
+  const re = /\[latex\]([\s\S]*?)\[\/latex\]/gi;
+  let last = 0, m;
+  while ((m = re.exec(s))) {
+    if (m.index > last) el.append(s.slice(last, m.index));
+    el.append(texNode(m[1]));
+    last = re.lastIndex;
+  }
+  if (last < s.length) el.append(s.slice(last));
+}
+
+/* ------------------------------------------------------------------
+   Importer: turns an uploaded JSON file into sheet rows (no DOM, no network).
+   Accepts the GATE format:  { exam, branch, year, subject, questions: [ {id, topic, images, ...} ] }
+   and the older shapes (list of such objects, or one flat list of questions).
+------------------------------------------------------------------- */
+const Importer = (() => {
+  const text = v => (v === null || v === undefined) ? "" : String(v);
+  // files that sit next to the question files but hold no questions
+  const SIDE_FILES = /(^|\/)(manifest|source-metadata|image-source-map)\.json$/i;
+
+  function labelParts(s) {
+    const m = String(s || "").match(/^\s*([A-Za-z]+)\s+([A-Za-z]+)\s+(\d{4})\s*$/);
+    return m ? { exam: m[1], branch: m[2], year: +m[3] } : {};
+  }
+
+  // returns [{ ctx, q }]
+  function extract(data) {
+    const out = [];
+    const block = b => {
+      if (!b || !Array.isArray(b.questions)) return false;
+      b.questions.forEach(q => out.push({ ctx: b, q }));
+      return true;
+    };
+    if (Array.isArray(data)) {
+      data.forEach(item => { if (!block(item) && item && typeof item === "object" && "question" in item) out.push({ ctx: {}, q: item }); });
+    } else block(data);
+    return out;
+  }
+
+  function build({ ctx, q }) {
+    const errs = [];
+    const lab = labelParts(q.exam);
+    const exam = ctx.exam || lab.exam || (q.exam && !/\s/.test(q.exam) ? q.exam : "");
+    const branch = text(q.branch || ctx.branch || lab.branch).trim() || "UNKNOWN";            // file with no branch -> UNKNOWN
+    const year = q.year || ctx.year || lab.year || "Unmapped";                                  // file with no year  -> Unmapped
+    // topic filter + exam sections come from the question's own "topic"
+    const subject = text(q.topic).trim() || text(q.subject).trim() ||
+      ("topic" in q ? "Unclassified" : text(ctx.subject).trim());
+    const type = String(q.question_type || "").toUpperCase();
+    const id = text(q.id).trim();
+
+    if (!id) errs.push("no id");
+    if (!["MCQ", "MSQ", "NAT"].includes(type)) errs.push(`question_type must be MCQ, MSQ or NAT (got "${text(q.question_type)}")`);
+    if (!(Number(q.marks) > 0)) errs.push("marks must be a number above 0");
+    const hasImages = Array.isArray(q.images) && q.images.some(p => typeof p === "string" && p.trim());
+    if (!text(q.question).trim() && !hasImages) errs.push("question text is empty and there is no image");
+    if (!exam) errs.push("exam is missing");
+    if (!/^\d{4}$/.test(String(year)) && year !== "Unmapped") errs.push("year must have 4 digits");
+    if (!subject) errs.push("topic/subject is missing");
+    if (type === "MCQ" || type === "MSQ") {
+      const o = q.options;
+      const n = !o ? 0 : Array.isArray(o) ? o.length : Object.keys(o).length;
+      if (n < 2) errs.push(`${type} needs at least 2 options (this one has ${n}; if it is really a numeric question, set question_type to NAT)`);
+    }
+    if (errs.length) return { id, errs };
+
+    const images = (Array.isArray(q.images) ? q.images : []).filter(p => typeof p === "string" && p.trim());
+    return {
+      id, errs,
+      row: {
+        id, exam, branch, year: /^\d{4}$/.test(String(year)) ? Number(year) : "Unmapped", subject,
+        question_number: q.question_number ?? "",
+        question_type: type,
+        answer_format: q.answer_format || (type === "NAT" ? "numeric" : "option"),
+        marks: Number(q.marks),
+        negative_marks: Number(q.negative_marks) || 0,
+        exam_label: /\s/.test(text(q.exam)) ? q.exam : `${exam} ${branch} ${year}`,
+        question: text(q.question),
+        options: q.options ? JSON.stringify(q.options) : "",
+        answer: Array.isArray(q.answer) ? q.answer.join(";") : text(q.answer),
+        explanation: text(q.explanation),
+        images: JSON.stringify(images),
+        source_page: text(q.source_page),
+        answer_status: text(q.answer_status),
+      },
+    };
+  }
+  return { text, SIDE_FILES, labelParts, extract, build };
+})();
