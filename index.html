@@ -56,7 +56,16 @@
         <div><label for="branch">Branch</label><select id="branch"></select></div>
         <div><label for="year">Year</label><select id="year"></select></div>
         <div><label for="topic">Topic</label><select id="topic"></select></div>
-        <div><label for="count">Number of questions</label><input id="count" type="number" min="1" value="10"></div>
+        <div><label for="mode">Test type</label><select id="mode">
+          <option value="full">Full GATE paper (65 questions, 100 marks, 3 hours)</option>
+          <option value="custom">Custom test</option>
+        </select></div>
+        <div id="mtypeBox"><label for="mtype">Marks</label><select id="mtype">
+          <option value="mix">Mix of 1 and 2 marks (GATE ratio)</option>
+          <option value="1">Only 1-mark questions</option>
+          <option value="2">Only 2-mark questions</option>
+        </select></div>
+        <div id="countBox"><label for="count">Number of questions</label><input id="count" type="number" min="1" value="10"></div>
       </div>
       <div class="avail" id="avail"></div>
       <button class="btn primary" id="startBtn">Start test</button>
@@ -216,8 +225,60 @@ function fillTopics() {
 }
 function filtered() { const t = $("topic").value; return byYear().filter(r => t === "all" || r.subject === t); }
 
+/* GATE paper pattern: General Aptitude 5x1 + 5x2 marks, core 25x1 + 30x2 marks (65 questions, 100 marks) */
+const NEED = { ga1: 5, ga2: 5, c1: 25, c2: 30 };
+const NEED_TOTAL = 65;
+const LABEL = { ga1: "Aptitude 1-mark", ga2: "Aptitude 2-mark", c1: "Core 1-mark", c2: "Core 2-mark" };
+
+function buckets(pool) {
+  const b = { ga1: [], ga2: [], c1: [], c2: [] };
+  pool.forEach(r => {
+    const m = Number(r.marks), k = (isGASubject(r.subject) ? "ga" : "c") + m;
+    if (b[k]) b[k].push(r);
+  });
+  return b;
+}
+// full paper pool: topic filter applies to the core part only, aptitude is always all aptitude questions of the year
+function fullPool() {
+  const t = $("topic").value;
+  return byYear().filter(r => isGASubject(r.subject) || t === "all" || r.subject === t);
+}
+// split n questions over the 4 groups in the GATE ratio, limited by what is available
+function alloc(n, have) {
+  const keys = Object.keys(NEED), a = {};
+  let used = 0;
+  keys.forEach(k => { a[k] = Math.min(have[k], Math.floor(n * NEED[k] / NEED_TOTAL)); used += a[k]; });
+  const order = keys.slice().sort((x, y) => ((n * NEED[y] / NEED_TOTAL) % 1) - ((n * NEED[x] / NEED_TOTAL) % 1));
+  let left = n - used;
+  while (left > 0) {
+    let moved = false;
+    for (const k of order) if (left > 0 && a[k] < have[k]) { a[k]++; left--; moved = true; }
+    if (!moved) break;
+  }
+  return a;
+}
+const customPool = () => {
+  const t = $("mtype").value, pool = filtered();
+  return t === "mix" ? pool.filter(r => [1, 2].includes(Number(r.marks))) : pool.filter(r => Number(r.marks) === Number(t));
+};
+
 function update() {
-  const n = filtered().length;
+  const full = $("mode").value === "full";
+  $("mtypeBox").hidden = full; $("countBox").hidden = full;
+  if (full) {
+    const B = buckets(fullPool());
+    const parts = Object.keys(NEED).map(k => {
+      const short = B[k].length < NEED[k];
+      return `<span style="${short ? "color:var(--bad)" : ""}">${LABEL[k]}: <b>${B[k].length}</b> / ${NEED[k]}</span>`;
+    });
+    const short = Object.keys(NEED).some(k => B[k].length < NEED[k]);
+    $("avail").innerHTML = parts.join(" &nbsp;|&nbsp; ") + (short ? "<br>Not enough questions for a full paper in some groups. The test will use what is available." : "");
+    $("startBtn").disabled = Object.keys(NEED).every(k => B[k].length === 0);
+    return;
+  }
+  const pool = customPool();
+  let n = pool.length;
+  if ($("mtype").value === "mix") { const B = buckets(pool); n = Object.keys(NEED).reduce((s, k) => s + B[k].length, 0); }
   $("avail").innerHTML = `<b>${n}</b> question${n === 1 ? "" : "s"} available`;
   $("count").max = n;
   if (+$("count").value > n) $("count").value = n || 1;
@@ -227,15 +288,31 @@ function update() {
 $("branch").onchange = fillYears;
 $("year").onchange = fillTopics;
 $("topic").onchange = update;
+$("mode").onchange = update;
+$("mtype").onchange = update;
 
 /* ---------- start ---------- */
 function shuffle(a) { a = [...a]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
 
 $("startBtn").onclick = () => {
-  const pool = filtered();
-  const n = Math.min(Math.max(1, parseInt($("count").value) || 1), pool.length);
-  $("count").value = n;
-  picked = shuffle(pool).slice(0, n);
+  if ($("mode").value === "full") {
+    const B = buckets(fullPool());
+    picked = Object.keys(NEED).flatMap(k => shuffle(B[k]).slice(0, NEED[k]));
+  } else {
+    const pool = customPool();
+    const t = $("mtype").value;
+    let cap = pool.length;
+    if (t === "mix") { const B = buckets(pool); cap = Object.keys(NEED).reduce((s, k) => s + B[k].length, 0); }
+    const want = Math.min(Math.max(1, parseInt($("count").value) || 1), cap);
+    $("count").value = want;
+    if (t === "mix") {
+      const B = buckets(pool), have = {};
+      Object.keys(NEED).forEach(k => have[k] = B[k].length);
+      const a = alloc(want, have);
+      picked = Object.keys(NEED).flatMap(k => shuffle(B[k]).slice(0, a[k]));
+    } else picked = shuffle(pool).slice(0, want);
+  }
+  const n = picked.length;
   const totalMarks = picked.reduce((s, q) => s + q.marks, 0);
   const minutes = Math.max(1, Math.round(totalMarks * CONFIG.MINUTES_PER_MARK));
   picked._meta = { totalMarks, minutes };
@@ -255,7 +332,7 @@ $("dlgGo").onclick = async () => {
     // group by topic so each topic becomes a section in the exam (order inside a topic stays random)
     // General Aptitude first (like GATE), then the other topics A to Z
     const ga = s => isGASubject(s) ? 0 : 1;
-    full.sort((a, b) => ga(a.subject) - ga(b.subject) || a.subject.localeCompare(b.subject));
+    full.sort((a, b) => ga(a.subject) - ga(b.subject) || a.marks - b.marks);   // stable: random order kept inside each group
     const session = {
       questions: full,
       totalMarks: picked._meta.totalMarks,
