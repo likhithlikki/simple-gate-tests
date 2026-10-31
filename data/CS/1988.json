@@ -1,0 +1,42 @@
+{
+  "exam": "GATE",
+  "branch": "CS",
+  "year": 1988,
+  "subject": "Computer Science and Information Technology",
+  "questions": [
+    {
+      "id": "cs198801",
+      "question_number": 1,
+      "question_type": "MCQ",
+      "answer_format": "option",
+      "marks": 1,
+      "negative_marks": 0.33,
+      "question": "In a compiler the module that checks every character of the source text is called:",
+      "options": {
+        "A": "The code generator.",
+        "B": "The code optimiser.",
+        "C": "The lexical analyser.",
+        "D": "The syntax analyser."
+      },
+      "answer": "C",
+      "explanation": "Click here for detail solution by gateoverflow",
+      "images": [],
+      "topic": "Lexical Analysis",
+      "variant": null,
+      "has_images": false,
+      "image_type": "none",
+      "image_status": "none",
+      "solution_images": [],
+      "numerical_answer": null,
+      "explanation_html": "<a href=\"https://gateoverflow.in/80282/gate1987-1-xi\" target=\"_blank\">Click here for detail solution by gateoverflow</a> ",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/80282/gate1987-1-xi"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    }
+  ]
+}

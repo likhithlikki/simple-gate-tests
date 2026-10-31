@@ -1,0 +1,2403 @@
+{
+  "exam": "GATE",
+  "branch": "CS",
+  "year": 2023,
+  "subject": "Computer Science and Information Technology",
+  "questions": [
+    {
+      "id": "cs202301",
+      "question_number": 1,
+      "question_type": "MCQ",
+      "answer_format": "option",
+      "marks": 1,
+      "negative_marks": 0.33,
+      "question": "Consider the following statements regarding the front-end and back-end of a compiler. S1: The front-end includes phases that are independent of the target hardware. S2: The back-end includes phases that are specific to the target hardware. S3: The back-end includes phases that are specific to the programming language used in the source code. Identify the CORRECT option.",
+      "options": {
+        "A": "Only S1 is TRUE.",
+        "B": "Only S1 and S2 are TRUE.",
+        "C": "S1, S2, and S3 are all TRUE.",
+        "D": "Only S1 and S3 are TRUE."
+      },
+      "answer": "B",
+      "explanation": "Checking each statement: - Front end (lexical, syntax, semantic analysis, intermediate code) depends on the source language, not on the target machine [latex]\\text{---}[/latex] S1 TRUE. - Back end (code optimization for the machine, code generation) is specific to the target hardware [latex]\\text{---}[/latex] S2 TRUE. - The back end works on intermediate code, so it is independent of the source language [latex]\\text{---}[/latex] S3 FALSE. Answer: Only S1 and S2 are TRUE Click here for detail solution by gateoverflow",
+      "images": [],
+      "topic": "Intermediate Code Generation",
+      "variant": null,
+      "has_images": false,
+      "image_type": "none",
+      "image_status": "none",
+      "solution_images": [],
+      "numerical_answer": null,
+      "explanation_html": "Checking each statement:<br>- Front end (lexical, syntax, semantic analysis, intermediate code) depends on the source language, <b>not</b> on the target machine [latex]\\text{---}[/latex] S1 TRUE.<br>\n- Back end (code optimization for the machine, code generation) is specific to the target hardware [latex]\\text{---}[/latex] S2 TRUE.<br>\n- The back end works on intermediate code, so it is independent of the source language [latex]\\text{---}[/latex] S3 FALSE.<br><br>\n<b>Answer: Only S1 and S2 are TRUE</b><br><br><a href=\"https://gateoverflow.in/399311/gate-cse-2023-question-1#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a> ",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399311/gate-cse-2023-question-1#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs202302",
+      "question_number": 2,
+      "question_type": "MCQ",
+      "answer_format": "option",
+      "marks": 1,
+      "negative_marks": 0.33,
+      "question": "Which one of the following sequences when stored in an array at locations\nA[1], . . . , A[10] forms a max-heap?",
+      "options": {
+        "A": "23, 17, 10, 6, 13, 14, 1, 5, 7, 12",
+        "B": "23, 17, 14, 7, 13, 10, 1, 5, 6, 12",
+        "C": "23, 17, 14, 6, 13, 10, 1, 5, 7, 15",
+        "D": "23, 14, 17, 1, 10, 13, 16, 12, 7, 5"
+      },
+      "answer": "B",
+      "explanation": "Max-heap: every parent [latex]A[i]\\ge[/latex] its children [latex]A[2i][/latex], [latex]A[2i+1][/latex]. - Option 1: A[3] = 10 has child A[6] = 14 False - Option 2 : 23 [latex]\\ge[/latex] 17, 14; 17 [latex]\\ge[/latex] 7, 13; 14 [latex]\\ge[/latex] 10, 1; 7 [latex]\\ge[/latex] 5, 6; 13 [latex]\\ge[/latex] 12 True - Option 3: A[5] = 13 has child A[10] = 15 False - Option 4: A[4] = 1 has children 12, 7 False Answer: 23, 17, 14, 7, 13, 10, 1, 5, 6, 12 Click here for detail solution by gateoverflow",
+      "images": [],
+      "topic": "Heap Tree",
+      "variant": null,
+      "has_images": false,
+      "image_type": "none",
+      "image_status": "none",
+      "solution_images": [],
+      "numerical_answer": null,
+      "explanation_html": "Max-heap: every parent [latex]A[i]\\ge[/latex] its children [latex]A[2i][/latex], [latex]A[2i+1][/latex].<br><br>\n- Option 1: A[3] = 10 has child A[6] = 14 False<br>\n- <b>Option 2</b>: 23 [latex]\\ge[/latex] 17, 14; 17 [latex]\\ge[/latex] 7, 13; 14 [latex]\\ge[/latex] 10, 1; 7 [latex]\\ge[/latex] 5, 6; 13 [latex]\\ge[/latex] 12 True<br>\n- Option 3: A[5] = 13 has child A[10] = 15 False<br>\n- Option 4: A[4] = 1 has children 12, 7 False<br><br>\n<b>Answer: 23, 17, 14, 7, 13, 10, 1, 5, 6, 12</b><br><br><a href=\"https://gateoverflow.in/399310/gate-cse-2023-question-2#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a> ",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399310/gate-cse-2023-question-2#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs202303",
+      "question_number": 3,
+      "question_type": "MCQ",
+      "answer_format": "option",
+      "marks": 1,
+      "negative_marks": 0.33,
+      "question": "Let SLLdel be a function that deletes a node in a singly-linked list given a pointer\nto the node and a pointer to the head of the list. Similarly, let DLLdel be another\nfunction that deletes a node in a doubly-linked list given a pointer to the node and\na pointer to the head of the list. Let n denote the number of nodes in each of the linked lists. Which one of the\nfollowing choices is TRUE about the worst-case time complexity of SLLdel and\nDLLdel?",
+      "options": {
+        "A": "SLLdel is O(1) and DLLdel is O(n)",
+        "B": "Both SLLdel and DLLdel are O(log(n))",
+        "C": "Both SLLdel and DLLdel are O(1)",
+        "D": "SLLdel is O(n) and DLLdel is O(1)"
+      },
+      "answer": "D",
+      "explanation": "To delete a node we must update its predecessor's next pointer. - Singly linked list: the predecessor is found only by walking from the head [latex]\\rightarrow[/latex] [latex]O(n)[/latex]. - Doubly linked list: the node's prev pointer gives the predecessor directly [latex]\\rightarrow[/latex] [latex]O(1)[/latex]. Answer: SLLdel is O(n) and DLLdel is O(1) Click here for detail solution by gateoverflow",
+      "images": [],
+      "topic": "Link List",
+      "variant": null,
+      "has_images": false,
+      "image_type": "none",
+      "image_status": "none",
+      "solution_images": [],
+      "numerical_answer": null,
+      "explanation_html": "To delete a node we must update its <b>predecessor's</b> next pointer.<br><br>\n- Singly linked list: the predecessor is found only by walking from the head [latex]\\rightarrow[/latex] [latex]O(n)[/latex].<br>\n- Doubly linked list: the node's prev pointer gives the predecessor directly [latex]\\rightarrow[/latex] [latex]O(1)[/latex].<br><br>\n<b>Answer: SLLdel is O(n) and DLLdel is O(1)</b><br><br><a href=\"https://gateoverflow.in/399309/gate-cse-2023-question-3#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a> ",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399309/gate-cse-2023-question-3#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs202304",
+      "question_number": 4,
+      "question_type": "MCQ",
+      "answer_format": "option",
+      "marks": 1,
+      "negative_marks": 0.33,
+      "question": "Consider the Deterministic Finite-state Automaton (DFA) [latex]A[/latex] shown below. The\nDFA runs on the alphabet {0, 1}, and has the set of states {s, p, q, r}, with s being\nthe start state and p being the only final state. Which one of the following regular expressions correctly describes the language\naccepted by [latex]A[/latex]?",
+      "options": {
+        "A": "[latex]1(0^*11)^*[/latex]",
+        "B": "[latex]0(0 + 1)^*[/latex]",
+        "C": "[latex]1(0 + 11)^*[/latex]",
+        "D": "[latex]1(110^*)^*[/latex]"
+      },
+      "answer": "C",
+      "explanation": "From s: 0 goes to dead state r, so a string must start with 1 (reaching final state p). At p: 0 loops on p; 1 goes to q, and from q only another 1 returns to p (0 goes to r). So after the first 1, we repeat \"0\" or \"11\": [latex]1(0+11)^*[/latex]. Answer: [latex]1(0+11)^*[/latex] Click here for detail solution by gateoverflow",
+      "images": [
+        "images/questions/cs202304_01.jpg"
+      ],
+      "topic": "Regular Expression",
+      "variant": null,
+      "has_images": true,
+      "image_type": "question",
+      "image_status": "available",
+      "solution_images": [],
+      "numerical_answer": null,
+      "explanation_html": "From s: 0 goes to dead state r, so a string must start with <b>1</b> (reaching final state p).<br>\nAt p: 0 loops on p; 1 goes to q, and from q only another 1 returns to p (0 goes to r).<br><br>\nSo after the first 1, we repeat \"0\" or \"11\": [latex]1(0+11)^*[/latex].<br><br>\n<b>Answer: [latex]1(0+11)^*[/latex]</b><br><br><a href=\"https://gateoverflow.in/399308/gate-cse-2023-question-4#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a> ",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399308/gate-cse-2023-question-4#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs202305",
+      "question_number": 5,
+      "question_type": "MCQ",
+      "answer_format": "option",
+      "marks": 1,
+      "negative_marks": 0.33,
+      "question": "The Lucas sequence [latex] L_n [/latex] is defined by the recurrence relation: [latex] L_n=L_{n-1}+L_{n-2}, \\; for \\; n\\geq 3, [/latex] with [latex] L_1=1 \\; and \\; L_2=3 [/latex] Which one of the options given is TRUE?",
+      "options": {
+        "A": "[latex] L_n=\\left ( \\frac{1+\\sqrt{5}}{2} \\right )^n+\\left ( \\frac{1-\\sqrt{5}}{2} \\right )^n [/latex]",
+        "B": "[latex] L_n=\\left ( \\frac{1+\\sqrt{5}}{2} \\right )^n - \\left ( \\frac{1-\\sqrt{5}}{3} \\right )^n [/latex]",
+        "C": "[latex] L_n=\\left ( \\frac{1+\\sqrt{5}}{2} \\right )^n+\\left ( \\frac{1-\\sqrt{5}}{3} \\right )^n [/latex]",
+        "D": "[latex] L_n=\\left ( \\frac{1+\\sqrt{5}}{2} \\right )^n- \\left ( \\frac{1-\\sqrt{5}}{2} \\right )^n [/latex]"
+      },
+      "answer": "A",
+      "explanation": "Let [latex]\\varphi=\\frac{1+\\sqrt5}{2}[/latex] and [latex]\\psi=\\frac{1-\\sqrt5}{2}[/latex]. They satisfy [latex]x^2=x+1[/latex], [latex]\\varphi+\\psi=1[/latex], [latex]\\varphi\\psi=-1[/latex]. Check [latex]L_n=\\varphi^n+\\psi^n[/latex]: - [latex]L_1=\\varphi+\\psi=1[/latex] True - [latex]L_2=(\\varphi+\\psi)^2-2\\varphi\\psi=1+2=3[/latex] True - It satisfies [latex]L_n=L_{n-1}+L_{n-2}[/latex] because both [latex]\\varphi,\\psi[/latex] satisfy [latex]x^2=x+1[/latex]. Answer: [latex]L_n=\\left(\\frac{1+\\sqrt5}{2}\\right)^n+\\left(\\frac{1-\\sqrt5}{2}\\right)^n[/latex] Click here for detail solution by gateoverflow",
+      "images": [],
+      "topic": "Recurrence",
+      "variant": null,
+      "has_images": false,
+      "image_type": "none",
+      "image_status": "none",
+      "solution_images": [],
+      "numerical_answer": null,
+      "explanation_html": "Let [latex]\\varphi=\\frac{1+\\sqrt5}{2}[/latex] and [latex]\\psi=\\frac{1-\\sqrt5}{2}[/latex]. They satisfy [latex]x^2=x+1[/latex], [latex]\\varphi+\\psi=1[/latex], [latex]\\varphi\\psi=-1[/latex].<br><br>\nCheck [latex]L_n=\\varphi^n+\\psi^n[/latex]:<br>\n- [latex]L_1=\\varphi+\\psi=1[/latex] True<br>\n- [latex]L_2=(\\varphi+\\psi)^2-2\\varphi\\psi=1+2=3[/latex] True<br>\n- It satisfies [latex]L_n=L_{n-1}+L_{n-2}[/latex] because both [latex]\\varphi,\\psi[/latex] satisfy [latex]x^2=x+1[/latex].<br><br>\n<b>Answer: [latex]L_n=\\left(\\frac{1+\\sqrt5}{2}\\right)^n+\\left(\\frac{1-\\sqrt5}{2}\\right)^n[/latex]</b><br><br><a href=\"https://gateoverflow.in/399307/gate-cse-2023-question-5#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a> ",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399307/gate-cse-2023-question-5#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs202306",
+      "question_number": 6,
+      "question_type": "MCQ",
+      "answer_format": "option",
+      "marks": 1,
+      "negative_marks": 0.33,
+      "question": "Which one of the options given below refers to the degree (or arity) of a relation in\nrelational database systems?",
+      "options": {
+        "A": "Number of attributes of its relation schema.",
+        "B": "Number of tuples stored in the relation.",
+        "C": "Number of entries in the relation.",
+        "D": "Number of distinct domains of its relation schema."
+      },
+      "answer": "A",
+      "explanation": "Degree (arity) = number of attributes (columns) in the relation schema. The number of tuples (rows) is called the cardinality . Answer: Number of attributes of its relation schema Click here for detail solution by gateoverflow",
+      "images": [],
+      "topic": "Relational Schema",
+      "variant": null,
+      "has_images": false,
+      "image_type": "none",
+      "image_status": "none",
+      "solution_images": [],
+      "numerical_answer": null,
+      "explanation_html": "<b>Degree (arity)</b> = number of attributes (columns) in the relation schema.<br>\nThe number of tuples (rows) is called the <b>cardinality</b>.<br><br>\n<b>Answer: Number of attributes of its relation schema</b><br><br><a href=\"https://gateoverflow.in/399306/gate-cse-2023-question-6#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a> ",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399306/gate-cse-2023-question-6#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs202307",
+      "question_number": 7,
+      "question_type": "MCQ",
+      "answer_format": "option",
+      "marks": 1,
+      "negative_marks": 0.33,
+      "question": "Suppose two hosts are connected by a point-to-point link and they are configured\nto use Stop-and-Wait protocol for reliable data transfer. Identify in which one of\nthe following scenarios, the utilization of the link is the lowest.",
+      "options": {
+        "A": "Longer link length and lower transmission rate",
+        "B": "Longer link length and higher transmission rate",
+        "C": "Shorter link length and lower transmission rate",
+        "D": "Shorter link length and higher transmission rate"
+      },
+      "answer": "B",
+      "explanation": "Stop-and-wait utilization [latex]=\\frac{T_t}{T_t+2T_p}=\\frac{1}{1+2a}[/latex], where [latex]a=\\frac{T_p}{T_t}[/latex]. Utilization is lowest when [latex]a[/latex] is largest: - longer link [latex]\\rightarrow[/latex] larger [latex]T_p[/latex] - higher transmission rate [latex]\\rightarrow[/latex] smaller [latex]T_t[/latex] Answer: Longer link length and higher transmission rate Click here for detail solution by gateoverflow",
+      "images": [],
+      "topic": "Data Link Layer",
+      "variant": null,
+      "has_images": false,
+      "image_type": "none",
+      "image_status": "none",
+      "solution_images": [],
+      "numerical_answer": null,
+      "explanation_html": "Stop-and-wait utilization [latex]=\\frac{T_t}{T_t+2T_p}=\\frac{1}{1+2a}[/latex], where [latex]a=\\frac{T_p}{T_t}[/latex].<br><br>\nUtilization is lowest when [latex]a[/latex] is largest:<br>\n- longer link [latex]\\rightarrow[/latex] larger [latex]T_p[/latex]<br>\n- higher transmission rate [latex]\\rightarrow[/latex] smaller [latex]T_t[/latex]<br><br>\n<b>Answer: Longer link length and higher transmission rate</b><br><br><a href=\"https://gateoverflow.in/399305/gate-cse-2023-question-7#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a> ",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399305/gate-cse-2023-question-7#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs202308",
+      "question_number": 8,
+      "question_type": "MCQ",
+      "answer_format": "option",
+      "marks": 1,
+      "negative_marks": 0.33,
+      "question": "Let [latex] A=\\begin{bmatrix}\n1 & 2 & 3 &4 \\\\ \n 4&  1& 2 &3 \\\\ \n 3& 4 & 1 &2 \\\\ \n2 &3  &4  &1 \n\\end{bmatrix}[/latex] and [latex] B=\\begin{bmatrix}\n 3& 4 & 1 &2 \\\\\n 4&  1& 2 &3 \\\\ \n 1 & 2 & 3 &4 \\\\ \n2 &3  &4  &1 \n\\end{bmatrix}[/latex] Let det(A) and det(B) denote the determinants of the matrices A and B,\nrespectively. Which one of the options given below is TRUE?",
+      "options": {
+        "A": "det(A) = det(B)",
+        "B": "det(B) = - det(A)",
+        "C": "det(A)=0",
+        "D": "det(AB) = det(A) + det(B)"
+      },
+      "answer": "B",
+      "explanation": "Rows of B are rows of A in the order [latex]R_3,R_2,R_1,R_4[/latex], i.e. B is A with rows 1 and 3 swapped. One row swap changes the sign of the determinant: [latex]\\det(B)=-\\det(A)[/latex]. Answer: det(B) = [latex]-[/latex]det(A) Click here for detail solution by gateoverflow",
+      "images": [],
+      "topic": "Linear Algebra",
+      "variant": null,
+      "has_images": false,
+      "image_type": "none",
+      "image_status": "none",
+      "solution_images": [],
+      "numerical_answer": null,
+      "explanation_html": "Rows of B are rows of A in the order [latex]R_3,R_2,R_1,R_4[/latex], i.e. B is A with rows 1 and 3 swapped.<br><br>\nOne row swap changes the sign of the determinant: [latex]\\det(B)=-\\det(A)[/latex].<br><br>\n<b>Answer: det(B) = [latex]-[/latex]det(A)</b><br><br><a href=\"https://gateoverflow.in/399304/gate-cse-2023-question-8#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a> ",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399304/gate-cse-2023-question-8#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs202309",
+      "question_number": 9,
+      "question_type": "MCQ",
+      "answer_format": "option",
+      "marks": 1,
+      "negative_marks": 0.33,
+      "question": "Consider the following definition of a lexical token [latex]id[/latex] for an identifier in a programming language, using extended regular expressions: [latex] letter \\rightarrow  [A-Za-z][/latex] [latex] digit \\rightarrow  [0-9][/latex] [latex] id \\rightarrow letter (letter\\;| \\;digit)^*[/latex] Which one of the following Non-deterministic Finite-state Automata with -\ntransitions accepts the set of valid identifiers? (A double-circle denotes a final\nstate)",
+      "options": {
+        "A": "A",
+        "B": "B",
+        "C": "C",
+        "D": "D"
+      },
+      "answer": "C",
+      "explanation": "An identifier is one letter followed by any mix of letters and digits. - (A): the [latex]\\epsilon[/latex] edge lets the string skip the first letter, e.g. \"1\" or the empty string is accepted [latex]\\text{---}[/latex] wrong. - (B): after choosing a branch you stay with only letters or only digits; \"a1b\" is rejected [latex]\\text{---}[/latex] wrong. - (C) : letter, then from the final state any number of letter-or-digit steps through the loop [latex]\\text{---}[/latex] correct. - (D): forces \"letter digit\" pairs; \"ab\" is rejected [latex]\\text{---}[/latex] wrong. Answer: C Click here for detail solution by gateoverflow",
+      "images": [
+        "images/questions/cs202309_01.jpg"
+      ],
+      "topic": "Regular Expression",
+      "variant": null,
+      "has_images": true,
+      "image_type": "question",
+      "image_status": "available",
+      "solution_images": [],
+      "numerical_answer": null,
+      "explanation_html": "An identifier is one letter followed by <b>any mix</b> of letters and digits.<br><br>\n- (A): the [latex]\\epsilon[/latex] edge lets the string skip the first letter, e.g. \"1\" or the empty string is accepted [latex]\\text{---}[/latex] wrong.<br>\n- (B): after choosing a branch you stay with only letters or only digits; \"a1b\" is rejected [latex]\\text{---}[/latex] wrong.<br>\n- <b>(C)</b>: letter, then from the final state any number of letter-or-digit steps through the loop [latex]\\text{---}[/latex] correct.<br>\n- (D): forces \"letter digit\" pairs; \"ab\" is rejected [latex]\\text{---}[/latex] wrong.<br><br>\n<b>Answer: C</b><br><br><a href=\"https://gateoverflow.in/399303/gate-cse-2023-question-9#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a> ",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399303/gate-cse-2023-question-9#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs2023010",
+      "question_number": 10,
+      "question_type": "MCQ",
+      "answer_format": "option",
+      "marks": 1,
+      "negative_marks": 0.33,
+      "question": "An algorithm has to store several keys generated by an adversary in a hash\ntable. The adversary is malicious who tries to maximize the number of collisions.\nLet [latex] k[/latex] be the number of keys, [latex] m[/latex] be the number of slots in the hash table, and [latex] k \\gt m[/latex]. Which one of the following is the best hashing strategy to counteract the adversary?",
+      "options": {
+        "A": "Division method, i.e., use the hash function [latex]h(k) = k\\;  mod \\; m[/latex]",
+        "B": "Multiplication method, i.e., use the hash function [latex] h(k) =  \\left \\lfloor m(kA -\\left \\lfloor kA \\right \\rfloor ) \\right \\rfloor[/latex], where\n[latex]A[/latex] is a carefully chosen constant.",
+        "C": "Universal hashing method.",
+        "D": "If [latex]k[/latex] is a prime number, use Division method. Otherwise, use Multiplication method"
+      },
+      "answer": "C",
+      "explanation": "Any fixed hash function (division or multiplication) is known to the adversary, who can pick keys that all collide. Universal hashing picks the hash function at random from a family at run time, so the adversary cannot predict it, and the expected number of collisions stays small. Answer: Universal hashing method Click here for detail solution by gateoverflow",
+      "images": [],
+      "topic": "Hashing",
+      "variant": null,
+      "has_images": false,
+      "image_type": "none",
+      "image_status": "none",
+      "solution_images": [],
+      "numerical_answer": null,
+      "explanation_html": "Any fixed hash function (division or multiplication) is known to the adversary, who can pick keys that all collide.<br><br>\n<b>Universal hashing</b> picks the hash function at random from a family at run time, so the adversary cannot predict it, and the expected number of collisions stays small.<br><br>\n<b>Answer: Universal hashing method</b><br><br><a href=\"https://gateoverflow.in/399302/gate-cse-2023-question-10#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a> ",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399302/gate-cse-2023-question-10#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs2023011",
+      "question_number": 11,
+      "question_type": "MCQ",
+      "answer_format": "option",
+      "marks": 1,
+      "negative_marks": 0.33,
+      "question": "The output of a 2-input multiplexer is connected back to one of its inputs as shown\nin the figure. Match the functional equivalence of this circuit to one of the following options.",
+      "options": {
+        "A": "D Flip-flop",
+        "B": "D Latch",
+        "C": "Half-adder",
+        "D": "Demultiplexer"
+      },
+      "answer": "B",
+      "explanation": "The output Q is fed back to input 0. - S = 1: Q follows input 1 (the data input D). - S = 0: Q = Q, so it holds its old value. It is transparent while S = 1 and holds while S = 0, which is a level-triggered D latch (S acts as enable). There is no clock edge, so it is not a flip-flop. Answer: D Latch Click here for detail solution by gateoverflow",
+      "images": [
+        "images/questions/cs2023011_01.jpg"
+      ],
+      "topic": "Digital Logic",
+      "variant": null,
+      "has_images": true,
+      "image_type": "question",
+      "image_status": "available",
+      "solution_images": [],
+      "numerical_answer": null,
+      "explanation_html": "The output Q is fed back to input 0.<br>\n- S = 1: Q follows input 1 (the data input D).<br>\n- S = 0: Q = Q, so it <b>holds</b> its old value.<br><br>\nIt is transparent while S = 1 and holds while S = 0, which is a level-triggered <b>D latch</b> (S acts as enable). There is no clock edge, so it is not a flip-flop.<br><br>\n<b>Answer: D Latch</b><br><br><a href=\"https://gateoverflow.in/399301/gate-cse-2023-question-11#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a> ",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399301/gate-cse-2023-question-11#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs2023012",
+      "question_number": 12,
+      "question_type": "MSQ",
+      "answer_format": "option",
+      "marks": 1,
+      "negative_marks": 0,
+      "question": "Which one or more of the following need to be saved on a context switch from one\nthread (T1) of a process to another thread (T2) of the same process?",
+      "options": {
+        "A": "Page table base register",
+        "B": "Stack pointer",
+        "C": "Program counter",
+        "D": "General purpose registers"
+      },
+      "answer": [
+        "B",
+        "C",
+        "D"
+      ],
+      "explanation": "Threads of the same process share the address space, so the page table base register does not change and need not be saved. Each thread has its own execution context: stack pointer , program counter and general purpose registers [latex]\\text{---}[/latex] these must be saved. Answer: Stack pointer, Program counter, General purpose registers Click here for detail solution by gateoverflow",
+      "images": [],
+      "topic": "Thread",
+      "variant": null,
+      "has_images": false,
+      "image_type": "none",
+      "image_status": "none",
+      "solution_images": [],
+      "numerical_answer": null,
+      "explanation_html": "Threads of the same process share the address space, so the <b>page table base register</b> does not change and need not be saved.<br><br>\nEach thread has its own execution context: <b>stack pointer</b>, <b>program counter</b> and <b>general purpose registers</b> [latex]\\text{---}[/latex] these must be saved.<br><br>\n<b>Answer: Stack pointer, Program counter, General purpose registers</b><br><br><a href=\"https://gateoverflow.in/399300/gate-cse-2023-question-12#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a> ",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399300/gate-cse-2023-question-12#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs2023013",
+      "question_number": 13,
+      "question_type": "MSQ",
+      "answer_format": "option",
+      "marks": 1,
+      "negative_marks": 0,
+      "question": "Which one or more of the following options guarantee that a computer system will\ntransition from user mode to kernel mode?",
+      "options": {
+        "A": "Function Call",
+        "B": "malloc Call",
+        "C": "Page Fault",
+        "D": "System Call"
+      },
+      "answer": [
+        "C",
+        "D"
+      ],
+      "explanation": "Check which events always enter the kernel: - Function call: runs entirely in user mode [latex]\\text{---}[/latex] no switch. - malloc: a library function; it usually takes memory from the existing heap and makes a system call only sometimes [latex]\\text{---}[/latex] not guaranteed. - Page fault : an exception handled by the OS [latex]\\rightarrow[/latex] always kernel mode. - System call : a trap into the kernel [latex]\\rightarrow[/latex] always kernel mode. Answer: Page Fault, System Call Click here for detail solution by gateoverflow",
+      "images": [],
+      "topic": "System Call",
+      "variant": null,
+      "has_images": false,
+      "image_type": "none",
+      "image_status": "none",
+      "solution_images": [],
+      "numerical_answer": null,
+      "explanation_html": "Check which events always enter the kernel:<br>- Function call: runs entirely in user mode [latex]\\text{---}[/latex] no switch.<br>\n- malloc: a library function; it usually takes memory from the existing heap and makes a system call only sometimes [latex]\\text{---}[/latex] not guaranteed.<br>\n- <b>Page fault</b>: an exception handled by the OS [latex]\\rightarrow[/latex] always kernel mode.<br>\n- <b>System call</b>: a trap into the kernel [latex]\\rightarrow[/latex] always kernel mode.<br><br>\n<b>Answer: Page Fault, System Call</b><br><br><a href=\"https://gateoverflow.in/399299/gate-cse-2023-question-13#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a> ",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399299/gate-cse-2023-question-13#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs2023014",
+      "question_number": 14,
+      "question_type": "MSQ",
+      "answer_format": "option",
+      "marks": 1,
+      "negative_marks": 0,
+      "question": "Which of the following statements is/are CORRECT?",
+      "options": {
+        "A": "The intersection of two regular languages is regular.",
+        "B": "The intersection of two context-free languages is context-free.",
+        "C": "The intersection of two recursive languages is recursive.",
+        "D": "The intersection of two recursively enumerable languages is recursively enumerable."
+      },
+      "answer": [
+        "A",
+        "C",
+        "D"
+      ],
+      "explanation": "Checking each statement: - Regular languages are closed under intersection [latex]\\text{---}[/latex] TRUE. - CFLs are not closed under intersection: [latex]a^nb^nc^m\\cap a^mb^nc^n=a^nb^nc^n[/latex] [latex]\\text{---}[/latex] FALSE. - Recursive: run both deciders, accept if both accept [latex]\\text{---}[/latex] TRUE. - RE: run both recognizers, accept when both accept [latex]\\text{---}[/latex] TRUE. Answer: Options 1, 3 and 4 Click here for detail solution by gateoverflow",
+      "images": [],
+      "topic": "Theory of Computation",
+      "variant": null,
+      "has_images": false,
+      "image_type": "none",
+      "image_status": "none",
+      "solution_images": [],
+      "numerical_answer": null,
+      "explanation_html": "Checking each statement:<br>- Regular languages are closed under intersection [latex]\\text{---}[/latex] TRUE.<br>\n- CFLs are <b>not</b> closed under intersection: [latex]a^nb^nc^m\\cap a^mb^nc^n=a^nb^nc^n[/latex] [latex]\\text{---}[/latex] FALSE.<br>\n- Recursive: run both deciders, accept if both accept [latex]\\text{---}[/latex] TRUE.<br>\n- RE: run both recognizers, accept when both accept [latex]\\text{---}[/latex] TRUE.<br><br>\n<b>Answer: Options 1, 3 and 4</b><br><br><a href=\"https://gateoverflow.in/399298/gate-cse-2023-question-14#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a> ",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399298/gate-cse-2023-question-14#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs2023015",
+      "question_number": 15,
+      "question_type": "MSQ",
+      "answer_format": "option",
+      "marks": 1,
+      "negative_marks": 0,
+      "question": "Which of the following statements is/are INCORRECT about\nthe OSPF (Open Shortest Path First) routing protocol used in the Internet?",
+      "options": {
+        "A": "OSPF implements Bellman-Ford algorithm to find shortest paths.",
+        "B": "OSPF uses Dijkstra's shortest path algorithm to implement least-cost path routing",
+        "C": "OSPF is used as an inter-domain routing protocol",
+        "D": "OSPF implements hierarchical routing."
+      },
+      "answer": [
+        "A",
+        "C"
+      ],
+      "explanation": "OSPF is a link-state protocol. - \"Implements Bellman-Ford\": it uses Dijkstra (Bellman-Ford is for distance vector, like RIP) [latex]\\text{---}[/latex] INCORRECT. - \"Uses Dijkstra\" [latex]\\text{---}[/latex] correct. - \"Inter-domain protocol\": OSPF is intra -domain (inside one AS); BGP is inter-domain [latex]\\text{---}[/latex] INCORRECT. - \"Hierarchical routing\" with areas and a backbone [latex]\\text{---}[/latex] correct. Answer: Options 1 and 3 Click here for detail solution by gateoverflow",
+      "images": [],
+      "topic": "Network Layer Protocol",
+      "variant": null,
+      "has_images": false,
+      "image_type": "none",
+      "image_status": "none",
+      "solution_images": [],
+      "numerical_answer": null,
+      "explanation_html": "OSPF is a <b>link-state</b> protocol.<br>\n- \"Implements Bellman-Ford\": it uses <b>Dijkstra</b> (Bellman-Ford is for distance vector, like RIP) [latex]\\text{---}[/latex] INCORRECT.<br>\n- \"Uses Dijkstra\" [latex]\\text{---}[/latex] correct.<br>\n- \"Inter-domain protocol\": OSPF is <b>intra</b>-domain (inside one AS); BGP is inter-domain [latex]\\text{---}[/latex] INCORRECT.<br>\n- \"Hierarchical routing\" with areas and a backbone [latex]\\text{---}[/latex] correct.<br><br>\n<b>Answer: Options 1 and 3</b><br><br><a href=\"https://gateoverflow.in/399297/gate-cse-2023-question-15#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a> ",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399297/gate-cse-2023-question-15#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs2023016",
+      "question_number": 16,
+      "question_type": "MSQ",
+      "answer_format": "option",
+      "marks": 1,
+      "negative_marks": 0,
+      "question": "Geetha has a conjecture about integers, which is of the form [latex]\\forall x\\left [P(x)\\Rightarrow \\exists yQ(x,y)  \\right ]  [/latex] where [latex]P[/latex] is a statement about integers, and [latex]Q[/latex] is a statement about pairs of integers.\nWhich of the following (one or more) option(s) would imply Geetha's conjecture?",
+      "options": {
+        "A": "[latex]\\exists  x\\left [P(x)\\wedge  \\forall yQ(x,y)  \\right ]  [/latex]",
+        "B": "[latex]\\forall x  \\forall y  Q(x,y)    [/latex]",
+        "C": "[latex]\\exists  y \\forall x \\left [P(x) \\Rightarrow   Q(x,y)  \\right ]  [/latex]",
+        "D": "[latex]\\exists   x \\left [P(x) \\wedge  \\exists y  Q(x,y)  \\right ]  [/latex]"
+      },
+      "answer": [
+        "B",
+        "C"
+      ],
+      "explanation": "Conjecture: for every x with P(x), some y makes Q(x, y) true. - Option 1 talks about only one x [latex]\\text{---}[/latex] does not imply it. - Option 2: Q holds for all x and y, so for any x any y works [latex]\\text{---}[/latex] implies it. - Option 3: one fixed y works for every x with P(x), so such a y exists for each x [latex]\\text{---}[/latex] implies it. - Option 4 again talks about only one x [latex]\\text{---}[/latex] does not imply it. Answer: Options 2 and 3 Click here for detail solution by gateoverflow",
+      "images": [],
+      "topic": "Propositional Logic",
+      "variant": null,
+      "has_images": false,
+      "image_type": "none",
+      "image_status": "none",
+      "solution_images": [],
+      "numerical_answer": null,
+      "explanation_html": "Conjecture: for every x with P(x), some y makes Q(x, y) true.<br><br>\n- Option 1 talks about only one x [latex]\\text{---}[/latex] does not imply it.<br>\n- Option 2: Q holds for all x and y, so for any x any y works [latex]\\text{---}[/latex] implies it.<br>\n- Option 3: one fixed y works for every x with P(x), so such a y exists for each x [latex]\\text{---}[/latex] implies it.<br>\n- Option 4 again talks about only one x [latex]\\text{---}[/latex] does not imply it.<br><br>\n<b>Answer: Options 2 and 3</b><br><br><a href=\"https://gateoverflow.in/399295/gate-cse-2023-question-16#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a> ",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399295/gate-cse-2023-question-16#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs2023017",
+      "question_number": 17,
+      "question_type": "MSQ",
+      "answer_format": "option",
+      "marks": 1,
+      "negative_marks": 0,
+      "question": "Which one or more of the following CPU scheduling algorithms can potentially\ncause starvation?",
+      "options": {
+        "A": "First-in First-Out",
+        "B": "Round Robin",
+        "C": "Priority Scheduling",
+        "D": "Shortest Job First"
+      },
+      "answer": [
+        "C",
+        "D"
+      ],
+      "explanation": "Check whether a process can wait forever: - FIFO: every process eventually reaches the front [latex]\\text{---}[/latex] no starvation. - Round Robin: each process gets a time slice every round [latex]\\text{---}[/latex] no starvation. - Priority scheduling : a low-priority process may wait forever if high-priority processes keep arriving. - SJF : a long job may wait forever if short jobs keep arriving. Answer: Priority Scheduling, Shortest Job First Click here for detail solution by gateoverflow",
+      "images": [],
+      "topic": "Operating System",
+      "variant": null,
+      "has_images": false,
+      "image_type": "none",
+      "image_status": "none",
+      "solution_images": [],
+      "numerical_answer": null,
+      "explanation_html": "Check whether a process can wait forever:<br>- FIFO: every process eventually reaches the front [latex]\\text{---}[/latex] no starvation.<br>\n- Round Robin: each process gets a time slice every round [latex]\\text{---}[/latex] no starvation.<br>\n- <b>Priority scheduling</b>: a low-priority process may wait forever if high-priority processes keep arriving.<br>\n- <b>SJF</b>: a long job may wait forever if short jobs keep arriving.<br><br>\n<b>Answer: Priority Scheduling, Shortest Job First</b><br><br><a href=\"https://gateoverflow.in/399294/gate-cse-2023-question-17#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a> ",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399294/gate-cse-2023-question-17#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs2023018",
+      "question_number": 18,
+      "question_type": "MSQ",
+      "answer_format": "option",
+      "marks": 1,
+      "negative_marks": 0,
+      "question": "Let [latex]f(x)=x^3+15x^2-33x-36 [/latex] be a real-valued function. Which of the following statements is/are TRUE?",
+      "options": {
+        "A": "[latex]f(x)[/latex] does not have a local maximum.",
+        "B": "[latex]f(x)[/latex]  has a local maximum.",
+        "C": "[latex]f(x)[/latex] does not have a local minimum.",
+        "D": "[latex]f(x)[/latex]  has a local minimum."
+      },
+      "answer": [
+        "B",
+        "D"
+      ],
+      "explanation": "[latex]f'(x)=3x^2+30x-33=3(x^2+10x-11)=3(x+11)(x-1)[/latex] [latex]\\rightarrow[/latex] critical points [latex]x=-11[/latex] and [latex]x=1[/latex]. [latex]f''(x)=6x+30[/latex]: - [latex]f''(-11)=-36 \\lt 0[/latex] [latex]\\rightarrow[/latex] local maximum - [latex]f''(1)=36 \\gt 0[/latex] [latex]\\rightarrow[/latex] local minimum Answer: f(x) has a local maximum and has a local minimum Click here for detail solution by gateoverflow",
+      "images": [],
+      "topic": "Engineering Mathematics",
+      "variant": null,
+      "has_images": false,
+      "image_type": "none",
+      "image_status": "none",
+      "solution_images": [],
+      "numerical_answer": null,
+      "explanation_html": "[latex]f'(x)=3x^2+30x-33=3(x^2+10x-11)=3(x+11)(x-1)[/latex] [latex]\\rightarrow[/latex] critical points [latex]x=-11[/latex] and [latex]x=1[/latex].<br><br>\n[latex]f''(x)=6x+30[/latex]:<br>\n- [latex]f''(-11)=-36 \\lt 0[/latex] [latex]\\rightarrow[/latex] local <b>maximum</b><br>\n- [latex]f''(1)=36 \\gt 0[/latex] [latex]\\rightarrow[/latex] local <b>minimum</b><br><br>\n<b>Answer: f(x) has a local maximum and has a local minimum</b><br><br><a href=\"https://gateoverflow.in/399293/gate-cse-2023-question-18#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a> ",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399293/gate-cse-2023-question-18#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs2023019",
+      "question_number": 19,
+      "question_type": "MSQ",
+      "answer_format": "option",
+      "marks": 1,
+      "negative_marks": 0,
+      "question": "Let [latex]f[/latex] and [latex]g[/latex] be functions of natural numbers given by [latex]f(n)=n[/latex] and [latex]g(n)=n^2[/latex]. Which of the following statements is/are TRUE?",
+      "options": {
+        "A": "[latex]f \\in O(g)[/latex]",
+        "B": "[latex]f \\in \\Omega (g)[/latex]",
+        "C": "[latex]f \\in o(g)[/latex]",
+        "D": "[latex]f \\in \\Theta  (g)[/latex]"
+      },
+      "answer": [
+        "A",
+        "C"
+      ],
+      "explanation": "[latex]\\lim_{n\\to\\infty}\\frac{f(n)}{g(n)}=\\lim\\frac{n}{n^2}=0[/latex], so f grows strictly slower than g. - [latex]f\\in O(g)[/latex] [latex]\\text{---}[/latex] TRUE - [latex]f\\in o(g)[/latex] (strictly smaller) [latex]\\text{---}[/latex] TRUE - [latex]f\\in\\Omega(g)[/latex] and [latex]f\\in\\Theta(g)[/latex] [latex]\\text{---}[/latex] FALSE Answer: [latex]f\\in O(g)[/latex] and [latex]f\\in o(g)[/latex] Click here for detail solution by gateoverflow",
+      "images": [],
+      "topic": "Asymptotic Notation",
+      "variant": null,
+      "has_images": false,
+      "image_type": "none",
+      "image_status": "none",
+      "solution_images": [],
+      "numerical_answer": null,
+      "explanation_html": "[latex]\\lim_{n\\to\\infty}\\frac{f(n)}{g(n)}=\\lim\\frac{n}{n^2}=0[/latex], so f grows strictly slower than g.<br><br>\n- [latex]f\\in O(g)[/latex] [latex]\\text{---}[/latex] TRUE<br>\n- [latex]f\\in o(g)[/latex] (strictly smaller) [latex]\\text{---}[/latex] TRUE<br>\n- [latex]f\\in\\Omega(g)[/latex] and [latex]f\\in\\Theta(g)[/latex] [latex]\\text{---}[/latex] FALSE<br><br>\n<b>Answer: [latex]f\\in O(g)[/latex] and [latex]f\\in o(g)[/latex]</b><br><br><a href=\"https://gateoverflow.in/399292/gate-cse-2023-question-19#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a> ",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399292/gate-cse-2023-question-19#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs2023020",
+      "question_number": 20,
+      "question_type": "NAT",
+      "answer_format": "numeric",
+      "marks": 1,
+      "negative_marks": 0,
+      "question": "Let A be the adjacency matrix of the graph with vertices {1, 2, 3, 4, 5}. Let [latex]\\lambda _1,\\lambda _2,\\lambda _3,\\lambda _4,\\; and \\; \\lambda _5[/latex] be the five eigenvalues of A. Note that these eigenvalues\nneed not be distinct. The value of [latex]\\lambda _1+\\lambda _2+\\lambda _3+ \\lambda _4+  \\lambda _5 \n =[/latex] _____",
+      "options": null,
+      "answer": "2",
+      "explanation": "Sum of eigenvalues = trace of A = sum of the diagonal entries. A diagonal entry [latex]a_{ii}[/latex] is 1 only if vertex i has a self-loop . In the graph, vertices 3 and 4 have self-loops, so trace [latex]=1+1=2[/latex]. Answer: 2 Click here for detail solution by gateoverflow",
+      "images": [
+        "images/questions/cs2023020_01.jpg"
+      ],
+      "topic": "Linear Algebra",
+      "variant": null,
+      "has_images": true,
+      "image_type": "question",
+      "image_status": "available",
+      "solution_images": [],
+      "numerical_answer": {
+        "minimum": 2,
+        "maximum": 2
+      },
+      "explanation_html": "Sum of eigenvalues = trace of A = sum of the diagonal entries.<br><br>\nA diagonal entry [latex]a_{ii}[/latex] is 1 only if vertex i has a <b>self-loop</b>. In the graph, vertices 3 and 4 have self-loops, so trace [latex]=1+1=2[/latex].<br><br>\n<b>Answer: 2</b><br><br><a href=\"https://gateoverflow.in/399291/gate-cse-2023-question-20#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a> ",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399291/gate-cse-2023-question-20#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs2023021",
+      "question_number": 21,
+      "question_type": "NAT",
+      "answer_format": "numeric",
+      "marks": 1,
+      "negative_marks": 0,
+      "question": "The value of the definite integral [latex] \\int_{-3}^{3}  \\int_{-2}^{2}  \\int_{-1}^{1} (4x^2y-z^3)dzdydx[/latex] is _____. (Rounded off to the nearest integer)",
+      "options": null,
+      "answer": "0",
+      "explanation": "Split the integrand: - [latex]4x^2y[/latex]: odd in y, integrated over the symmetric range [latex][-2,2][/latex] [latex]\\rightarrow[/latex] 0 - [latex]z^3[/latex]: odd in z, integrated over [latex][-1,1][/latex] [latex]\\rightarrow[/latex] 0 Total = 0 Answer: 0 Click here for detail solution by gateoverflow",
+      "images": [],
+      "topic": "Engineering Mathematics",
+      "variant": null,
+      "has_images": false,
+      "image_type": "none",
+      "image_status": "none",
+      "solution_images": [],
+      "numerical_answer": {
+        "minimum": 0,
+        "maximum": 0
+      },
+      "explanation_html": "Split the integrand:<br>\n- [latex]4x^2y[/latex]: odd in y, integrated over the symmetric range [latex][-2,2][/latex] [latex]\\rightarrow[/latex] 0<br>\n- [latex]z^3[/latex]: odd in z, integrated over [latex][-1,1][/latex] [latex]\\rightarrow[/latex] 0<br><br>\nTotal = 0<br><br>\n<b>Answer: 0</b><br><br><a href=\"https://gateoverflow.in/399290/gate-cse-2023-question-21#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a> ",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399290/gate-cse-2023-question-21#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs2023022",
+      "question_number": 22,
+      "question_type": "NAT",
+      "answer_format": "numeric",
+      "marks": 1,
+      "negative_marks": 0,
+      "question": "A particular number is written as 132 in radix-4 representation. The same number\nin radix-5 representation is _____.",
+      "options": null,
+      "answer": "110",
+      "explanation": "[latex](132)_4=1\\times16+3\\times4+2=30[/latex] Convert 30 to base 5: [latex]30=1\\times25+1\\times5+0[/latex] [latex]\\rightarrow[/latex] [latex](110)_5[/latex] Answer: 110 Click here for detail solution by gateoverflow",
+      "images": [],
+      "topic": "Number System",
+      "variant": null,
+      "has_images": false,
+      "image_type": "none",
+      "image_status": "none",
+      "solution_images": [],
+      "numerical_answer": {
+        "minimum": 110,
+        "maximum": 110
+      },
+      "explanation_html": "[latex](132)_4=1\\times16+3\\times4+2=30[/latex]<br><br>\nConvert 30 to base 5: [latex]30=1\\times25+1\\times5+0[/latex] [latex]\\rightarrow[/latex] [latex](110)_5[/latex]<br><br>\n<b>Answer: 110</b><br><br><a href=\"https://gateoverflow.in/399289/gate-cse-2023-question-22#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a> ",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399289/gate-cse-2023-question-22#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs2023023",
+      "question_number": 23,
+      "question_type": "NAT",
+      "answer_format": "numeric",
+      "marks": 1,
+      "negative_marks": 0,
+      "question": "Consider a 3-stage pipelined processor having a delay of 10 ns (nanoseconds),\n20 ns, and 14 ns, for the first, second, and the third stages, respectively. Assume\nthat there is no other delay and the processor does not suffer from any pipeline\nhazards. Also assume that one instruction is fetched every cycle. The total execution time for executing 100 instructions on this processor is _______\nns",
+      "options": null,
+      "answer": "2040",
+      "explanation": "Cycle time = slowest stage = 20 ns. Total cycles for n instructions on k stages = [latex]k+n-1=3+100-1=102[/latex]. Time [latex]=102\\times20=2040[/latex] ns Answer: 2040 Click here for detail solution by gateoverflow",
+      "images": [],
+      "topic": "Pipeline Processor",
+      "variant": null,
+      "has_images": false,
+      "image_type": "none",
+      "image_status": "none",
+      "solution_images": [],
+      "numerical_answer": {
+        "minimum": 2040,
+        "maximum": 2040
+      },
+      "explanation_html": "Cycle time = slowest stage = 20 ns.<br>\nTotal cycles for n instructions on k stages = [latex]k+n-1=3+100-1=102[/latex].<br><br>\nTime [latex]=102\\times20=2040[/latex] ns<br><br>\n<b>Answer: 2040</b><br><br><a href=\"https://gateoverflow.in/399288/gate-cse-2023-question-23#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a> ",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399288/gate-cse-2023-question-23#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs2023024",
+      "question_number": 24,
+      "question_type": "NAT",
+      "answer_format": "numeric",
+      "marks": 1,
+      "negative_marks": 0,
+      "question": "A keyboard connected to a computer is used at a rate of 1 keystroke per second.\nThe computer system polls the keyboard every 10 ms (milli seconds) to check for\na keystroke and consumes 100 [latex] \\mu s[/latex] (micro seconds) for each poll. If it is determined\nafter polling that a key has been pressed, the system consumes an additional 200\n[latex] \\mu s[/latex] to process the keystroke. Let [latex] T_1[/latex] denote the fraction of a second spent in polling\nand processing a keystroke. In an alternative implementation, the system uses interrupts instead of polling.\nAn interrupt is raised for every keystroke. It takes a total of 1 ms for servicing an\ninterrupt and processing a keystroke. Let  [latex] T_2[/latex] denote the fraction of a second spent\nin servicing the interrupt and processing a keystroke.\nThe ratio [latex] \\frac{T_1}{T_2}[/latex]\nis ______ . (Rounded off to one decimal place)",
+      "options": null,
+      "answer": "10.2",
+      "explanation": "Polling: 100 polls per second (every 10 ms) [latex]\\times[/latex] 100 [latex]\\mu[/latex]s = 10 ms, plus 200 [latex]\\mu[/latex]s for the one keystroke [latex]\\rightarrow[/latex] [latex]T_1=10.2[/latex] ms per second. Interrupts: one keystroke per second [latex]\\times[/latex] 1 ms [latex]\\rightarrow[/latex] [latex]T_2=1[/latex] ms per second. [latex]\\frac{T_1}{T_2}=\\frac{10.2}{1}=10.2[/latex] Answer: 10.2 Click here for detail solution by gateoverflow",
+      "images": [],
+      "topic": "Interrupt",
+      "variant": null,
+      "has_images": false,
+      "image_type": "none",
+      "image_status": "none",
+      "solution_images": [],
+      "numerical_answer": {
+        "minimum": 10.2,
+        "maximum": 10.2
+      },
+      "explanation_html": "<b>Polling:</b> 100 polls per second (every 10 ms) [latex]\\times[/latex] 100 [latex]\\mu[/latex]s = 10 ms, plus 200 [latex]\\mu[/latex]s for the one keystroke [latex]\\rightarrow[/latex] [latex]T_1=10.2[/latex] ms per second.<br><br>\n<b>Interrupts:</b> one keystroke per second [latex]\\times[/latex] 1 ms [latex]\\rightarrow[/latex] [latex]T_2=1[/latex] ms per second.<br><br>\n[latex]\\frac{T_1}{T_2}=\\frac{10.2}{1}=10.2[/latex]<br><br>\n<b>Answer: 10.2</b><br><br><a href=\"https://gateoverflow.in/399287/gate-cse-2023-question-24#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a> ",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399287/gate-cse-2023-question-24#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs2023025",
+      "question_number": 25,
+      "question_type": "NAT",
+      "answer_format": "numeric",
+      "marks": 1,
+      "negative_marks": 0,
+      "question": "The integer value printed by the ANSI-C program given below is ______. #include <stdio.h>\nint funcp(){\n   static int x = 1;\n   x++;\n   return x;\n}\nint main(){\n   int x,y;\n   x = funcp();\n   y = funcp()+x;\n   printf(\"%d\\n\", (x+y));\n   return 0;\n}",
+      "options": null,
+      "answer": "7",
+      "explanation": "static x in funcp keeps its value between calls (starts at 1). - x = funcp() [latex]\\rightarrow[/latex] static x becomes 2 [latex]\\rightarrow[/latex] x = 2 - y = funcp() + x [latex]\\rightarrow[/latex] static x becomes 3 [latex]\\rightarrow[/latex] y = 3 + 2 = 5 x + y = 7 Answer: 7 Click here for detail solution by gateoverflow",
+      "images": [],
+      "topic": "Function",
+      "variant": null,
+      "has_images": false,
+      "image_type": "none",
+      "image_status": "none",
+      "solution_images": [],
+      "numerical_answer": {
+        "minimum": 7,
+        "maximum": 7
+      },
+      "explanation_html": "static x in funcp keeps its value between calls (starts at 1).<br>\n- x = funcp() [latex]\\rightarrow[/latex] static x becomes 2 [latex]\\rightarrow[/latex] <b>x = 2</b><br>\n- y = funcp() + x [latex]\\rightarrow[/latex] static x becomes 3 [latex]\\rightarrow[/latex] <b>y = 3 + 2 = 5</b><br><br>\nx + y = 7<br><br>\n<b>Answer: 7</b><br><br><a href=\"https://gateoverflow.in/399286/gate-cse-2023-question-25#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a> ",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399286/gate-cse-2023-question-25#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs2023026",
+      "question_number": 26,
+      "question_type": "MCQ",
+      "answer_format": "option",
+      "marks": 2,
+      "negative_marks": 0.67,
+      "question": "Consider the following program: int main()\n{\n  f1();\n  f2(2);\n  f3();\n  return(0);\n}\n\nint f1()\n{\n  return(1);\n}\n\nint f2(int X)\n{\n  f3();\n  if (X==1)\n     return f1();\n  else\n     return (X*f2(X-1));\n}\n\nint f3()\n{\n  return(5);\n} Which one of the following options represents the activation tree corresponding to\nthe main function?",
+      "options": {
+        "A": "A",
+        "B": "B",
+        "C": "C",
+        "D": "D"
+      },
+      "answer": "A",
+      "explanation": "Trace the calls: - main calls f1(), f2(2), f3() [latex]\\rightarrow[/latex] 3 children. - f2(2) calls f3(), then since X [latex]\\ne[/latex] 1, calls f2(1). - f2(1) calls f3(), then since X == 1, calls f1(). Tree: main [latex]\\rightarrow[/latex] {f1, f2, f3}; f2 [latex]\\rightarrow[/latex] {f3, f2}; inner f2 [latex]\\rightarrow[/latex] {f3, f1}. This matches (A). Answer: A Click here for detail solution by gateoverflow",
+      "images": [
+        "images/questions/cs2023026_01.jpg"
+      ],
+      "topic": "Function",
+      "variant": null,
+      "has_images": true,
+      "image_type": "question",
+      "image_status": "available",
+      "solution_images": [],
+      "numerical_answer": null,
+      "explanation_html": "Trace the calls:<br>\n- main calls f1(), f2(2), f3() [latex]\\rightarrow[/latex] 3 children.<br>\n- f2(2) calls f3(), then since X [latex]\\ne[/latex] 1, calls f2(1).<br>\n- f2(1) calls f3(), then since X == 1, calls f1().<br><br>\nTree: main [latex]\\rightarrow[/latex] {f1, f2, f3}; f2 [latex]\\rightarrow[/latex] {f3, f2}; inner f2 [latex]\\rightarrow[/latex] {f3, f1}. This matches (A).<br><br>\n<b>Answer: A</b><br><br><a href=\"https://gateoverflow.in/399285/gate-cse-2023-question-26#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a> ",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399285/gate-cse-2023-question-26#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs2023027",
+      "question_number": 27,
+      "question_type": "MCQ",
+      "answer_format": "option",
+      "marks": 2,
+      "negative_marks": 0.67,
+      "question": "Consider the control flow graph shown. Which one of the following choices correctly lists the set of live variables at the exit\npoint of each basic block?",
+      "options": {
+        "A": "B1: {}, B2: {a}, B3: {a}, B4: {a}",
+        "B": "B1: {i, j}, B2: {a}, B3: {a}, B4: {i}",
+        "C": "B1: {a, i, j}, B2: {a, i, j}, B3: {a, i}, B4: {a}",
+        "D": "B1: {a, i, j}, B2: {a, j}, B3: {a, j}, B4: {a, i, j}"
+      },
+      "answer": "D",
+      "explanation": "Uses / definitions: B1 defines i, j, a; B2 uses and defines i, j; B3 defines a; B4 uses a and defines i. B4 goes to B2 or exit. - [latex]IN(B2)=\\{i,j\\}\\cup(OUT(B2)-\\{i,j\\})[/latex] - [latex]IN(B4)=\\{a\\}\\cup(OUT(B4)-\\{i\\})[/latex], [latex]IN(B3)=OUT(B3)-\\{a\\}[/latex] Iterating to a fixed point: - OUT(B4) = IN(B2) = {a, i, j} - IN(B4) = {a, j} = OUT(B3); IN(B3) = {j} - OUT(B2) = IN(B3) [latex]\\cup[/latex] IN(B4) = {a, j} - OUT(B1) = IN(B2) = {a, i, j} Answer: B1: {a, i, j}, B2: {a, j}, B3: {a, j}, B4: {a, i, j} Click here for detail solution by gateoverflow",
+      "images": [
+        "images/questions/cs2023027_01.jpg"
+      ],
+      "topic": "Runtime Environment",
+      "variant": null,
+      "has_images": true,
+      "image_type": "question",
+      "image_status": "available",
+      "solution_images": [],
+      "numerical_answer": null,
+      "explanation_html": "Uses / definitions: B1 defines i, j, a; B2 uses and defines i, j; B3 defines a; B4 uses a and defines i. B4 goes to B2 or exit.<br><br>\n- [latex]IN(B2)=\\{i,j\\}\\cup(OUT(B2)-\\{i,j\\})[/latex]<br>\n- [latex]IN(B4)=\\{a\\}\\cup(OUT(B4)-\\{i\\})[/latex], [latex]IN(B3)=OUT(B3)-\\{a\\}[/latex]<br><br>\nIterating to a fixed point:<br>\n- OUT(B4) = IN(B2) = {a, i, j}<br>\n- IN(B4) = {a, j} = OUT(B3); IN(B3) = {j}<br>\n- OUT(B2) = IN(B3) [latex]\\cup[/latex] IN(B4) = {a, j}<br>\n- OUT(B1) = IN(B2) = {a, i, j}<br><br>\n<b>Answer: B1: {a, i, j}, B2: {a, j}, B3: {a, j}, B4: {a, i, j}</b><br><br><a href=\"https://gateoverflow.in/399284/gate-cse-2023-question-27#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a> ",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399284/gate-cse-2023-question-27#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs2023028",
+      "question_number": 28,
+      "question_type": "MCQ",
+      "answer_format": "option",
+      "marks": 2,
+      "negative_marks": 0.67,
+      "question": "Consider the two functions incr and decr shown below. incr(){\n  wait(s);\n  X = X+1;\n  signal(s);\n}\n\ndecr(){\n  wait(s);\n  X = X-1;\n  signal(s);\n} There are 5 threads each invoking incr once, and 3 threads each invoking decr\nonce, on the same shared variable X. The initial value of X is 10. Suppose there are two implementations of the semaphore [latex]s[/latex], as follows: I-1: s is a binary semaphore initialized to 1. I-2: s is a counting semaphore initialized to 2. Let V1, V2 be the values of X at the end of execution of all the threads with\nimplementations I-1, I-2, respectively. Which one of the following choices corresponds to the minimum possible values of\nV1, V2, respectively?",
+      "options": {
+        "A": "15, 7",
+        "B": "7, 7",
+        "C": "12, 7",
+        "D": "12, 8"
+      },
+      "answer": "C",
+      "explanation": "I-1 (binary semaphore = 1): mutual exclusion, so every update is applied: [latex]V_1=10+5-3=12[/latex]. I-2 (counting semaphore = 2): two threads can be inside together and updates can be lost. To get the minimum: - a decr thread reads X = 10 and is preempted; - all 5 incr threads run one after another (using the second slot): X = 15; - the first decr writes 10 [latex]-[/latex] 1 = 9, wiping out all 5 increments; - the other 2 decr run normally: X = 7. So [latex]V_2=7[/latex]. Answer: 12, 7 Click here for detail solution by gateoverflow",
+      "images": [],
+      "topic": "Process Synchronization",
+      "variant": null,
+      "has_images": false,
+      "image_type": "none",
+      "image_status": "none",
+      "solution_images": [],
+      "numerical_answer": null,
+      "explanation_html": "<b>I-1 (binary semaphore = 1):</b> mutual exclusion, so every update is applied: [latex]V_1=10+5-3=12[/latex].<br><br>\n<b>I-2 (counting semaphore = 2):</b> two threads can be inside together and updates can be lost. To get the minimum:<br>\n- a decr thread reads X = 10 and is preempted;<br>\n- all 5 incr threads run one after another (using the second slot): X = 15;<br>\n- the first decr writes 10 [latex]-[/latex] 1 = 9, wiping out all 5 increments;<br>\n- the other 2 decr run normally: X = 7.<br><br>\nSo [latex]V_2=7[/latex].<br><br>\n<b>Answer: 12, 7</b><br><br><a href=\"https://gateoverflow.in/399283/gate-cse-2023-question-28#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a> ",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399283/gate-cse-2023-question-28#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs2023029",
+      "question_number": 29,
+      "question_type": "MCQ",
+      "answer_format": "option",
+      "marks": 2,
+      "negative_marks": 0.67,
+      "question": "Consider the context-free grammar [latex]G[/latex] below [latex] S\\rightarrow aSb \\;| \\;X[/latex] [latex] X\\rightarrow aX \\;| \\;Xb \\;|\\; a\\;|\\; b[/latex] where [latex]S[/latex] and [latex]X[/latex] are non-terminals, and [latex]a[/latex] and [latex]b[/latex] are terminal symbols. The starting\nnon-terminal is [latex]S[/latex]. Which one of the following statements is CORRECT?",
+      "options": {
+        "A": "The language generated by [latex] G \\text{ is }(a + b)^*[/latex]",
+        "B": "The language generated by [latex] G \\text{ is } a^*(a + b)b^*[/latex]",
+        "C": "The language generated by [latex] G \\text{ is }a^*b^*(a + b)[/latex]",
+        "D": "The language generated by [latex] G[/latex] is not a regular language"
+      },
+      "answer": "B",
+      "explanation": "X: [latex]X\\rightarrow aX[/latex] adds a's on the left, [latex]X\\rightarrow Xb[/latex] adds b's on the right, ending with a or b. So [latex]L(X)=a^*(a+b)b^*[/latex]. [latex]S\\rightarrow aSb[/latex] only adds more a's on the left and more b's on the right of X, so the result stays in [latex]a^*(a+b)b^*[/latex] and covers all of it (use S [latex]\\rightarrow[/latex] X directly). This is regular, and it is not [latex](a+b)^*[/latex] (e.g. \"ba\" is missing). Answer: The language generated by G is [latex]a^*(a+b)b^*[/latex] Click here for detail solution by gateoverflow",
+      "images": [],
+      "topic": "Theory of Computation",
+      "variant": null,
+      "has_images": false,
+      "image_type": "none",
+      "image_status": "none",
+      "solution_images": [],
+      "numerical_answer": null,
+      "explanation_html": "X: [latex]X\\rightarrow aX[/latex] adds a's on the left, [latex]X\\rightarrow Xb[/latex] adds b's on the right, ending with a or b. So [latex]L(X)=a^*(a+b)b^*[/latex].<br><br>\n[latex]S\\rightarrow aSb[/latex] only adds more a's on the left and more b's on the right of X, so the result stays in [latex]a^*(a+b)b^*[/latex] and covers all of it (use S [latex]\\rightarrow[/latex] X directly).<br><br>\nThis is regular, and it is not [latex](a+b)^*[/latex] (e.g. \"ba\" is missing).<br><br>\n<b>Answer: The language generated by G is [latex]a^*(a+b)b^*[/latex]</b><br><br><a href=\"https://gateoverflow.in/399282/gate-cse-2023-question-29#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a> ",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399282/gate-cse-2023-question-29#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs2023030",
+      "question_number": 30,
+      "question_type": "MCQ",
+      "answer_format": "option",
+      "marks": 2,
+      "negative_marks": 0.67,
+      "question": "Consider the pushdown automaton (PDA) [latex]P[/latex] below, which runs on the input alphabet [latex]\\{a,b\\}[/latex], has stack alphabet [latex] \\{ \\perp ,A\\}[/latex], and has three states [latex] \\{s,p,q\\}[/latex], with [latex]s[/latex]  being\nthe start state. A transition from state [latex]u[/latex]  to state [latex]v[/latex] , labelled [latex]c/X/\\gamma [/latex] , where [latex]c[/latex] is\nan input symbol or , [latex]X[/latex] is a stack symbol, and [latex]\\gamma [/latex] is a string of stack symbols,\nrepresents the fact that in state  [latex]u[/latex], the PDA can read  [latex]c[/latex] from the input, with  [latex]X[/latex] on\nthe top of its stack, pop  [latex]X[/latex] from the stack, push in the string  [latex]\\gamma [/latex] on the stack, and\ngo to state [latex]v[/latex]. In the initial configuration, the stack has only the symbol  [latex]\\perp [/latex] in it.\nThe PDA accepts by empty stack. Which one of the following options correctly describes the language accepted by [latex]P[/latex]?",
+      "options": {
+        "A": "[latex] \\{ a^mb^n |1\\leq m\\text{ and }n \\lt m \\}[/latex]",
+        "B": "[latex] \\{ a^mb^n |0 \\leq n \\leq m \\}[/latex]",
+        "C": "[latex] \\{ a^mb^n |0\\leq m\\text{ and } 0 \\lt n \\}[/latex]",
+        "D": "[latex] \\{ a^m |0\\leq m \\} \\cup \\{b^n|0 \\leq n \\}[/latex]"
+      },
+      "answer": "A",
+      "explanation": "Read the PDA transitions: - In s, every a pushes an A (so m a's give m A's). - The first b moves to p and pops an A; each further b pops another A. - To empty the stack we must go to q, and both moves into q need an A on top . In q, the remaining A's and [latex]\\perp[/latex] are popped. So at least one A must be left after reading the b's: [latex]n \\lt m[/latex], and [latex]m\\ge1[/latex] (with no a's there is no A to move to q). Answer: [latex]\\{a^mb^n\\mid 1\\le m,\\ n \\lt m\\}[/latex] Click here for detail solution by gateoverflow",
+      "images": [
+        "images/questions/cs2023030_01.jpg"
+      ],
+      "topic": "Push-down Automata",
+      "variant": null,
+      "has_images": true,
+      "image_type": "question",
+      "image_status": "available",
+      "solution_images": [],
+      "numerical_answer": null,
+      "explanation_html": "Read the PDA transitions:<br>- In s, every a pushes an A (so m a's give m A's).<br>\n- The first b moves to p and pops an A; each further b pops another A.<br>\n- To empty the stack we must go to q, and both moves into q need an <b>A on top</b>. In q, the remaining A's and [latex]\\perp[/latex] are popped.<br><br>\nSo at least one A must be left after reading the b's: [latex]n \\lt m[/latex], and [latex]m\\ge1[/latex] (with no a's there is no A to move to q).<br><br>\n<b>Answer: [latex]\\{a^mb^n\\mid 1\\le m,\\ n \\lt m\\}[/latex]</b><br><br><a href=\"https://gateoverflow.in/399281/gate-cse-2023-question-30#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a> ",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399281/gate-cse-2023-question-30#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs2023031",
+      "question_number": 31,
+      "question_type": "MCQ",
+      "answer_format": "option",
+      "marks": 2,
+      "negative_marks": 0.67,
+      "question": "Consider the given C-code and its corresponding assembly code, with a few\noperands U1-U4 being unknown. Some useful information as well as the semantics\nof each unique assembly instruction is annotated as inline comments in the code.\nThe memory is byte-addressable. Which one of the following options is a CORRECT replacement for operands in\nthe position (U1, U2, U3, U4) in the above assembly code?",
+      "options": {
+        "A": "(8, 4, 1, Lo2)",
+        "B": "(3, 4, 4, Lo1)",
+        "C": "(8, 1, 1, Lo2)",
+        "D": "(3, 1, 1, Lo1)"
+      },
+      "answer": "B",
+      "explanation": "Match the C code with the assembly code: - [latex]b[i]*8[/latex] = shift left by 3 [latex]\\rightarrow[/latex] U1 = 3 . - int is 4 bytes and memory is byte addressable, so to move to the next element of a and b, add 4 to the pointers: U2 = 4 , U3 = 4 . - After incrementing i (r1), jump back to the loop check at L01 [latex]\\rightarrow[/latex] U4 = L01 . Answer: (3, 4, 4, L01) Click here for detail solution by gateoverflow",
+      "images": [
+        "images/questions/cs2023031_01.jpg"
+      ],
+      "topic": "Machine Instruction",
+      "variant": null,
+      "has_images": true,
+      "image_type": "question",
+      "image_status": "available",
+      "solution_images": [],
+      "numerical_answer": null,
+      "explanation_html": "Match the C code with the assembly code:<br>- [latex]b[i]*8[/latex] = shift left by 3 [latex]\\rightarrow[/latex] <b>U1 = 3</b>.<br>\n- int is 4 bytes and memory is byte addressable, so to move to the next element of a and b, add 4 to the pointers: <b>U2 = 4</b>, <b>U3 = 4</b>.<br>\n- After incrementing i (r1), jump back to the loop check at L01 [latex]\\rightarrow[/latex] <b>U4 = L01</b>.<br><br>\n<b>Answer: (3, 4, 4, L01)</b><br><br><a href=\"https://gateoverflow.in/399280/gate-cse-2023-question-31#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a> ",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399280/gate-cse-2023-question-31#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs2023032",
+      "question_number": 32,
+      "question_type": "MCQ",
+      "answer_format": "option",
+      "marks": 2,
+      "negative_marks": 0.67,
+      "question": "A 4 kilobyte (KB) byte-addressable memory is realized using four 1 KB memory\nblocks. Two input address lines (IA4 and IA3) are connected to the chip select\n(CS) port of these memory blocks through a decoder as shown in the figure. The\nremaining ten input address lines from IA11-IA0 are connected to the address\nport of these blocks. The chip select (CS) is active high. The input memory addresses (IA11-IA0), in decimal, for the starting locations\n(Addr=0) of each block (indicated as X1, X2, X3, X4 in the figure) are among the\noptions given below. Which one of the following options is CORRECT?",
+      "options": {
+        "A": "(0, 1, 2, 3)",
+        "B": "(0, 1024, 2048, 3072)",
+        "C": "(0, 8, 16, 24)",
+        "D": "(0, 0, 0, 0)"
+      },
+      "answer": "C",
+      "explanation": "The decoder inputs are IA4 and IA3, so bits 4 and 3 select the block; the other 10 lines address inside the block. Starting location of each block (all other bits 0): - X1: IA4 IA3 = 00 [latex]\\rightarrow[/latex] 0 - X2: 01 [latex]\\rightarrow[/latex] [latex]2^3=8[/latex] - X3: 10 [latex]\\rightarrow[/latex] [latex]2^4=16[/latex] - X4: 11 [latex]\\rightarrow[/latex] 16 + 8 = 24 Answer: (0, 8, 16, 24) Click here for detail solution by gateoverflow",
+      "images": [
+        "images/questions/cs2023032_01.jpg"
+      ],
+      "topic": "Memory Chip Design",
+      "variant": null,
+      "has_images": true,
+      "image_type": "question",
+      "image_status": "available",
+      "solution_images": [],
+      "numerical_answer": null,
+      "explanation_html": "The decoder inputs are IA4 and IA3, so bits 4 and 3 select the block; the other 10 lines address inside the block.<br><br>\nStarting location of each block (all other bits 0):<br>\n- X1: IA4 IA3 = 00 [latex]\\rightarrow[/latex] 0<br>\n- X2: 01 [latex]\\rightarrow[/latex] [latex]2^3=8[/latex]<br>\n- X3: 10 [latex]\\rightarrow[/latex] [latex]2^4=16[/latex]<br>\n- X4: 11 [latex]\\rightarrow[/latex] 16 + 8 = 24<br><br>\n<b>Answer: (0, 8, 16, 24)</b><br><br><a href=\"https://gateoverflow.in/399279/gate-cse-2023-question-32#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a> ",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399279/gate-cse-2023-question-32#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs2023033",
+      "question_number": 33,
+      "question_type": "MCQ",
+      "answer_format": "option",
+      "marks": 2,
+      "negative_marks": 0.67,
+      "question": "Consider a sequential digital circuit consisting of T flip-flops and D flip-flops as\nshown in the figure. CLKIN is the clock input to the circuit. At the beginning,\nQ1, Q2 and Q3 have values 0, 1 and 1, respectively. Which one of the given values of (Q1, Q2, Q3) can NEVER be obtained with this\ndigital circuit?",
+      "options": {
+        "A": "(0, 0, 1)",
+        "B": "(1, 0, 0)",
+        "C": "(1, 0, 1)",
+        "D": "(1, 1, 1)"
+      },
+      "answer": "A",
+      "explanation": "From the circuit: [latex]T_1=\\overline{Q_3}[/latex], [latex]D_2=Q_1[/latex], [latex]T_3=Q_2[/latex]. Next state: [latex]Q_1^+=Q_1\\oplus\\overline{Q_3}[/latex], [latex]Q_2^+=Q_1[/latex], [latex]Q_3^+=Q_3\\oplus Q_2[/latex]. Starting from (0, 1, 1): 011 [latex]\\rightarrow[/latex] 000 [latex]\\rightarrow[/latex] 100 [latex]\\rightarrow[/latex] 010 [latex]\\rightarrow[/latex] 101 [latex]\\rightarrow[/latex] 111 [latex]\\rightarrow[/latex] 110 [latex]\\rightarrow[/latex] 011 (repeats) (0, 0, 1) never appears. Answer: (0, 0, 1) Click here for detail solution by gateoverflow",
+      "images": [
+        "images/questions/cs2023033_01.jpg"
+      ],
+      "topic": "Sequential Circuit",
+      "variant": null,
+      "has_images": true,
+      "image_type": "question",
+      "image_status": "available",
+      "solution_images": [],
+      "numerical_answer": null,
+      "explanation_html": "From the circuit: [latex]T_1=\\overline{Q_3}[/latex], [latex]D_2=Q_1[/latex], [latex]T_3=Q_2[/latex].<br>\nNext state: [latex]Q_1^+=Q_1\\oplus\\overline{Q_3}[/latex], [latex]Q_2^+=Q_1[/latex], [latex]Q_3^+=Q_3\\oplus Q_2[/latex].<br><br>\nStarting from (0, 1, 1):<br>\n011 [latex]\\rightarrow[/latex] 000 [latex]\\rightarrow[/latex] 100 [latex]\\rightarrow[/latex] 010 [latex]\\rightarrow[/latex] 101 [latex]\\rightarrow[/latex] 111 [latex]\\rightarrow[/latex] 110 [latex]\\rightarrow[/latex] 011 (repeats)<br><br>\n(0, 0, 1) never appears.<br><br>\n<b>Answer: (0, 0, 1)</b><br><br><a href=\"https://gateoverflow.in/399278/gate-cse-2023-question-33#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a> ",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399278/gate-cse-2023-question-33#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs2023034",
+      "question_number": 34,
+      "question_type": "MCQ",
+      "answer_format": "option",
+      "marks": 2,
+      "negative_marks": 0.67,
+      "question": "A Boolean digital circuit is composed using two 4-input multiplexers (M1 and M2)\nand one 2-input multiplexer (M3) as shown in the figure. X0-X7 are the inputs of\nthe multiplexers M1 and M2 and could be connected to either 0 or 1. The select\nlines of the multiplexers are connected to Boolean variables A, B and C as shown. Which one of the following set of values of (X0, X1, X2, X3, X4, X5, X6, X7) will\nrealise the Boolean function [latex] \\bar{A}+\\bar{A}\\cdot \\bar{C}+A\\cdot \\bar{B}\\cdot C[/latex] ?",
+      "options": {
+        "A": "(1, 1, 0, 0, 1, 1, 1, 0)",
+        "B": "(1, 1, 0, 0, 1, 1, 0, 1)",
+        "C": "(1, 1, 0, 1, 1, 1, 0, 0)",
+        "D": "(0, 0, 1, 1, 0, 1, 1, 1)"
+      },
+      "answer": "C",
+      "explanation": "M1 and M2 use selects (A, C), so input index = 2A + C. M3 picks M1 when B = 0 and M2 when B = 1. Simplify: [latex]F=\\bar A+\\bar A\\bar C+A\\bar BC=\\bar A+A\\bar BC[/latex] - B = 0 (M1) : A = 0 [latex]\\rightarrow[/latex] F = 1 (X0 = X1 = 1); A = 1 [latex]\\rightarrow[/latex] F = C (X2 = 0, X3 = 1) - B = 1 (M2) : A = 0 [latex]\\rightarrow[/latex] F = 1 (X4 = X5 = 1); A = 1 [latex]\\rightarrow[/latex] F = 0 (X6 = X7 = 0) Answer: (1, 1, 0, 1, 1, 1, 0, 0) Click here for detail solution by gateoverflow",
+      "images": [
+        "images/questions/cs2023034_01.jpg"
+      ],
+      "topic": "Digital Logic",
+      "variant": null,
+      "has_images": true,
+      "image_type": "question",
+      "image_status": "available",
+      "solution_images": [],
+      "numerical_answer": null,
+      "explanation_html": "M1 and M2 use selects (A, C), so input index = 2A + C. M3 picks M1 when B = 0 and M2 when B = 1.<br><br>\nSimplify: [latex]F=\\bar A+\\bar A\\bar C+A\\bar BC=\\bar A+A\\bar BC[/latex]<br><br>\n- <b>B = 0 (M1)</b>: A = 0 [latex]\\rightarrow[/latex] F = 1 (X0 = X1 = 1); A = 1 [latex]\\rightarrow[/latex] F = C (X2 = 0, X3 = 1)<br>\n- <b>B = 1 (M2)</b>: A = 0 [latex]\\rightarrow[/latex] F = 1 (X4 = X5 = 1); A = 1 [latex]\\rightarrow[/latex] F = 0 (X6 = X7 = 0)<br><br>\n<b>Answer: (1, 1, 0, 1, 1, 1, 0, 0)</b><br><br><a href=\"https://gateoverflow.in/399277/gate-cse-2023-question-34#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a> ",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399277/gate-cse-2023-question-34#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs2023035",
+      "question_number": 35,
+      "question_type": "MCQ",
+      "answer_format": "option",
+      "marks": 2,
+      "negative_marks": 0.67,
+      "question": "Consider the IEEE-754 single precision floating point numbers\nP=0xC1800000 and Q=0x3F5C2EF4. Which one of the following corresponds to the product of these numbers\n(i.e., P x Q), represented in the IEEE-754 single precision format?",
+      "options": {
+        "A": "0x404C2EF4",
+        "B": "0x405C2EF4",
+        "C": "0xC15C2EF4",
+        "D": "0xC14C2EF4"
+      },
+      "answer": "C",
+      "explanation": "P = 0xC1800000: sign 1, exponent [latex]131\\Rightarrow2^4[/latex], mantissa 0 [latex]\\rightarrow[/latex] [latex]P=-16[/latex]. Multiplying Q by [latex]-16[/latex] keeps Q's mantissa, makes the sign 1, and adds 4 to the exponent. Q's exponent = 0x7E = 126 [latex]\\rightarrow[/latex] new exponent 130 = 1000 0010. Bits: 1 | 1000 0010 | (Q's mantissa) [latex]\\rightarrow[/latex] first 12 bits 1100 0001 0101 = C15, then the rest of the mantissa C2EF4. Answer: 0xC15C2EF4 Click here for detail solution by gateoverflow",
+      "images": [],
+      "topic": "Number System",
+      "variant": null,
+      "has_images": false,
+      "image_type": "none",
+      "image_status": "none",
+      "solution_images": [],
+      "numerical_answer": null,
+      "explanation_html": "P = 0xC1800000: sign 1, exponent [latex]131\\Rightarrow2^4[/latex], mantissa 0 [latex]\\rightarrow[/latex] [latex]P=-16[/latex].<br><br>\nMultiplying Q by [latex]-16[/latex] keeps Q's mantissa, makes the sign 1, and adds 4 to the exponent.<br>\nQ's exponent = 0x7E = 126 [latex]\\rightarrow[/latex] new exponent 130 = 1000 0010.<br><br>\nBits: 1 | 1000 0010 | (Q's mantissa) [latex]\\rightarrow[/latex] first 12 bits 1100 0001 0101 = C15, then the rest of the mantissa C2EF4.<br><br>\n<b>Answer: 0xC15C2EF4</b><br><br><a href=\"https://gateoverflow.in/399276/gate-cse-2023-question-35#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a> ",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399276/gate-cse-2023-question-35#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs2023036",
+      "question_number": 36,
+      "question_type": "MCQ",
+      "answer_format": "option",
+      "marks": 2,
+      "negative_marks": 0.67,
+      "question": "Let A be a priority queue for maintaining a set of elements. Suppose A is\nimplemented using a max-heap data structure. The operation Extract-Max(A)\nextracts and deletes the maximum element from A. The operation Insert(A,key)\ninserts a new element key in A. The properties of a max-heap are preserved at the\nend of each of these operations. When A contains n elements, which one of the following statements about the worst\ncase running time of these two operations is TRUE?",
+      "options": {
+        "A": "Both Extract-Max(A) and Insert(A,key) run in O(1).",
+        "B": "Both Extract-Max(A) and Insert(A,key) run in O(log(n)).",
+        "C": "Extract-Max(A) runs in O(1) whereas Insert(A,key) runs in O(n).",
+        "D": "Extract-Max(A) runs in O(1) whereas Insert(A,key) runs in O(log(n))."
+      },
+      "answer": "B",
+      "explanation": "A heap of n elements has height about log n: - Extract-Max: remove the root, move the last element to the root, and heapify down the height of the tree [latex]\\rightarrow[/latex] [latex]O(\\log n)[/latex]. - Insert: add at the end and bubble up to the root [latex]\\rightarrow[/latex] [latex]O(\\log n)[/latex]. Answer: Both run in O(log(n)) Click here for detail solution by gateoverflow",
+      "images": [],
+      "topic": "Heap Tree",
+      "variant": null,
+      "has_images": false,
+      "image_type": "none",
+      "image_status": "none",
+      "solution_images": [],
+      "numerical_answer": null,
+      "explanation_html": "A heap of n elements has height about log n:<br>- Extract-Max: remove the root, move the last element to the root, and heapify down the height of the tree [latex]\\rightarrow[/latex] [latex]O(\\log n)[/latex].<br>\n- Insert: add at the end and bubble up to the root [latex]\\rightarrow[/latex] [latex]O(\\log n)[/latex].<br><br>\n<b>Answer: Both run in O(log(n))</b><br><br><a href=\"https://gateoverflow.in/399275/gate-cse-2023-question-36#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a> ",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399275/gate-cse-2023-question-36#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs2023037",
+      "question_number": 37,
+      "question_type": "MCQ",
+      "answer_format": "option",
+      "marks": 2,
+      "negative_marks": 0.67,
+      "question": "Consider the C function foo and the binary tree shown. typedef struct node {\n   int val;\n   struct node *left, *right;\n} node;\n\nint foo(node *p) {\n   int retval;\n   if (p == NULL)\n       return 0;\nelse {\n     retval = p->val + foo(p->left) + foo(p->right);\n     printf(\"%d \", retval);\n     return retval;\n     }\n} When foo is called with a pointer to the root node of the given binary tree, what\nwill it print?",
+      "options": {
+        "A": "3 8 5 13 11 10",
+        "B": "3 5 8 10 11 13",
+        "C": "3 8 16 13 24 50",
+        "D": "3 16 8 50 24 13"
+      },
+      "answer": "C",
+      "explanation": "foo returns the sum of a subtree and prints it after both children (post-order): - node 3 [latex]\\rightarrow[/latex] prints 3 - node 8 [latex]\\rightarrow[/latex] prints 8 - node 5 [latex]\\rightarrow[/latex] 5 + 3 + 8 = 16 - node 13 [latex]\\rightarrow[/latex] 13 - node 11 [latex]\\rightarrow[/latex] 11 + 0 + 13 = 24 - root 10 [latex]\\rightarrow[/latex] 10 + 16 + 24 = 50 Answer: 3 8 16 13 24 50 Click here for detail solution by gateoverflow",
+      "images": [
+        "images/questions/cs2023037_01.jpg"
+      ],
+      "topic": "Data Structure",
+      "variant": null,
+      "has_images": true,
+      "image_type": "question",
+      "image_status": "available",
+      "solution_images": [],
+      "numerical_answer": null,
+      "explanation_html": "foo returns the sum of a subtree and prints it <b>after</b> both children (post-order):<br>\n- node 3 [latex]\\rightarrow[/latex] prints 3<br>\n- node 8 [latex]\\rightarrow[/latex] prints 8<br>\n- node 5 [latex]\\rightarrow[/latex] 5 + 3 + 8 = 16<br>\n- node 13 [latex]\\rightarrow[/latex] 13<br>\n- node 11 [latex]\\rightarrow[/latex] 11 + 0 + 13 = 24<br>\n- root 10 [latex]\\rightarrow[/latex] 10 + 16 + 24 = 50<br><br>\n<b>Answer: 3 8 16 13 24 50</b><br><br><a href=\"https://gateoverflow.in/399274/gate-cse-2023-question-37#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a> ",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399274/gate-cse-2023-question-37#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs2023038",
+      "question_number": 38,
+      "question_type": "MCQ",
+      "answer_format": "option",
+      "marks": 2,
+      "negative_marks": 0.67,
+      "question": "Let U = {1, 2,...,n}, where n is a large positive integer greater than 1000. Let\nk be a positive integer less than n. Let A, B be subsets of U with |A| = |B| = k\nand [latex] A\\cap B=\\phi [/latex]. We say that a permutation of U separates A from B if one of the\nfollowing is true. - All members of A appear in the permutation before any of the members of B. - All members of B appear in the permutation before any of the members of A. How many permutations of U separate A from B?",
+      "options": {
+        "A": "[latex] n![/latex]",
+        "B": "[latex]\\binom{n}{2k} (n-2k)![/latex]",
+        "C": "[latex]\\binom{n}{2k} (n-2k)!  (k!)^2[/latex]",
+        "D": "[latex]2 \\binom{n}{2k} (n-2k)!  (k!)^2[/latex]"
+      },
+      "answer": "D",
+      "explanation": "Count the permutations step by step: - Choose the 2k positions that A [latex]\\cup[/latex] B will occupy: [latex]\\binom{n}{2k}[/latex] - Arrange the other [latex]n-2k[/latex] elements in the rest: [latex](n-2k)![/latex] - In the chosen positions, put all of A first and then B, or B first and then A: 2 ways - Arrange A among its k places and B among its k places: [latex](k!)^2[/latex] Total [latex]=2\\binom{n}{2k}(n-2k)!(k!)^2[/latex] Answer: [latex]2\\binom{n}{2k}(n-2k)!(k!)^2[/latex] Click here for detail solution by gateoverflow",
+      "images": [],
+      "topic": "Discrete Mathematics",
+      "variant": null,
+      "has_images": false,
+      "image_type": "none",
+      "image_status": "none",
+      "solution_images": [],
+      "numerical_answer": null,
+      "explanation_html": "Count the permutations step by step:<br>- Choose the 2k positions that A [latex]\\cup[/latex] B will occupy: [latex]\\binom{n}{2k}[/latex]<br>\n- Arrange the other [latex]n-2k[/latex] elements in the rest: [latex](n-2k)![/latex]<br>\n- In the chosen positions, put all of A first and then B, or B first and then A: 2 ways<br>\n- Arrange A among its k places and B among its k places: [latex](k!)^2[/latex]<br><br>\nTotal [latex]=2\\binom{n}{2k}(n-2k)!(k!)^2[/latex]<br><br>\n<b>Answer: [latex]2\\binom{n}{2k}(n-2k)!(k!)^2[/latex]</b><br><br><a href=\"https://gateoverflow.in/399273/gate-cse-2023-question-38#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a> ",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399273/gate-cse-2023-question-38#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs2023039",
+      "question_number": 39,
+      "question_type": "MSQ",
+      "answer_format": "option",
+      "marks": 2,
+      "negative_marks": 0,
+      "question": "Let [latex] f:A\\rightarrow B[/latex] be an onto (or surjective) function, where [latex]A[/latex]  and [latex]B[/latex] are nonempty\nsets. Define an equivalence relation [latex] \\sim [/latex]  on the set [latex]A[/latex] as [latex] a_1\\sim a_2 \\text{ if } f(a_1)=f(a_2),[/latex] where [latex] a_1, a_2  \\in A[/latex] . Let [latex] \\varepsilon =\\{[x]:x \\in A\\}[/latex]  be the set of all the equivalence classes\nunder [latex] \\sim [/latex]. Define a new mapping [latex] F: \\varepsilon \\rightarrow B[/latex]  as [latex]F([x]) = f(x),[/latex] for all the equivalence classes [latex][x][/latex] in [latex]  \\varepsilon[/latex] Which of the following statements is/are TRUE?",
+      "options": {
+        "A": "F is NOT well-defined.",
+        "B": "F is an onto (or surjective) function.",
+        "C": "F is a one-to-one (or injective) function.",
+        "D": "F is a bijective function."
+      },
+      "answer": [
+        "B",
+        "C",
+        "D"
+      ],
+      "explanation": "Check each property of F: - Well-defined : if [x] = [y], then f(x) = f(y), so F gives the same value for every representative (option 1 FALSE). - Onto : for any b in B, f is onto, so f(a) = b for some a, and F([a]) = b. - One-to-one : F([x]) = F([y]) means f(x) = f(y), so [latex]x\\sim y[/latex] and [x] = [y]. - Onto and one-to-one [latex]\\rightarrow[/latex] bijective . Answer: Options 2, 3 and 4 Click here for detail solution by gateoverflow",
+      "images": [],
+      "topic": "Functions",
+      "variant": null,
+      "has_images": false,
+      "image_type": "none",
+      "image_status": "none",
+      "solution_images": [],
+      "numerical_answer": null,
+      "explanation_html": "Check each property of F:<br>- <b>Well-defined</b>: if [x] = [y], then f(x) = f(y), so F gives the same value for every representative (option 1 FALSE).<br>\n- <b>Onto</b>: for any b in B, f is onto, so f(a) = b for some a, and F([a]) = b.<br>\n- <b>One-to-one</b>: F([x]) = F([y]) means f(x) = f(y), so [latex]x\\sim y[/latex] and [x] = [y].<br>\n- Onto and one-to-one [latex]\\rightarrow[/latex] <b>bijective</b>.<br><br>\n<b>Answer: Options 2, 3 and 4</b><br><br><a href=\"https://gateoverflow.in/399272/gate-cse-2023-question-39#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a> ",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399272/gate-cse-2023-question-39#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs2023040",
+      "question_number": 40,
+      "question_type": "MSQ",
+      "answer_format": "option",
+      "marks": 2,
+      "negative_marks": 0,
+      "question": "Suppose you are asked to design a new reliable byte-stream transport protocol\nlike TCP. This protocol, named myTCP, runs over a 100 Mbps network with Round\nTrip Time of 150 milliseconds and the maximum segment lifetime of 2 minutes. Which of the following is/are valid lengths of the Sequence Number field in the\nmyTCP header?",
+      "options": {
+        "A": "30 bits",
+        "B": "32 bits",
+        "C": "34 bits",
+        "D": "36 bits"
+      },
+      "answer": [
+        "B",
+        "C",
+        "D"
+      ],
+      "explanation": "The sequence numbers must not wrap around within one MSL. Bytes sent in 2 minutes: [latex]\\frac{100\\times10^6}{8}\\times120=1.5\\times10^9[/latex] bytes [latex]2^{30}\\approx1.07\\times10^9[/latex] (too small), [latex]2^{31}\\approx2.15\\times10^9[/latex] (enough). So the field needs at least 31 bits. 32, 34 and 36 bits are valid; 30 bits is not. Answer: 32 bits, 34 bits, 36 bits Click here for detail solution by gateoverflow",
+      "images": [],
+      "topic": "Transport Layer Protocol",
+      "variant": null,
+      "has_images": false,
+      "image_type": "none",
+      "image_status": "none",
+      "solution_images": [],
+      "numerical_answer": null,
+      "explanation_html": "The sequence numbers must not wrap around within one MSL. Bytes sent in 2 minutes:<br>\n[latex]\\frac{100\\times10^6}{8}\\times120=1.5\\times10^9[/latex] bytes<br><br>\n[latex]2^{30}\\approx1.07\\times10^9[/latex] (too small), [latex]2^{31}\\approx2.15\\times10^9[/latex] (enough). So the field needs at least 31 bits.<br><br>\n32, 34 and 36 bits are valid; 30 bits is not.<br><br>\n<b>Answer: 32 bits, 34 bits, 36 bits</b><br><br><a href=\"https://gateoverflow.in/399271/gate-cse-2023-question-40#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a> ",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399271/gate-cse-2023-question-40#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs2023041",
+      "question_number": 41,
+      "question_type": "MSQ",
+      "answer_format": "option",
+      "marks": 2,
+      "negative_marks": 0,
+      "question": "Let [latex]X[/latex] be a set and [latex]2^X[/latex] denote the powerset of [latex]X[/latex]. Define a binary operation [latex] \\Delta [/latex] on [latex]2^X[/latex] as follows: [latex]A  \\Delta B=(A-B) \\cup (B-A)[/latex] Let [latex] H=(2^X,\\Delta ) [/latex]. Which of the following statements about [latex]H[/latex] is/are correct?",
+      "options": {
+        "A": "[latex]H[/latex] is a group.",
+        "B": "Every element in [latex]H[/latex] has an inverse, but [latex]H[/latex] is NOT a group.",
+        "C": "For every [latex]A \\in 2^X[/latex], the inverse of [latex]A[/latex] is the complement of [latex]A[/latex].",
+        "D": "For every [latex]A \\in 2^X[/latex], the inverse of [latex]A[/latex] is [latex]A[/latex]."
+      },
+      "answer": [
+        "A",
+        "D"
+      ],
+      "explanation": "Check the group properties of symmetric difference on [latex]2^X[/latex]: - Closed: [latex]A\\Delta B\\subseteq X[/latex] - Associative: yes (it behaves like XOR on membership) - Identity: [latex]\\phi[/latex], since [latex]A\\Delta\\phi=A[/latex] - Inverse: [latex]A\\Delta A=\\phi[/latex], so every A is its own inverse (not its complement: [latex]A\\Delta A^c=X[/latex]) Answer: H is a group; the inverse of A is A Click here for detail solution by gateoverflow",
+      "images": [],
+      "topic": "Set Theory",
+      "variant": null,
+      "has_images": false,
+      "image_type": "none",
+      "image_status": "none",
+      "solution_images": [],
+      "numerical_answer": null,
+      "explanation_html": "Check the group properties of symmetric difference on [latex]2^X[/latex]:<br>\n- Closed: [latex]A\\Delta B\\subseteq X[/latex]<br>\n- Associative: yes (it behaves like XOR on membership)<br>\n- Identity: [latex]\\phi[/latex], since [latex]A\\Delta\\phi=A[/latex]<br>\n- Inverse: [latex]A\\Delta A=\\phi[/latex], so every A is <b>its own inverse</b> (not its complement: [latex]A\\Delta A^c=X[/latex])<br><br>\n<b>Answer: H is a group; the inverse of A is A</b><br><br><a href=\"https://gateoverflow.in/399270/gate-cse-2023-question-41#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a> ",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399270/gate-cse-2023-question-41#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs2023042",
+      "question_number": 42,
+      "question_type": "MSQ",
+      "answer_format": "option",
+      "marks": 2,
+      "negative_marks": 0,
+      "question": "Suppose in a web browser, you click on the www.gate-2023.in URL. The browser\ncache is empty. The IP address for this URL is not cached in your local host, so\na DNS lookup is triggered (by the local DNS server deployed on your local host)\nover the 3-tier DNS hierarchy in an iterative mode. No resource records are cached\nanywhere across all DNS servers. Let RTT denote the round trip time between your local host and DNS servers\nin the DNS hierarchy. The round trip time between the local host and the web\nserver hosting www.gate-2023.in is also equal to RTT. The HTML file associated\nwith the URL is small enough to have negligible transmission time and negligible\nrendering time by your web browser, which references 10 equally small objects on\nthe same web server. Which of the following statements is/are CORRECT about the minimum elapsed\ntime between clicking on the URL and your browser fully rendering it?",
+      "options": {
+        "A": "7 RTTs, in case of non-persistent HTTP with 5 parallel TCP connections.",
+        "B": "5 RTTs, in case of persistent HTTP with pipelining.",
+        "C": "9 RTTs, in case of non-persistent HTTP with 5 parallel TCP connections.",
+        "D": "6 RTTs, in case of persistent HTTP with pipelining."
+      },
+      "answer": [
+        "C",
+        "D"
+      ],
+      "explanation": "DNS (iterative, 3 tiers: root, TLD, authoritative) = 3 RTT . Non-persistent, 5 parallel connections: base HTML = TCP setup + request = 2 RTT. The 10 objects go in 2 batches of 5, each batch 2 RTT (new connection each) = 4 RTT. Total = 3 + 2 + 4 = 9 RTT . Persistent with pipelining: TCP setup 1 RTT + HTML 1 RTT + all 10 objects pipelined in 1 RTT. Total = 3 + 1 + 1 + 1 = 6 RTT . Answer: 9 RTTs (non-persistent, 5 parallel) and 6 RTTs (persistent with pipelining) Click here for detail solution by gateoverflow",
+      "images": [],
+      "topic": "Computer Network",
+      "variant": null,
+      "has_images": false,
+      "image_type": "none",
+      "image_status": "none",
+      "solution_images": [],
+      "numerical_answer": null,
+      "explanation_html": "DNS (iterative, 3 tiers: root, TLD, authoritative) = <b>3 RTT</b>.<br><br>\n<b>Non-persistent, 5 parallel connections:</b> base HTML = TCP setup + request = 2 RTT. The 10 objects go in 2 batches of 5, each batch 2 RTT (new connection each) = 4 RTT.<br>\nTotal = 3 + 2 + 4 = <b>9 RTT</b>.<br><br>\n<b>Persistent with pipelining:</b> TCP setup 1 RTT + HTML 1 RTT + all 10 objects pipelined in 1 RTT.<br>\nTotal = 3 + 1 + 1 + 1 = <b>6 RTT</b>.<br><br>\n<b>Answer: 9 RTTs (non-persistent, 5 parallel) and 6 RTTs (persistent with pipelining)</b><br><br><a href=\"https://gateoverflow.in/399269/gate-cse-2023-question-42#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a> ",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399269/gate-cse-2023-question-42#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs2023043",
+      "question_number": 43,
+      "question_type": "MSQ",
+      "answer_format": "option",
+      "marks": 2,
+      "negative_marks": 0,
+      "question": "Consider a random experiment where two fair coins are tossed. Let A be the event\nthat denotes HEAD on both the throws, B be the event that denotes HEAD on\nthe first throw, and C be the event that denotes HEAD on the second throw.\nWhich of the following statements is/are TRUE?",
+      "options": {
+        "A": "A and B are independent.",
+        "B": "A and C are independent.",
+        "C": "B and C are independent.",
+        "D": "Prob(B|C) = Prob(B)"
+      },
+      "answer": [
+        "C",
+        "D"
+      ],
+      "explanation": "[latex]P(A)=\\frac14,\\ P(B)=P(C)=\\frac12[/latex]. - A and B: [latex]P(A\\cap B)=P(A)=\\frac14\\ne P(A)P(B)=\\frac18[/latex] [latex]\\rightarrow[/latex] not independent (same for A and C). - B and C: [latex]P(B\\cap C)=\\frac14=\\frac12\\cdot\\frac12[/latex] [latex]\\rightarrow[/latex] independent. - So [latex]P(B|C)=P(B)[/latex] [latex]\\text{---}[/latex] TRUE. Answer: B and C are independent; Prob(B|C) = Prob(B) Click here for detail solution by gateoverflow",
+      "images": [],
+      "topic": "Probability Theory",
+      "variant": null,
+      "has_images": false,
+      "image_type": "none",
+      "image_status": "none",
+      "solution_images": [],
+      "numerical_answer": null,
+      "explanation_html": "[latex]P(A)=\\frac14,\\ P(B)=P(C)=\\frac12[/latex].<br><br>\n- A and B: [latex]P(A\\cap B)=P(A)=\\frac14\\ne P(A)P(B)=\\frac18[/latex] [latex]\\rightarrow[/latex] not independent (same for A and C).<br>\n- B and C: [latex]P(B\\cap C)=\\frac14=\\frac12\\cdot\\frac12[/latex] [latex]\\rightarrow[/latex] independent.<br>\n- So [latex]P(B|C)=P(B)[/latex] [latex]\\text{---}[/latex] TRUE.<br><br>\n<b>Answer: B and C are independent; Prob(B|C) = Prob(B)</b><br><br><a href=\"https://gateoverflow.in/399268/gate-cse-2023-question-43#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a> ",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399268/gate-cse-2023-question-43#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs2023044",
+      "question_number": 44,
+      "question_type": "MSQ",
+      "answer_format": "option",
+      "marks": 2,
+      "negative_marks": 0,
+      "question": "Consider functions Function 1 and Function 2 expressed in pseudocode as\nfollows: Let [latex]f_1(n)[/latex] and [latex]f_2(n)[/latex] denote the number of times the statement [latex]\"x = x + 1\"[/latex] is\nexecuted in Function 1 and Function 2, respectively. Which of the following statements is/are TRUE?",
+      "options": {
+        "A": "[latex] f_1(n)\\in \\Theta (f_2(n)) [/latex]",
+        "B": "[latex] f_1(n)\\in o (f_2(n)) [/latex]",
+        "C": "[latex] f_1(n)\\in \\omega  (f_2(n)) [/latex]",
+        "D": "[latex] f_1(n)\\in O  (n) [/latex]"
+      },
+      "answer": [
+        "A",
+        "D"
+      ],
+      "explanation": "Count how many times x = x + 1 runs in each function: - Function 1: the inner loop runs n, then n/2, n/4, [latex]\\ldots[/latex] times: [latex]f_1(n)\\approx n+\\frac n2+\\frac n4+\\cdots\\lt2n[/latex] [latex]\\rightarrow[/latex] [latex]\\Theta(n)[/latex]. - Function 2: [latex]f_2(n)=100n[/latex] [latex]\\rightarrow[/latex] [latex]\\Theta(n)[/latex]. Both are linear: [latex]f_1\\in\\Theta(f_2)[/latex] and [latex]f_1\\in O(n)[/latex]. They are not strictly smaller or larger than each other, so o and [latex]\\omega[/latex] fail. Answer: [latex]f_1(n)\\in\\Theta(f_2(n))[/latex] and [latex]f_1(n)\\in O(n)[/latex] Click here for detail solution by gateoverflow",
+      "images": [
+        "images/questions/cs2023044_01.jpg"
+      ],
+      "topic": "Asymptotic Notation",
+      "variant": null,
+      "has_images": true,
+      "image_type": "question",
+      "image_status": "available",
+      "solution_images": [],
+      "numerical_answer": null,
+      "explanation_html": "Count how many times x = x + 1 runs in each function:<br>- Function 1: the inner loop runs n, then n/2, n/4, [latex]\\ldots[/latex] times: [latex]f_1(n)\\approx n+\\frac n2+\\frac n4+\\cdots\\lt2n[/latex] [latex]\\rightarrow[/latex] [latex]\\Theta(n)[/latex].<br>\n- Function 2: [latex]f_2(n)=100n[/latex] [latex]\\rightarrow[/latex] [latex]\\Theta(n)[/latex].<br><br>\nBoth are linear: [latex]f_1\\in\\Theta(f_2)[/latex] and [latex]f_1\\in O(n)[/latex]. They are not strictly smaller or larger than each other, so o and [latex]\\omega[/latex] fail.<br><br>\n<b>Answer: [latex]f_1(n)\\in\\Theta(f_2(n))[/latex] and [latex]f_1(n)\\in O(n)[/latex]</b><br><br><a href=\"https://gateoverflow.in/399267/gate-cse-2023-question-44#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a> ",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399267/gate-cse-2023-question-44#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs2023045",
+      "question_number": 45,
+      "question_type": "MSQ",
+      "answer_format": "option",
+      "marks": 2,
+      "negative_marks": 0,
+      "question": "Let [latex]G[/latex] be a simple, finite, undirected graph with vertex set [latex] \\{v_1,...,v_n\\}[/latex]. Let [latex] \\Delta (G)[/latex]  \ndenote the maximum degree of  [latex]G[/latex] and let [latex] N=\\{1,2,...\\} [/latex]  denote the set of all possible\ncolors. Color the vertices of  [latex]G[/latex] using the following greedy strategy:\nfor [latex]i = 1,...,n[/latex] [latex]color(v_i)\\leftarrow min\\{ j \\in N: \\text{  no neighbour of } v_i \\text{ is colored } j\\}[/latex] Which of the following statements is/are TRUE?",
+      "options": {
+        "A": "This procedure results in a proper vertex coloring of [latex]G[/latex].",
+        "B": "The number of colors used is at most [latex] \\Delta (G)+1[/latex].",
+        "C": "The number of colors used is at most[latex] \\Delta (G)[/latex].",
+        "D": "The number of colors used is equal to the chromatic number of [latex]G[/latex]."
+      },
+      "answer": [
+        "A",
+        "B"
+      ],
+      "explanation": "Checking each statement: - Each vertex gets the smallest colour not used by any neighbour, so no edge joins equal colours [latex]\\rightarrow[/latex] proper colouring [latex]\\text{---}[/latex] TRUE. - A vertex has at most [latex]\\Delta(G)[/latex] neighbours, so among colours [latex]1\\ldots\\Delta+1[/latex] one is always free [latex]\\rightarrow[/latex] at most [latex]\\Delta(G)+1[/latex] colours [latex]\\text{---}[/latex] TRUE. - [latex]K_n[/latex] needs n = [latex]\\Delta+1[/latex] colours, so \"at most [latex]\\Delta(G)[/latex]\" is FALSE. - A bad vertex order can use more colours than the chromatic number (e.g. on some bipartite graphs) [latex]\\text{---}[/latex] FALSE. Answer: Options 1 and 2 Click here for detail solution by gateoverflow",
+      "images": [],
+      "topic": "Graph Theory",
+      "variant": null,
+      "has_images": false,
+      "image_type": "none",
+      "image_status": "none",
+      "solution_images": [],
+      "numerical_answer": null,
+      "explanation_html": "Checking each statement:<br>- Each vertex gets the smallest colour not used by any neighbour, so no edge joins equal colours [latex]\\rightarrow[/latex] proper colouring [latex]\\text{---}[/latex] TRUE.<br>\n- A vertex has at most [latex]\\Delta(G)[/latex] neighbours, so among colours [latex]1\\ldots\\Delta+1[/latex] one is always free [latex]\\rightarrow[/latex] at most [latex]\\Delta(G)+1[/latex] colours [latex]\\text{---}[/latex] TRUE.<br>\n- [latex]K_n[/latex] needs n = [latex]\\Delta+1[/latex] colours, so \"at most [latex]\\Delta(G)[/latex]\" is FALSE.<br>\n- A bad vertex order can use more colours than the chromatic number (e.g. on some bipartite graphs) [latex]\\text{---}[/latex] FALSE.<br><br>\n<b>Answer: Options 1 and 2</b><br><br><a href=\"https://gateoverflow.in/399266/gate-cse-2023-question-45#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a> ",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399266/gate-cse-2023-question-45#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs2023046",
+      "question_number": 46,
+      "question_type": "NAT",
+      "answer_format": "numeric",
+      "marks": 2,
+      "negative_marks": 0,
+      "question": "Let [latex]U = \\{1, 2, 3\\}[/latex]. Let [latex]2^U[/latex] denote the powerset of  [latex]U[/latex]. Consider an undirected graph\n [latex]G[/latex] whose vertex set is  [latex]2^U[/latex]. For any  [latex]A,B \\in 2^U, (A,B)[/latex] is an edge in  [latex]G[/latex] if and only\nif (i)  [latex]A \\neq B[/latex], and (ii) either [latex]A \\subseteq B[/latex]   or [latex]B \\subseteq A[/latex]. For any vertex [latex]A[/latex] in [latex]G[/latex], the set of\nall possible orderings in which the vertices of [latex]G[/latex] can be visited in a Breadth First\nSearch (BFS) starting from [latex]A[/latex] is denoted by [latex]B(A)[/latex]. If [latex]\\phi [/latex]  denotes the empty set, then the cardinality of [latex]B(\\phi ) [/latex]  is ____.",
+      "options": null,
+      "answer": "5040",
+      "explanation": "[latex]\\phi[/latex] is a subset of every set, so [latex]\\phi[/latex] is adjacent to all the other [latex]2^3-1=7[/latex] vertices. BFS from [latex]\\phi[/latex] visits all 7 neighbours at level 1, and these 7 can be visited in any order: [latex]7!=5040[/latex]. Answer: 5040 Click here for detail solution by gateoverflow",
+      "images": [],
+      "topic": "Graph Traversal",
+      "variant": null,
+      "has_images": false,
+      "image_type": "none",
+      "image_status": "none",
+      "solution_images": [],
+      "numerical_answer": {
+        "minimum": 5040,
+        "maximum": 5040
+      },
+      "explanation_html": "[latex]\\phi[/latex] is a subset of every set, so [latex]\\phi[/latex] is adjacent to all the other [latex]2^3-1=7[/latex] vertices.<br><br>\nBFS from [latex]\\phi[/latex] visits all 7 neighbours at level 1, and these 7 can be visited in any order: [latex]7!=5040[/latex].<br><br>\n<b>Answer: 5040</b><br><br><a href=\"https://gateoverflow.in/399265/gate-cse-2023-question-46#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a> ",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399265/gate-cse-2023-question-46#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs2023047",
+      "question_number": 47,
+      "question_type": "NAT",
+      "answer_format": "numeric",
+      "marks": 2,
+      "negative_marks": 0,
+      "question": "Consider the following two-dimensional array D in the C programming language,\nwhich is stored in row-major order: int D[128][128]; Demand paging is used for allocating memory and each physical page frame holds\n512 elements of the array D. The Least Recently Used (LRU) page-replacement\npolicy is used by the operating system. A total of 30 physical page frames are\nallocated to a process which executes the following code snippet: for (int i = 0; i < 128; i++)\n       for (int j = 0; j < 128; j++) \n                   D[j][i] *= 10; The number of page faults generated during the execution of this code snippet is _____.",
+      "options": null,
+      "answer": "4096",
+      "explanation": "One page = 512 ints = 4 rows of D (each row has 128 ints). D has 128 rows [latex]\\rightarrow[/latex] 32 pages. The loop accesses D[j][i] column-wise: for each i, j goes 0 [latex]\\rightarrow[/latex] 127, touching all 32 pages in order (one page per 4 rows). With 30 frames and LRU, cycling through 32 pages means each page is evicted before it is needed again. So every new page in each pass faults: 32 faults per value of i. Total [latex]=128\\times32=4096[/latex] Answer: 4096 Click here for detail solution by gateoverflow",
+      "images": [],
+      "topic": "Memory Management",
+      "variant": null,
+      "has_images": false,
+      "image_type": "none",
+      "image_status": "none",
+      "solution_images": [],
+      "numerical_answer": {
+        "minimum": 4096,
+        "maximum": 4096
+      },
+      "explanation_html": "One page = 512 ints = 4 rows of D (each row has 128 ints). D has 128 rows [latex]\\rightarrow[/latex] 32 pages.<br><br>\nThe loop accesses D[j][i] column-wise: for each i, j goes 0 [latex]\\rightarrow[/latex] 127, touching all 32 pages in order (one page per 4 rows).<br><br>\nWith 30 frames and LRU, cycling through 32 pages means each page is evicted before it is needed again. So every new page in each pass faults: 32 faults per value of i.<br><br>\nTotal [latex]=128\\times32=4096[/latex]<br><br>\n<b>Answer: 4096</b><br><br><a href=\"https://gateoverflow.in/399264/gate-cse-2023-question-47#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a> ",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399264/gate-cse-2023-question-47#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs2023048",
+      "question_number": 48,
+      "question_type": "NAT",
+      "answer_format": "numeric",
+      "marks": 2,
+      "negative_marks": 0,
+      "question": "Consider a computer system with 57-bit virtual addressing using multi-level\ntree-structured page tables with L levels for virtual to physical address translation.\nThe page size is 4 KB (1 KB = 1024 B) and a page table entry at any of the levels\noccupies 8 bytes. The value of L is ______.",
+      "options": null,
+      "answer": "5",
+      "explanation": "Page size 4 KB [latex]=2^{12}[/latex] [latex]\\rightarrow[/latex] 12 offset bits. VPN bits [latex]=57-12=45[/latex]. One page-table page holds [latex]\\frac{4096}{8}=512=2^9[/latex] entries [latex]\\rightarrow[/latex] each level resolves 9 bits. Levels [latex]L=\\frac{45}{9}=5[/latex] Answer: 5 Click here for detail solution by gateoverflow",
+      "images": [],
+      "topic": "Memory Management",
+      "variant": null,
+      "has_images": false,
+      "image_type": "none",
+      "image_status": "none",
+      "solution_images": [],
+      "numerical_answer": {
+        "minimum": 5,
+        "maximum": 5
+      },
+      "explanation_html": "Page size 4 KB [latex]=2^{12}[/latex] [latex]\\rightarrow[/latex] 12 offset bits. VPN bits [latex]=57-12=45[/latex].<br><br>\nOne page-table page holds [latex]\\frac{4096}{8}=512=2^9[/latex] entries [latex]\\rightarrow[/latex] each level resolves 9 bits.<br><br>\nLevels [latex]L=\\frac{45}{9}=5[/latex]<br><br>\n<b>Answer: 5</b><br><br><a href=\"https://gateoverflow.in/399263/gate-cse-2023-question-48#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a> ",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399263/gate-cse-2023-question-48#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs2023049",
+      "question_number": 49,
+      "question_type": "NAT",
+      "answer_format": "numeric",
+      "marks": 2,
+      "negative_marks": 0,
+      "question": "Consider a sequence [latex]a[/latex] of elements [latex]a_0 = 1, a_1 = 5, a_2 = 7, a_3 = 8, a_4 = 9, \\; and \\; \na_5 = 2[/latex]. The following operations are performed on a stack [latex]S[/latex] and a queue [latex]Q[/latex], both\nof which are initially empty. I: push the elements of a from [latex]a_0[/latex] to [latex]a_5[/latex] in that order into [latex]S[/latex]. II: enqueue the elements of a from [latex]a_0[/latex] to [latex]a_5[/latex] in that order into [latex]Q[/latex]. III: pop an element from [latex]S[/latex]. IV: dequeue an element from [latex]Q[/latex]. V: pop an element from [latex]S[/latex]. VI: dequeue an element from [latex]Q[/latex]. VII: dequeue an element from [latex]Q[/latex] and push the same element into [latex]S[/latex]. VIII: Repeat operation VII three times. IX: pop an element from [latex]S[/latex]. X: pop an element from [latex]S[/latex]. The top element of [latex]S[/latex] after executing the above operations is ___.",
+      "options": null,
+      "answer": "8",
+      "explanation": "After I and II: S = [1, 5, 7, 8, 9, 2] (top = 2), Q = [1, 5, 7, 8, 9, 2] (front = 1). - III: pop S [latex]\\rightarrow[/latex] removes 2 - IV: dequeue Q [latex]\\rightarrow[/latex] removes 1 - V: pop S [latex]\\rightarrow[/latex] removes 9 [latex]\\rightarrow[/latex] S = [1, 5, 7, 8] - VI: dequeue Q [latex]\\rightarrow[/latex] removes 5 [latex]\\rightarrow[/latex] Q = [7, 8, 9, 2] - VII + VIII (4 times): move 7, 8, 9, 2 from Q to S [latex]\\rightarrow[/latex] S = [1, 5, 7, 8, 7, 8, 9, 2] - IX, X: pop 2 and 9 [latex]\\rightarrow[/latex] top = 8 Answer: 8 Click here for detail solution by gateoverflow",
+      "images": [],
+      "topic": "Queue",
+      "variant": null,
+      "has_images": false,
+      "image_type": "none",
+      "image_status": "none",
+      "solution_images": [],
+      "numerical_answer": {
+        "minimum": 8,
+        "maximum": 8
+      },
+      "explanation_html": "After I and II: S = [1, 5, 7, 8, 9, 2] (top = 2), Q = [1, 5, 7, 8, 9, 2] (front = 1).<br>\n- III: pop S [latex]\\rightarrow[/latex] removes 2<br>\n- IV: dequeue Q [latex]\\rightarrow[/latex] removes 1<br>\n- V: pop S [latex]\\rightarrow[/latex] removes 9 [latex]\\rightarrow[/latex] S = [1, 5, 7, 8]<br>\n- VI: dequeue Q [latex]\\rightarrow[/latex] removes 5 [latex]\\rightarrow[/latex] Q = [7, 8, 9, 2]<br>\n- VII + VIII (4 times): move 7, 8, 9, 2 from Q to S [latex]\\rightarrow[/latex] S = [1, 5, 7, 8, 7, 8, 9, 2]<br>\n- IX, X: pop 2 and 9 [latex]\\rightarrow[/latex] top = <b>8</b><br><br>\n<b>Answer: 8</b><br><br><a href=\"https://gateoverflow.in/399262/gate-cse-2023-question-49#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a> ",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399262/gate-cse-2023-question-49#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs2023050",
+      "question_number": 50,
+      "question_type": "NAT",
+      "answer_format": "numeric",
+      "marks": 2,
+      "negative_marks": 0,
+      "question": "Consider the syntax directed translation given by the following grammar and semantic rules. Here [latex]N, I, F \\; and \\; B[/latex] are non-terminals. [latex]N[/latex] is the starting non-terminal,\nand [latex]\\#,0 \\; and \\; 1[/latex] are lexical tokens corresponding to input letters [latex]\"\\#\",\"0\" \\; and \\; \"1\"[/latex],\nrespectively. [latex]X.val[/latex] denotes the synthesized attribute (a numeric value) associated\nwith a non-terminal [latex]X[/latex]. [latex]I_1[/latex] and [latex]F_1[/latex] denote occurrences of [latex]I[/latex] and [latex]F[/latex] on the right hand\nside of a production, respectively. For the tokens [latex]0[/latex] and [latex]1[/latex], [latex]0.val=0[/latex] and [latex]1.val=1[/latex]. The value computed by the translation scheme for the input string [latex]\\begin{aligned}\nN & \\rightarrow I \\# F & N.val=I.val+F.val \\\\ \nI &\\rightarrow I_1B & I.val = (2 I1.val) + B.val\\\\ \nI &\\rightarrow B&I.val = B.val\\\\ \nF &\\rightarrow BF_1& F.val = \\frac{1}{2}(B.val + F1.val)\\\\ \nF &\\rightarrow B&  F.val = \\frac{1}{2} B.val\\\\ \n B&\\rightarrow 0& B.val = 0.val\\\\ \nB &\\rightarrow 1&B.val = 1.val\n\\end{aligned} [/latex] [latex]10\\# 011[/latex] is ____ (Rounded off to three decimal places)",
+      "options": null,
+      "answer": "2.374 to 2.376",
+      "explanation": "Integer part \"10\" (binary): I for \"1\" = 1; I for \"10\" = [latex]2\\times1+0=2[/latex]. Fraction part \"011\" (evaluated right to left): - F(\"1\") = [latex]\\frac12\\times1=0.5[/latex] - F(\"11\") = [latex]\\frac12(1+0.5)=0.75[/latex] - F(\"011\") = [latex]\\frac12(0+0.75)=0.375[/latex] N.val = 2 + 0.375 = 2.375 (i.e. binary 10.011). Answer: 2.375 Click here for detail solution by gateoverflow",
+      "images": [],
+      "topic": "Syntax-directed Translation",
+      "variant": null,
+      "has_images": false,
+      "image_type": "none",
+      "image_status": "none",
+      "solution_images": [],
+      "numerical_answer": {
+        "minimum": 2.374,
+        "maximum": 2.376
+      },
+      "explanation_html": "Integer part \"10\" (binary):<br>\nI for \"1\" = 1; I for \"10\" = [latex]2\\times1+0=2[/latex].<br><br>\nFraction part \"011\" (evaluated right to left):<br>\n- F(\"1\") = [latex]\\frac12\\times1=0.5[/latex]<br>\n- F(\"11\") = [latex]\\frac12(1+0.5)=0.75[/latex]<br>\n- F(\"011\") = [latex]\\frac12(0+0.75)=0.375[/latex]<br><br>\nN.val = 2 + 0.375 = 2.375 (i.e. binary 10.011).<br><br>\n<b>Answer: 2.375</b><br><br><a href=\"https://gateoverflow.in/399261/gate-cse-2023-question-50#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a> ",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399261/gate-cse-2023-question-50#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs2023051",
+      "question_number": 51,
+      "question_type": "NAT",
+      "answer_format": "numeric",
+      "marks": 2,
+      "negative_marks": 0,
+      "question": "Consider the following table named Student in a relational database. The primary\nkey of this table is rollNum. [latex]\\begin{array}{|c|c|c|c|}\n\\hline \\\\\nrollNum&name&gender&marks \\\\ \\hline\n1&Naman&M&62\\\\ \\hline\n2&Aliya&F&70 \\\\ \\hline\n3&Aliya &F&80 \\\\ \\hline\n4&James&M&82\\\\ \\hline\n5&Swati&F&65\\\\ \\hline\n\\end{array} [/latex] The SQL query below is executed on this database. SELECT *\nFROM Student\nWHERE gender = 'F' AND\n marks > 65; The number of rows returned by the query is ______",
+      "options": null,
+      "answer": "2",
+      "explanation": "Rows with gender = 'F' and marks [latex]\\gt[/latex] 65: - Aliya, 70 True - Aliya, 80 True - Swati, 65 False (65 is not greater than 65) SELECT * returns full rows, so the duplicate name does not matter. Answer: 2 Click here for detail solution by gateoverflow",
+      "images": [],
+      "topic": "SQL",
+      "variant": null,
+      "has_images": false,
+      "image_type": "none",
+      "image_status": "none",
+      "solution_images": [],
+      "numerical_answer": {
+        "minimum": 2,
+        "maximum": 2
+      },
+      "explanation_html": "Rows with gender = 'F' and marks [latex]\\gt[/latex] 65:<br>\n- Aliya, 70 True<br>\n- Aliya, 80 True<br>\n- Swati, 65 False (65 is not greater than 65)<br><br>\nSELECT * returns full rows, so the duplicate name does not matter.<br><br>\n<b>Answer: 2</b><br><br><a href=\"https://gateoverflow.in/399260/gate-cse-2023-question-51#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a> ",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399260/gate-cse-2023-question-51#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs2023052",
+      "question_number": 52,
+      "question_type": "NAT",
+      "answer_format": "numeric",
+      "marks": 2,
+      "negative_marks": 0,
+      "question": "Consider a database of fixed-length records, stored as an ordered file. The database\nhas 25,000 records, with each record being 100 bytes, of which the primary key\noccupies 15 bytes. The data file is block-aligned in that each data record is fully\ncontained within a block. The database is indexed by a primary index file, which\nis also stored as a block-aligned ordered file. The figure below depicts this indexing\nscheme. Suppose the block size of the file system is 1024 bytes, and a pointer to a block\noccupies 5 bytes. The system uses binary search on the index file to search for a\nrecord with a given key. You may assume that a binary search on an index file of\n[latex]b[/latex] blocks takes  [latex]\\left \\lceil \\log_2 b \\right \\rceil [/latex]  block accesses in the worst case. Given a key, the number of block accesses required to identify the block in the data\nfile that may contain a record with the key, in the worst case, is _____",
+      "options": null,
+      "answer": "6",
+      "explanation": "Compute the index size step by step: - Records per data block = [latex]\\lfloor1024/100\\rfloor=10[/latex] [latex]\\rightarrow[/latex] data blocks = 25000 / 10 = 2500. - Primary (sparse) index has one entry per data block: 2500 entries of [latex]15+5=20[/latex] bytes. - Entries per index block = [latex]\\lfloor1024/20\\rfloor=51[/latex] [latex]\\rightarrow[/latex] index blocks = [latex]\\lceil2500/51\\rceil=50[/latex]. Binary search on the index: [latex]\\lceil\\log_2 50\\rceil=6[/latex] block accesses identify the data block. Answer: 6 Click here for detail solution by gateoverflow",
+      "images": [
+        "images/questions/cs2023052_01.jpg"
+      ],
+      "topic": "File System",
+      "variant": null,
+      "has_images": true,
+      "image_type": "question",
+      "image_status": "available",
+      "solution_images": [],
+      "numerical_answer": {
+        "minimum": 6,
+        "maximum": 6
+      },
+      "explanation_html": "Compute the index size step by step:<br>- Records per data block = [latex]\\lfloor1024/100\\rfloor=10[/latex] [latex]\\rightarrow[/latex] data blocks = 25000 / 10 = 2500.<br>\n- Primary (sparse) index has one entry per data block: 2500 entries of [latex]15+5=20[/latex] bytes.<br>\n- Entries per index block = [latex]\\lfloor1024/20\\rfloor=51[/latex] [latex]\\rightarrow[/latex] index blocks = [latex]\\lceil2500/51\\rceil=50[/latex].<br><br>\nBinary search on the index: [latex]\\lceil\\log_2 50\\rceil=6[/latex] block accesses identify the data block.<br><br>\n<b>Answer: 6</b><br><br><a href=\"https://gateoverflow.in/399259/gate-cse-2023-question-52#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a> ",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399259/gate-cse-2023-question-52#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs2023053",
+      "question_number": 53,
+      "question_type": "NAT",
+      "answer_format": "numeric",
+      "marks": 2,
+      "negative_marks": 0,
+      "question": "Consider the language L over the alphabet {0, 1}, given below: [latex]L = \\{w \\in \\{0, 1\\}^* | w \\text{ does not contain three or more consecutive 1's} \\}.[/latex] The minimum number of states in a Deterministic Finite-State Automaton (DFA)\nfor L is _____.",
+      "options": null,
+      "answer": "4",
+      "explanation": "The DFA only needs to remember how many 1s have just been seen in a row: - q0: last symbol 0 (or start) - q1: one 1 - q2: two 1s - q3: three 1s seen [latex]\\rightarrow[/latex] dead (non-final) state q0, q1, q2 are final. A 0 returns q0/q1/q2 to q0. All 4 states are distinguishable. Answer: 4 Click here for detail solution by gateoverflow",
+      "images": [],
+      "topic": "Theory of Computation",
+      "variant": null,
+      "has_images": false,
+      "image_type": "none",
+      "image_status": "none",
+      "solution_images": [],
+      "numerical_answer": {
+        "minimum": 4,
+        "maximum": 4
+      },
+      "explanation_html": "The DFA only needs to remember how many 1s have just been seen in a row:<br>\n- q0: last symbol 0 (or start)<br>\n- q1: one 1<br>\n- q2: two 1s<br>\n- q3: three 1s seen [latex]\\rightarrow[/latex] dead (non-final) state<br><br>\nq0, q1, q2 are final. A 0 returns q0/q1/q2 to q0. All 4 states are distinguishable.<br><br>\n<b>Answer: 4</b><br><br><a href=\"https://gateoverflow.in/399258/gate-cse-2023-question-53#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a> ",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399258/gate-cse-2023-question-53#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs2023054",
+      "question_number": 54,
+      "question_type": "NAT",
+      "answer_format": "numeric",
+      "marks": 2,
+      "negative_marks": 0,
+      "question": "An 8-way set associative cache of size 64 KB (1 KB = 1024 bytes) is used in a\nsystem with 32-bit address. The address is sub-divided into TAG, INDEX, and\nBLOCK OFFSET. The number of bits in the TAG is ____.",
+      "options": null,
+      "answer": "19",
+      "explanation": "Size of one way [latex]=\\frac{64\\text{ KB}}{8}=8\\text{ KB}=2^{13}[/latex] bytes. INDEX + OFFSET bits together address one way, so they total 13 bits (the block size does not matter). TAG [latex]=32-13=19[/latex] bits Answer: 19 Click here for detail solution by gateoverflow",
+      "images": [],
+      "topic": "Computer Organization",
+      "variant": null,
+      "has_images": false,
+      "image_type": "none",
+      "image_status": "none",
+      "solution_images": [],
+      "numerical_answer": {
+        "minimum": 19,
+        "maximum": 19
+      },
+      "explanation_html": "Size of one way [latex]=\\frac{64\\text{ KB}}{8}=8\\text{ KB}=2^{13}[/latex] bytes.<br><br>\nINDEX + OFFSET bits together address one way, so they total 13 bits (the block size does not matter).<br><br>\nTAG [latex]=32-13=19[/latex] bits<br><br>\n<b>Answer: 19</b><br><br><a href=\"https://gateoverflow.in/399257/gate-cse-2023-question-54#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a> ",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399257/gate-cse-2023-question-54#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs2023055",
+      "question_number": 55,
+      "question_type": "NAT",
+      "answer_format": "numeric",
+      "marks": 2,
+      "negative_marks": 0,
+      "question": "The forwarding table of a router is shown below. [latex]\\begin{array}{|c|c|c|c|}\n\\hline \\\\\nSubnet \\; Number&Subnet \\;Mask&Interface ID \\\\ \\hline\n200.150.0.0 &255.255.0.0& 1\\\\ \\hline\n200.150.64.0 &255.255.224.0 &2\\\\ \\hline\n200.150.68.0 &255.255.255.0 &3\\\\ \\hline\n200.150.68.64 &255.255.255.224 &4 \\\\ \\hline\nDefault & &0\\\\ \\hline\n\\end{array} [/latex] A packet addressed to a destination address 200.150.68.118 arrives at the router.\nIt will be forwarded to the interface with ID _____.",
+      "options": null,
+      "answer": "3",
+      "explanation": "Check each entry for 200.150.68.118 (longest prefix wins): - 200.150.0.0/16 [latex]\\rightarrow[/latex] matches - 200.150.64.0/19 (third octet 64-95) [latex]\\rightarrow[/latex] 68 matches - 200.150.68.0/24 [latex]\\rightarrow[/latex] matches - 200.150.68.64/27 (last octet 64-95) [latex]\\rightarrow[/latex] 118 does not match Longest match is /24 [latex]\\rightarrow[/latex] interface 3. Answer: 3 Click here for detail solution by gateoverflow",
+      "images": [],
+      "topic": "Network Layer Protocol",
+      "variant": null,
+      "has_images": false,
+      "image_type": "none",
+      "image_status": "none",
+      "solution_images": [],
+      "numerical_answer": {
+        "minimum": 3,
+        "maximum": 3
+      },
+      "explanation_html": "Check each entry for 200.150.68.118 (longest prefix wins):<br>\n- 200.150.0.0/16 [latex]\\rightarrow[/latex] matches<br>\n- 200.150.64.0/19 (third octet 64-95) [latex]\\rightarrow[/latex] 68 matches<br>\n- 200.150.68.0/24 [latex]\\rightarrow[/latex] matches<br>\n- 200.150.68.64/27 (last octet 64-95) [latex]\\rightarrow[/latex] 118 does not match<br><br>\nLongest match is /24 [latex]\\rightarrow[/latex] interface 3.<br><br>\n<b>Answer: 3</b><br><br><a href=\"https://gateoverflow.in/399256/gate-cse-2023-question-55#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a> ",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399256/gate-cse-2023-question-55#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs2023056",
+      "question_number": 56,
+      "question_type": "MCQ",
+      "answer_format": "option",
+      "marks": 1,
+      "negative_marks": 0.33,
+      "question": "We reached the station late, and _______ missed the train.",
+      "options": {
+        "A": "near",
+        "B": "nearly",
+        "C": "utterly",
+        "D": "mostly"
+      },
+      "answer": "B",
+      "explanation": "\"Nearly missed the train\" means almost missed it (but caught it). Near is not an adverb here, and \"utterly / mostly missed\" do not make sense. Answer: nearly Click here for detail solution by gateoverflow",
+      "images": [],
+      "topic": "Verbal Ability",
+      "variant": null,
+      "has_images": false,
+      "image_type": "none",
+      "image_status": "none",
+      "solution_images": [],
+      "numerical_answer": null,
+      "explanation_html": "\"Nearly missed the train\" means almost missed it (but caught it). Near is not an adverb here, and \"utterly / mostly missed\" do not make sense.<br><br>\n<b>Answer: nearly</b><br><br><a href=\"https://gateoverflow.in/399255/gate-cse-2023-ga-question1#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a> ",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399255/gate-cse-2023-ga-question1#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs2023057",
+      "question_number": 57,
+      "question_type": "MCQ",
+      "answer_format": "option",
+      "marks": 1,
+      "negative_marks": 0.33,
+      "question": "Kind : _______ : : Often : Frequently (By word meaning)",
+      "options": {
+        "A": "Mean",
+        "B": "Type",
+        "C": "Cruel",
+        "D": "Kindly"
+      },
+      "answer": "B",
+      "explanation": "Often and frequently are synonyms. As a noun, kind means sort or type , so kind : type is the matching synonym pair. Answer: Type Click here for detail solution by gateoverflow",
+      "images": [],
+      "topic": "Verbal Ability",
+      "variant": null,
+      "has_images": false,
+      "image_type": "none",
+      "image_status": "none",
+      "solution_images": [],
+      "numerical_answer": null,
+      "explanation_html": "Often and frequently are synonyms. As a noun, <b>kind</b> means sort or <b>type</b>, so kind : type is the matching synonym pair.<br><br>\n<b>Answer: Type</b><br><br><a href=\"https://gateoverflow.in/399254/gate-cse-2023-ga-question2#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a> ",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399254/gate-cse-2023-ga-question2#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs2023058",
+      "question_number": 58,
+      "question_type": "MCQ",
+      "answer_format": "option",
+      "marks": 1,
+      "negative_marks": 0.33,
+      "question": "A series of natural numbers [latex]F_1,F_2,F_3,F_4,F_5,F_6,F_7,... [/latex]  obeys [latex]F_{n+1}=F_n+F_{n-1} [/latex]  for all integers [latex]n \\geq 2[/latex]. If [latex]F_6=37[/latex], and [latex]F_7=60[/latex], then what is [latex]F_1[/latex]?",
+      "options": {
+        "A": "4",
+        "B": "5",
+        "C": "8",
+        "D": "9"
+      },
+      "answer": "A",
+      "explanation": "Work backwards using [latex]F_{n-1}=F_{n+1}-F_n[/latex]: - [latex]F_5=60-37=23[/latex] - [latex]F_4=37-23=14[/latex] - [latex]F_3=23-14=9[/latex] - [latex]F_2=14-9=5[/latex] - [latex]F_1=9-5=4[/latex] Answer: 4 Click here for detail solution by gateoverflow",
+      "images": [],
+      "topic": "Numerical Ability",
+      "variant": null,
+      "has_images": false,
+      "image_type": "none",
+      "image_status": "none",
+      "solution_images": [],
+      "numerical_answer": null,
+      "explanation_html": "Work backwards using [latex]F_{n-1}=F_{n+1}-F_n[/latex]:<br>\n- [latex]F_5=60-37=23[/latex]<br>\n- [latex]F_4=37-23=14[/latex]<br>\n- [latex]F_3=23-14=9[/latex]<br>\n- [latex]F_2=14-9=5[/latex]<br>\n- [latex]F_1=9-5=4[/latex]<br><br>\n<b>Answer: 4</b><br><br><a href=\"https://gateoverflow.in/399253/gate-cse-2023-ga-question3#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a> ",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399253/gate-cse-2023-ga-question3#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs2023059",
+      "question_number": 59,
+      "question_type": "MCQ",
+      "answer_format": "option",
+      "marks": 1,
+      "negative_marks": 0.33,
+      "question": "A survey for a certain year found that 90% of pregnant women received medical\ncare at least once before giving birth. Of these women, 60% received medical care\nfrom doctors, while 40% received medical care from other healthcare providers. Given this information, which one of the following statements can be inferred with\ncertainty?",
+      "options": {
+        "A": "More than half of the pregnant women received medical care at least once from a\ndoctor.",
+        "B": "Less than half of the pregnant women received medical care at least once from a\ndoctor.",
+        "C": "More than half of the pregnant women received medical care at most once from a\ndoctor.",
+        "D": "Less than half of the pregnant women received medical care at most once from a\ndoctor."
+      },
+      "answer": "A",
+      "explanation": "Women who received care from doctors = 60% of 90% = 54% of all pregnant women. 54% is more than half, so more than half received care at least once from a doctor. The data says nothing about \"at most once\". Answer: More than half of the pregnant women received medical care at least once from a doctor Click here for detail solution by gateoverflow",
+      "images": [],
+      "topic": "Numerical Ability",
+      "variant": null,
+      "has_images": false,
+      "image_type": "none",
+      "image_status": "none",
+      "solution_images": [],
+      "numerical_answer": null,
+      "explanation_html": "Women who received care from doctors = 60% of 90% = <b>54%</b> of all pregnant women.<br><br>\n54% is more than half, so more than half received care at least once from a doctor. The data says nothing about \"at most once\".<br><br>\n<b>Answer: More than half of the pregnant women received medical care at least once from a doctor</b><br><br><a href=\"https://gateoverflow.in/399252/gate-cse-2023-ga-question4#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a> ",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399252/gate-cse-2023-ga-question4#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs2023060",
+      "question_number": 60,
+      "question_type": "MCQ",
+      "answer_format": "option",
+      "marks": 1,
+      "negative_marks": 0.33,
+      "question": "Looking at the surface of a smooth 3-dimensional object from the outside, which\none of the following options is TRUE?",
+      "options": {
+        "A": "The surface of the object must be concave everywhere.",
+        "B": "The surface of the object must be convex everywhere.",
+        "C": "The surface of the object may be concave in some places and convex in other places.",
+        "D": "The object can have edges, but no corners."
+      },
+      "answer": "C",
+      "explanation": "A smooth 3D object (e.g. a peanut or a bowl-shaped surface) can bulge outward in some places and curve inward in others. Nothing forces it to be convex or concave everywhere, and \"smooth\" rules out edges. Answer: The surface may be concave in some places and convex in other places Click here for detail solution by gateoverflow",
+      "images": [],
+      "topic": "Numerical Ability",
+      "variant": null,
+      "has_images": false,
+      "image_type": "none",
+      "image_status": "none",
+      "solution_images": [],
+      "numerical_answer": null,
+      "explanation_html": "A smooth 3D object (e.g. a peanut or a bowl-shaped surface) can bulge outward in some places and curve inward in others. Nothing forces it to be convex or concave everywhere, and \"smooth\" rules out edges.<br><br>\n<b>Answer: The surface may be concave in some places and convex in other places</b><br><br><a href=\"https://gateoverflow.in/399251/gate-cse-2023-ga-question5#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a> ",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399251/gate-cse-2023-ga-question5#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs2023061",
+      "question_number": 61,
+      "question_type": "MCQ",
+      "answer_format": "option",
+      "marks": 2,
+      "negative_marks": 0.67,
+      "question": "The country of Zombieland is in distress since more than 75% of its working\npopulation is suffering from serious health issues. Studies conducted by competent\nhealth experts concluded that a complete lack of physical exercise among its\nworking population was one of the leading causes of their health issues. As one of\nthe measures to address the problem, the Government of Zombieland has decided\nto provide monetary incentives to those who ride bicycles to work. Based only on the information provided above, which one of the following\nstatements can be logically inferred with certainty?",
+      "options": {
+        "A": "All the working population of Zombieland will henceforth ride bicycles to work.",
+        "B": "Riding bicycles will ensure that all of the working population of Zombieland is free\nof health issues.",
+        "C": "The health experts suggested to the Government of Zombieland to declare riding\nbicycles as mandatory.",
+        "D": "The Government of Zombieland believes that riding bicycles is a form of physical\nexercise."
+      },
+      "answer": "D",
+      "explanation": "The government gives incentives for cycling because lack of exercise is a cause of the health issues. This only makes sense if it believes cycling is a form of physical exercise. The other options claim things the passage does not support (everyone will cycle, all will be healthy, experts asked for it to be mandatory). Answer: The Government of Zombieland believes that riding bicycles is a form of physical exercise Click here for detail solution by gateoverflow",
+      "images": [],
+      "topic": "Numerical Ability",
+      "variant": null,
+      "has_images": false,
+      "image_type": "none",
+      "image_status": "none",
+      "solution_images": [],
+      "numerical_answer": null,
+      "explanation_html": "The government gives incentives for cycling <i>because</i> lack of exercise is a cause of the health issues. This only makes sense if it believes cycling is a form of physical exercise.<br><br>\nThe other options claim things the passage does not support (everyone will cycle, all will be healthy, experts asked for it to be mandatory).<br><br>\n<b>Answer: The Government of Zombieland believes that riding bicycles is a form of physical exercise</b><br><br><a href=\"https://gateoverflow.in/399250/gate-cse-2023-ga-question6#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a> ",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399250/gate-cse-2023-ga-question6#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs2023062",
+      "question_number": 62,
+      "question_type": "MCQ",
+      "answer_format": "option",
+      "marks": 2,
+      "negative_marks": 0.67,
+      "question": "Consider two functions of time [latex](t)[/latex], [latex]f(t)=0.01t^2[/latex] [latex]g(t)=4t[/latex] where [latex]0 \\lt t \\lt \\infty[/latex] Now consider the following two statements: (i) For some [latex] t \\gt 0, g(t) \\gt f(t)[/latex]. (ii) There exists a [latex]T[/latex], such that   [latex]f(t) \\gt g(t)[/latex] for all [latex]t \\gt T[/latex] . Which one of the following options is TRUE?",
+      "options": {
+        "A": "only (i) is correct",
+        "B": "only (ii) is correct",
+        "C": "both (i) and (ii) are correct",
+        "D": "neither (i) nor (ii) is correct"
+      },
+      "answer": "C",
+      "explanation": "[latex]g(t) \\gt f(t)\\iff4t \\gt 0.01t^2\\iff t \\lt 400[/latex] (for t [latex]\\gt[/latex] 0). - (i) For any t between 0 and 400, g(t) [latex]\\gt[/latex] f(t) [latex]\\rightarrow[/latex] correct. - (ii) Take T = 400: for all t [latex]\\gt[/latex] 400, f(t) [latex]\\gt[/latex] g(t) [latex]\\rightarrow[/latex] correct. Answer: both (i) and (ii) are correct Click here for detail solution by gateoverflow",
+      "images": [],
+      "topic": "Numerical Ability",
+      "variant": null,
+      "has_images": false,
+      "image_type": "none",
+      "image_status": "none",
+      "solution_images": [],
+      "numerical_answer": null,
+      "explanation_html": "[latex]g(t) \\gt f(t)\\iff4t \\gt 0.01t^2\\iff t \\lt 400[/latex] (for t [latex]\\gt[/latex] 0).<br><br>\n- (i) For any t between 0 and 400, g(t) [latex]\\gt[/latex] f(t) [latex]\\rightarrow[/latex] correct.<br>\n- (ii) Take T = 400: for all t [latex]\\gt[/latex] 400, f(t) [latex]\\gt[/latex] g(t) [latex]\\rightarrow[/latex] correct.<br><br>\n<b>Answer: both (i) and (ii) are correct</b><br><br><a href=\"https://gateoverflow.in/399249/gate-cse-2023-ga-question7#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a> ",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399249/gate-cse-2023-ga-question7#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs2023063",
+      "question_number": 63,
+      "question_type": "MCQ",
+      "answer_format": "option",
+      "marks": 2,
+      "negative_marks": 0.67,
+      "question": "Which one of the following sentence sequences creates a coherent narrative? (i) Once on the terrace, on her way to her small room in the corner, she\nnotices the man right away. (ii) She begins to pant by the time she has climbed all the stairs. (iii) Mina has bought vegetables and rice at the market, so her bags are\nheavy. (iv) He was leaning against the parapet, watching the traffic below.",
+      "options": {
+        "A": "(i), (ii), (iv), (iii)",
+        "B": "(ii), (iii), (i), (iv)",
+        "C": "(iv), (ii), (i), (iii)",
+        "D": "(iii), (ii), (i), (iv)"
+      },
+      "answer": "D",
+      "explanation": "Follow the story: - (iii) introduces Mina and her heavy bags. - (ii) explains that she pants after climbing the stairs (because of the bags). - (i) she reaches the terrace and notices \"the man\". - (iv) describes him (\"He was leaning[latex]\\ldots[/latex]\"). Answer: (iii), (ii), (i), (iv) Click here for detail solution by gateoverflow",
+      "images": [],
+      "topic": "Verbal Ability",
+      "variant": null,
+      "has_images": false,
+      "image_type": "none",
+      "image_status": "none",
+      "solution_images": [],
+      "numerical_answer": null,
+      "explanation_html": "Follow the story:<br>- (iii) introduces Mina and her heavy bags.<br>\n- (ii) explains that she pants after climbing the stairs (because of the bags).<br>\n- (i) she reaches the terrace and notices \"the man\".<br>\n- (iv) describes him (\"He was leaning[latex]\\ldots[/latex]\").<br><br>\n<b>Answer: (iii), (ii), (i), (iv)</b><br><br><a href=\"https://gateoverflow.in/399248/gate-cse-2023-ga-question8#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a> ",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399248/gate-cse-2023-ga-question8#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs2023064",
+      "question_number": 64,
+      "question_type": "MCQ",
+      "answer_format": "option",
+      "marks": 2,
+      "negative_marks": 0.67,
+      "question": "[latex]f(x)[/latex] and [latex]g(y)[/latex] are functions of [latex]x[/latex] and [latex]y[/latex], respectively, and\n [latex]f(x)=g(y)[/latex] for all real\nvalues of [latex]x[/latex] and [latex]y[/latex]. Which one of the following options is necessarily TRUE for all\n [latex]x[/latex] and [latex]y[/latex]?",
+      "options": {
+        "A": "[latex] f(x)=0 \\; and \\; g(y)=0[/latex]",
+        "B": "[latex] f(x)= g(y)= constant[/latex]",
+        "C": "[latex] f(x)\\neq constant \\; and \\; g(y)\\neq constant[/latex]",
+        "D": "[latex] f(x)+ g(y)=f(x)- g(y)[/latex]"
+      },
+      "answer": "B",
+      "explanation": "Fix y = [latex]y_0[/latex]: then [latex]f(x)=g(y_0)[/latex] for every x, so f is constant. In the same way g is constant, and the two constants are equal. They need not be 0, and option 4 would force [latex]g(y)=0[/latex]. Answer: f(x) = g(y) = constant Click here for detail solution by gateoverflow",
+      "images": [],
+      "topic": "Numerical Ability",
+      "variant": null,
+      "has_images": false,
+      "image_type": "none",
+      "image_status": "none",
+      "solution_images": [],
+      "numerical_answer": null,
+      "explanation_html": "Fix y = [latex]y_0[/latex]: then [latex]f(x)=g(y_0)[/latex] for every x, so f is constant. In the same way g is constant, and the two constants are equal.<br><br>\nThey need not be 0, and option 4 would force [latex]g(y)=0[/latex].<br><br>\n<b>Answer: f(x) = g(y) = constant</b><br><br><a href=\"https://gateoverflow.in/399247/gate-cse-2023-ga-question9#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a> ",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399247/gate-cse-2023-ga-question9#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs2023065",
+      "question_number": 65,
+      "question_type": "MCQ",
+      "answer_format": "option",
+      "marks": 2,
+      "negative_marks": 0.67,
+      "question": "Which one of the options best describes the transformation of the 2-dimensional\nfigure P to Q, and then to R, as shown?",
+      "options": {
+        "A": "Operation 1: A clockwise rotation by [latex]90^{\\circ} [/latex] about an axis perpendicular to the plane\nof the figure Operation 2: A reflection along a horizontal line",
+        "B": "Operation 1: A counter clockwise rotation by [latex]90^{\\circ} [/latex] about an axis perpendicular to\nthe plane of the figure Operation 2: A reflection along a horizontal line",
+        "C": "Operation 1: A clockwise rotation by [latex]90^{\\circ} [/latex] about an axis perpendicular to the plane\nof the figure Operation 2: A reflection along a vertical line",
+        "D": "Operation 1: A counter clockwise rotation by [latex]180^{\\circ} [/latex] about an axis perpendicular to\nthe plane of the figure Operation 2: A reflection along a vertical line"
+      },
+      "answer": "A",
+      "explanation": "Track the long spike of the star: - P [latex]\\rightarrow[/latex] Q: the spike turns from pointing right to pointing down [latex]\\rightarrow[/latex] a 90[latex]^\\circ[/latex] clockwise rotation . - Q [latex]\\rightarrow[/latex] R: the spike flips from pointing down to pointing up, with left and right unchanged [latex]\\rightarrow[/latex] reflection along a horizontal line . Answer: Clockwise rotation by 90[latex]^\\circ[/latex], then reflection along a horizontal line Click here for detail solution by gateoverflow",
+      "images": [
+        "images/questions/cs2023065_01.jpg"
+      ],
+      "topic": "Numerical Ability",
+      "variant": null,
+      "has_images": true,
+      "image_type": "question",
+      "image_status": "available",
+      "solution_images": [],
+      "numerical_answer": null,
+      "explanation_html": "Track the long spike of the star:<br>\n- P [latex]\\rightarrow[/latex] Q: the spike turns from pointing right to pointing down [latex]\\rightarrow[/latex] a <b>90[latex]^\\circ[/latex] clockwise rotation</b>.<br>\n- Q [latex]\\rightarrow[/latex] R: the spike flips from pointing down to pointing up, with left and right unchanged [latex]\\rightarrow[/latex] <b>reflection along a horizontal line</b>.<br><br>\n<b>Answer: Clockwise rotation by 90[latex]^\\circ[/latex], then reflection along a horizontal line</b><br><br><a href=\"https://gateoverflow.in/399246/gate-cse-2023-ga-question10#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a> ",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399246/gate-cse-2023-ga-question10#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs2023066",
+      "question_number": 66,
+      "question_type": "MCQ",
+      "answer_format": "option",
+      "marks": 1,
+      "negative_marks": 0.33,
+      "question": "Let [latex] A=\\begin{bmatrix}\n1 & 2 & 3 &4 \\\\ \n 4&  1& 2 &3 \\\\ \n 3& 4 & 1 &2 \\\\ \n2 &3  &4  &1 \n\\end{bmatrix}[/latex] and [latex] B=\\begin{bmatrix}\n 3& 4 & 1 &2 \\\\\n 4&  1& 2 &3 \\\\ \n 1 & 2 & 3 &4 \\\\ \n2 &3  &4  &1 \n\\end{bmatrix}[/latex] Let det(A) and det(B) denote the determinants of the matrices A and B,\nrespectively. Which one of the options given below is TRUE?",
+      "options": {
+        "A": "det(A) = det(B)",
+        "B": "det(B) = - det(A)",
+        "C": "det(A)=0",
+        "D": "det(AB) = det(A) + det(B)"
+      },
+      "answer": "B",
+      "explanation": "Click here for detail solution by gateoverflow",
+      "images": [],
+      "topic": "Engineering Mathematics",
+      "variant": null,
+      "has_images": false,
+      "image_type": "none",
+      "image_status": "none",
+      "solution_images": [],
+      "numerical_answer": null,
+      "explanation_html": "<a href=\"https://gateoverflow.in/399304/gate-cse-2023-question-8#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a>",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399304/gate-cse-2023-question-8#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs2023067",
+      "question_number": 67,
+      "question_type": "MCQ",
+      "answer_format": "option",
+      "marks": 1,
+      "negative_marks": 0.33,
+      "question": "Let [latex]f(x)=x^3+15x^2-33x-36 [/latex] be a real-valued function. Which of the following statements is/are TRUE?",
+      "options": {
+        "A": "[latex]f(x)[/latex] does not have a local maximum.",
+        "B": "[latex]f(x)[/latex]  has a local maximum.",
+        "C": "[latex]f(x)[/latex] does not have a local minimum.",
+        "D": "[latex]f(x)[/latex]  has a local minimum."
+      },
+      "answer": "B",
+      "explanation": "Click here for detail solution by gateoverflow",
+      "images": [],
+      "topic": "Engineering Mathematics",
+      "variant": null,
+      "has_images": false,
+      "image_type": "none",
+      "image_status": "none",
+      "solution_images": [],
+      "numerical_answer": null,
+      "explanation_html": "<a href=\"https://gateoverflow.in/399293/gate-cse-2023-question-18#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a>",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399293/gate-cse-2023-question-18#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs2023068",
+      "question_number": 68,
+      "question_type": "MCQ",
+      "answer_format": "option",
+      "marks": 1,
+      "negative_marks": 0.33,
+      "question": "Let A be the adjacency matrix of the graph with vertices {1, 2, 3, 4, 5}. Let [latex]\\lambda _1,\\lambda _2,\\lambda _3,\\lambda _4,\\; and \\; \\lambda _5[/latex] be the five eigenvalues of A. Note that these eigenvalues\r\nneed not be distinct. The value of [latex]\\lambda _1+\\lambda _2+\\lambda _3+ \\lambda _4+  \\lambda _5 \r\n =[/latex] _____",
+      "options": {
+        "A": "1",
+        "B": "2",
+        "C": "3",
+        "D": "4"
+      },
+      "answer": "B",
+      "explanation": "Click here for detail solution by gateoverflow",
+      "images": [
+        "images/questions/cs2023068_01.jpg"
+      ],
+      "topic": "Engineering Mathematics",
+      "variant": null,
+      "has_images": true,
+      "image_type": "question",
+      "image_status": "available",
+      "solution_images": [],
+      "numerical_answer": null,
+      "explanation_html": "<a href=\"https://gateoverflow.in/399291/gate-cse-2023-question-20#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a>",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399291/gate-cse-2023-question-20#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    },
+    {
+      "id": "cs2023069",
+      "question_number": 69,
+      "question_type": "MCQ",
+      "answer_format": "option",
+      "marks": 1,
+      "negative_marks": 0.33,
+      "question": "The value of the definite integral [latex] \\int_{-3}^{3}  \\int_{-2}^{2}  \\int_{-1}^{1} (4x^2y-z^3)dzdydx[/latex] is _____. (Rounded off to the nearest integer)",
+      "options": {
+        "A": "0",
+        "B": "1",
+        "C": "2",
+        "D": "3"
+      },
+      "answer": "A",
+      "explanation": "Click here for detail solution by gateoverflow",
+      "images": [],
+      "topic": "Engineering Mathematics",
+      "variant": null,
+      "has_images": false,
+      "image_type": "none",
+      "image_status": "none",
+      "solution_images": [],
+      "numerical_answer": null,
+      "explanation_html": "<a href=\"https://gateoverflow.in/399290/gate-cse-2023-question-21#a_list_title\"  target=\"_blank\" >Click here for detail solution by gateoverflow</a>",
+      "solution_status": "external_link_only",
+      "solution_links": [
+        "https://gateoverflow.in/399290/gate-cse-2023-question-21#a_list_title"
+      ],
+      "answer_provenance": "practicepaper.in extracted full-mirror record",
+      "solution_provenance": "practicepaper.in extracted full-mirror record",
+      "source_page": "",
+      "answer_status": "source_provided"
+    }
+  ]
+}
