@@ -52,6 +52,11 @@
 
 const QUESTIONS_TAB = "Questions";
 const RESULTS_TAB = "Results";
+const USERS_TAB = "Users";
+
+// Drive folder where candidate PNG photos are stored (one file per email: <email>.png)
+const IMAGE_FOLDER_ID = "1OmbQejgjswsST2KB2O2sVJR4U2E5WU3c";
+const U_HEADERS = ["email", "name", "photoFile", "firstSeen", "lastSeen"];
 
 const Q_HEADERS = [
   "id", "exam", "branch", "year", "subject", "question_number", "question_type",
@@ -63,15 +68,17 @@ const META_COLS = 9; // id .. marks (first 9 columns) are sent to the setup page
 const R_HEADERS = [
   "finishedAt", "branch", "year", "topic", "total", "score", "maxScore", "correct",
   "wrong", "unattempted", "noKey", "accuracy", "timeTakenSec", "durationSec",
-  "autoSubmitted", "bySubject", "detail",
+  "autoSubmitted", "bySubject", "detail", "name", "email", "attemptId", "status",
 ];
-const R_TEXT_COLS = ["year", "topic", "bySubject", "detail"];
+const R_TEXT_COLS = ["year", "topic", "bySubject", "detail", "name", "email", "attemptId", "status"];
 
 /* ---------------- one-time setup ---------------- */
 function setup() {
   getSheet_(QUESTIONS_TAB, Q_HEADERS);
   getSheet_(RESULTS_TAB, R_HEADERS);
-  Logger.log("Done. Sheets are ready.");
+  getSheet_(USERS_TAB, U_HEADERS);
+  DriveApp.getFolderById(IMAGE_FOLDER_ID).getName();   // makes Google ask for Drive permission
+  Logger.log("Done. Sheets and Drive folder are ready.");
 }
 
 /* ---------------- web app entry points ---------------- */
@@ -80,7 +87,7 @@ function doGet(e) {
     const action = (e && e.parameter && e.parameter.action) || "";
     if (action === "meta") return json_({ meta: readMeta_() });
     if (action === "ids") return json_({ ids: readIds_() });
-    if (action === "results") return json_({ results: readResults_() });
+    if (action === "results") return json_({ results: readResults_(e.parameter.email) });
     return json_({ error: "Unknown action. Use ?action=meta, ?action=ids or ?action=results" });
   } catch (err) {
     return json_({ error: String(err && err.message || err) });
@@ -97,6 +104,7 @@ function doPost(e) {
     locked = true;
     if (body.action === "upload") return json_(insertQuestions_(body.rows || []));
     if (body.action === "saveResult") return json_(appendResult_(body.result));
+    if (body.action === "register") return json_(registerUser_(body));
     return json_({ error: "Unknown action: " + body.action });
   } catch (err) {
     return json_({ error: String(err && err.message || err) });
@@ -177,17 +185,36 @@ function appendResult_(r) {
     r.finishedAt, f.branch, String(f.year), f.topic, r.total, r.score, r.maxScore, r.correct,
     r.wrong, r.unattempted, r.noKey, r.accuracy, r.timeTakenSec, r.durationSec,
     r.autoSubmitted ? "yes" : "no", JSON.stringify(r.bySubject || {}), JSON.stringify(r.detail || []),
+    String(r.name || ""), String(r.email || "").trim().toLowerCase(),
+    String(r.attemptId || ""), String(r.status || "completed"),
   ].map(cell_);
+  // same attemptId = same exam: progress saves and the final save update ONE row
+  const last = sh.getLastRow();
+  const idCol = R_HEADERS.indexOf("attemptId") + 1;
+  if (r.attemptId && last > 1) {
+    const ids = sh.getRange(2, idCol, last - 1, 1).getValues();
+    for (let i = 0; i < ids.length; i++) {
+      if (String(ids[i][0]) === String(r.attemptId)) {
+        sh.getRange(i + 2, 1, 1, line.length).setValues([line]);
+        return { ok: true, updated: true };
+      }
+    }
+  }
   appendBlock_(sh, [line], R_TEXT_COLS.map(function (h) { return R_HEADERS.indexOf(h) + 1; }));
   return { ok: true };
 }
 
-function readResults_() {
+function readResults_(email) {
+  email = String(email || "").trim().toLowerCase();
+  if (!email) return [];                       // results are per candidate
   const sh = getSheet_(RESULTS_TAB, R_HEADERS);
   const last = sh.getLastRow();
   if (last < 2) return [];
+  const emailCol = R_HEADERS.indexOf("email");
   const values = sh.getRange(2, 1, last - 1, R_HEADERS.length).getValues();
-  return values.filter(function (r) { return r[0] !== ""; }).map(function (r) {
+  return values.filter(function (r) {
+    return r[0] !== "" && String(r[emailCol]).trim().toLowerCase() === email;
+  }).map(function (r) {
     const o = {};
     R_HEADERS.forEach(function (h, i) { o[h] = r[i]; });
     return {
@@ -197,10 +224,72 @@ function readResults_() {
       correct: Number(o.correct), wrong: Number(o.wrong), unattempted: Number(o.unattempted),
       noKey: Number(o.noKey), accuracy: Number(o.accuracy),
       timeTakenSec: Number(o.timeTakenSec), durationSec: Number(o.durationSec),
-      autoSubmitted: o.autoSubmitted === "yes",
+      autoSubmitted: o.autoSubmitted === "yes", status: String(o.status || "completed"), attemptId: String(o.attemptId || ""),
       bySubject: safeParse_(o.bySubject, {}), detail: safeParse_(o.detail, []),
     };
   });
+}
+
+/* ---------------- candidates ---------------- */
+// Email is the key (always saved in lower case). Name is only for show and is never verified.
+//  * same name + different emails      -> fine, each email gets its own row
+//  * same email + different name       -> returns {conflict:true, oldName}; nothing changes until the
+//                                         page calls again with confirmRename:true, then the old name is replaced
+function normName_(n) { return String(n || "").trim().replace(/\s+/g, " ").toLowerCase(); }
+
+function registerUser_(b) {
+  const email = String(b.email || "").trim().toLowerCase();
+  const name = String(b.name || "").trim().replace(/\s+/g, " ");
+  if (!email || !name) throw new Error("Name and email are required");
+  const sh = getSheet_(USERS_TAB, U_HEADERS);
+  const last = sh.getLastRow();
+  let row = -1, oldName = "";
+  if (last > 1) {
+    const vals = sh.getRange(2, 1, last - 1, 2).getValues();
+    for (let i = 0; i < vals.length; i++) {
+      if (String(vals[i][0]).trim().toLowerCase() === email) { row = i + 2; oldName = String(vals[i][1]); break; }
+    }
+  }
+  const now = new Date().toISOString();
+  if (row < 0) {
+    appendBlock_(sh, [[email, name, "", now, now]], null);
+    row = sh.getLastRow();
+  } else {
+    if (normName_(oldName) !== normName_(name) && !b.confirmRename) {
+      return { conflict: true, oldName: oldName, email: email };
+    }
+    sh.getRange(row, 2).setValue(name);          // replaces the old name
+    sh.getRange(row, 5).setValue(now);
+  }
+  let photo = null;
+  if (b.photo) {
+    savePhoto_(email, String(b.photo));
+    sh.getRange(row, 3).setValue(email + ".png");
+    photo = String(b.photo);
+  } else {
+    photo = readPhoto_(email);
+  }
+  return { ok: true, name: name, email: email, photo: photo, oldName: oldName };
+}
+
+function savePhoto_(email, dataUrl) {
+  const m = /^data:image\/png;base64,([A-Za-z0-9+\/=]+)$/.exec(dataUrl);
+  if (!m) throw new Error("Photo must be a PNG image");
+  const bytes = Utilities.base64Decode(m[1]);
+  if (bytes.length > 3 * 1024 * 1024) throw new Error("Photo is too large");
+  const folder = DriveApp.getFolderById(IMAGE_FOLDER_ID);
+  const name = email + ".png";
+  const old = folder.getFilesByName(name);
+  while (old.hasNext()) old.next().setTrashed(true);   // keep one photo per email
+  folder.createFile(Utilities.newBlob(bytes, "image/png", name));
+}
+
+function readPhoto_(email) {
+  try {
+    const it = DriveApp.getFolderById(IMAGE_FOLDER_ID).getFilesByName(email + ".png");
+    if (!it.hasNext()) return null;
+    return "data:image/png;base64," + Utilities.base64Encode(it.next().getBlob().getBytes());
+  } catch (e) { return null; }
 }
 
 /* ---------------- helpers ---------------- */
@@ -219,6 +308,12 @@ function getSheet_(name, headers) {
     sh = ss.insertSheet(name);
     sh.getRange(1, 1, 1, headers.length).setValues([headers]).setFontWeight("bold");
     sh.setFrozenRows(1);
+  } else {
+    // sheet made by an older version: add any new header columns at the end
+    const have = sh.getLastColumn();
+    if (have > 0 && have < headers.length) {
+      sh.getRange(1, have + 1, 1, headers.length - have).setValues([headers.slice(have)]).setFontWeight("bold");
+    }
   }
   return sh;
 }

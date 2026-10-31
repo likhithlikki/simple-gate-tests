@@ -7,88 +7,147 @@
 <title>GATE Practice Exam</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
 <style>
+  :root {
+    /* ALL main colours of the exam screen live here (picked to match the GATE interface). */
+    --ink: #000;
+    --top-bg: #e1e1e1;       /* top grey bar and the paper-tab row */
+    --dark: #262626;         /* black title bar */
+    --yellow: #f6e01c;       /* exam name on the black bar */
+    --tab: #2f89d9;          /* active tab, section banner */
+    --tab-dk: #1f6fb8;
+    --tab-line: #bcd3ea;
+    --info: #5aa9ee;         /* little (i) circles */
+    --line: #d3d3d3;
+    --bar-bg: #f1f1f1;       /* bottom button bar, question header */
+    --btn: #1c70c4;          /* Save & Next */
+    --btn-hv: #175ca0;
+    --submit: #3fa9e0;
+    --submit-hv: #2f98cf;
+    --right-bg: #e6f4fc;     /* right panel */
+    --green: #59a82d;        /* answered */
+    --red: #dc4619;          /* not answered */
+    --purple: #6a4ba3;       /* marked for review */
+    --nv: #ececec;           /* not visited */
+    --nv-line: #b4b4b4;
+    --good: #2e9a2e;         /* marks for correct answer */
+    --bad: #d42a1a;          /* negative marks */
+    --orange: #f08a4b;       /* calculator icon */
+    --dlg-head: #2f6fa8;
+    --calc-title: #3b82e8;
+  }
   * { box-sizing: border-box; }
   html, body { height: 100%; margin: 0; }
-  body { font: 14px Arial, Helvetica, sans-serif; color: #000; background: #fff; display: flex; flex-direction: column; overflow: hidden; -webkit-user-select: none; user-select: none; }
+  body { font: 14px Arial, Helvetica, sans-serif; color: var(--ink); background: #fff; display: flex; flex-direction: column; overflow: hidden; -webkit-user-select: none; user-select: none; }
   button { font-family: inherit; }
   [hidden] { display: none !important; }
 
-  /* ---------- header ---------- */
-  .hdr { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 6px 14px; border-bottom: 1px solid #c4c4c4; background: #fff; flex: none; }
-  .hl { display: flex; align-items: center; gap: 12px; min-width: 0; }
-  .logo { font-weight: bold; font-size: 22px; color: #1a4b8c; letter-spacing: 1px; }
-  .title { font-size: 15px; font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .hr { display: flex; align-items: center; gap: 16px; }
-  .hbtn { background: #2e7bbd; color: #fff; border: 1px solid #1f5f96; padding: 6px 12px; font-size: 13px; cursor: pointer; border-radius: 2px; }
-  .who { display: flex; align-items: center; gap: 10px; }
+  /* ---------- top bars ---------- */
+  .top { display: flex; align-items: center; gap: 14px; padding: 6px 12px; background: var(--top-bg); flex: none; min-height: 46px; }
+  .logo { font-weight: bold; font-size: 22px; color: #1a4b8c; letter-spacing: 1px; border: 2px solid #1a4b8c; padding: 0 8px; border-radius: 3px; }
+  .apptitle { font-size: 19px; }
+  .dark { background: var(--dark); color: #fff; display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 0 14px; height: 38px; flex: none; }
+  .exname { color: var(--yellow); font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .dl { display: flex; gap: 22px; flex: none; }
+  .dbtn { background: none; border: 0; color: #fff; font-size: 14px; display: inline-flex; align-items: center; gap: 7px; cursor: pointer; padding: 0; }
+  .ci, .cq { display: inline-flex; width: 21px; height: 21px; border-radius: 50%; align-items: center; justify-content: center; font-weight: bold; font-size: 13px; color: #fff; }
+  .ci { background: #2d9cf0; font-style: italic; font-family: Georgia, serif; }
+  .cq { background: #4caf3a; border-radius: 4px; font-size: 11px; }
+
   .avatar { width: 46px; height: 54px; background: #dfe5ec; border: 1px solid #a9a9a9; position: relative; overflow: hidden; flex: none; }
   .avatar::before { content: ""; position: absolute; left: 14px; top: 8px; width: 18px; height: 18px; border-radius: 50%; background: #8d99a8; }
   .avatar::after { content: ""; position: absolute; left: 5px; top: 30px; width: 36px; height: 36px; border-radius: 50%; background: #8d99a8; }
-  .cand { font-weight: bold; }
-  .timer { font-weight: bold; color: #1a4b8c; font-size: 16px; background: #eef3fa; border: 1px solid #9db3d3; padding: 1px 8px; margin-left: 4px; font-variant-numeric: tabular-nums; }
-  .timer.low { color: #c0291b; border-color: #c0291b; }
-
-  /* ---------- section tabs ---------- */
-  .tabs { display: flex; align-items: flex-end; gap: 4px; padding: 5px 14px 0; background: #e9edf2; border-bottom: 2px solid #2e7bbd; overflow-x: auto; flex: none; }
-  .tabs .lbl { font-weight: bold; margin: 0 8px 7px 0; color: #333; white-space: nowrap; }
-  .tab { border: 1px solid #b9c3cf; border-bottom: 0; background: #f8f9fb; padding: 6px 14px; cursor: pointer; white-space: nowrap; font-size: 13px; }
-  .tab.on { background: #2e7bbd; color: #fff; border-color: #2e7bbd; }
+  .avatar.ph { background-size: cover; background-position: center; background-repeat: no-repeat; }
+  .avatar.ph::before, .avatar.ph::after { display: none; }
 
   /* ---------- main ---------- */
   #app { flex: 1; display: flex; flex-direction: column; min-height: 0; }
-  .body { flex: 1; display: flex; min-height: 0; }
-  .left { flex: 1; display: flex; flex-direction: column; min-width: 0; border-right: 1px solid #c4c4c4; }
-  .qhead { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding: 7px 14px; background: #f3f5f8; border-bottom: 1px solid #d3d3d3; font-size: 13px; flex: none; }
-  .qno { padding: 7px 14px; font-weight: bold; font-size: 15px; border-bottom: 1px solid #e0e0e0; flex: none; }
-  .qscroll { flex: 1; overflow: auto; padding: 14px 18px 20px; }
-  .qtext { font-size: 17px; line-height: 1.6; white-space: pre-wrap; margin-bottom: 14px; }
+  .body { flex: 1; display: flex; min-height: 0; position: relative; }
+  .left { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+  .arr { color: #555; font-size: 12px; flex: none; padding: 0 4px; }
+  .inf { display: inline-flex; width: 17px; height: 17px; border-radius: 50%; background: var(--info); color: #fff; font: italic bold 12px Georgia, serif; align-items: center; justify-content: center; margin-left: 9px; flex: none; }
+
+  .rowA { background: var(--top-bg); display: flex; align-items: center; gap: 10px; padding: 8px 10px 12px; border-bottom: 1px solid #cdcdcd; flex: none; }
+  .rowA .grow { flex: 1; }
+  .paper { background: var(--tab); color: #fff; padding: 8px 14px; position: relative; font-size: 14px; display: inline-flex; align-items: center; white-space: nowrap; max-width: 60%; overflow: visible; }
+  .paper::after { content: ""; position: absolute; left: 50%; bottom: -8px; margin-left: -8px; border: 8px solid transparent; border-top-color: var(--tab); border-bottom: 0; }
+  .paper .inf { background: rgba(255,255,255,.35); }
+  .calcico { background: none; border: 0; cursor: pointer; padding: 2px 4px; display: inline-flex; }
+  .rowB { display: flex; justify-content: space-between; align-items: center; padding: 9px 14px; background: #f3f3f3; border-bottom: 1px solid #dcdcdc; font-weight: bold; flex: none; }
+  .timer { font-weight: bold; font-size: 15px; font-variant-numeric: tabular-nums; }
+  .timer.low { color: var(--bad); }
+  .rowC { display: flex; align-items: center; gap: 8px; padding: 6px 10px; background: #fff; border-bottom: 1px solid var(--line); flex: none; }
+  .tabs { display: flex; align-items: center; gap: 10px; overflow-x: auto; flex: 1; }
+  .tab { border: 1px solid var(--tab-line); background: #fff; color: var(--tab); padding: 9px 16px; cursor: pointer; white-space: nowrap; font-size: 15px; display: inline-flex; align-items: center; border-radius: 2px; }
+  .tab .inf { margin-left: 10px; }
+  .tab.on { background: var(--tab); color: #fff; border-color: var(--tab); }
+  .tab.on .inf { background: rgba(255,255,255,.35); }
+
+  .qhead { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding: 9px 14px; background: #fff; border-bottom: 1px solid var(--line); font-size: 14px; flex: none; }
+  .qhead .g { color: var(--good); } .qhead .r { color: var(--bad); }
+  .qno { margin: 8px 8px 0; border: 1px solid #cfcfcf; padding: 8px 14px; font-weight: bold; font-size: 15px; flex: none; display: flex; justify-content: space-between; align-items: center; gap: 10px; min-height: 40px; background: #fafafa; }
+  .qno .gb { padding: 4px 10px; font-weight: normal; font-size: 12px; box-shadow: none; }
+  .qscroll { flex: 1; overflow: auto; padding: 14px 18px 20px; margin: 0 8px; border: 1px solid #cfcfcf; border-top: 0; }
+  .qtext { font-size: 16px; line-height: 1.6; white-space: pre-wrap; margin-bottom: 14px; }
   .qimg { max-width: 100%; height: auto; display: block; margin: 8px 0 14px; border: 1px solid #ddd; }
-  .opt { display: flex; align-items: flex-start; gap: 8px; padding: 7px 4px; font-size: 16px; cursor: pointer; line-height: 1.5; }
-  .opt input { margin-top: 5px; }
+  .opt { display: flex; align-items: flex-start; gap: 12px; padding: 8px 4px; font-size: 16px; cursor: pointer; line-height: 1.5; }
+  .opt input { margin-top: 4px; width: 16px; height: 16px; accent-color: var(--btn); flex: none; }
   .opt .t { white-space: pre-wrap; }
   .opt .t:empty { display: none; }
-  .opt .ob { display: flex; flex-direction: column; gap: 6px; align-items: flex-start; }
+  .opt .ob { display: flex; flex-direction: column; gap: 2px; align-items: flex-start; }
+  .opt .k { font-weight: bold; }
   .oimg { max-width: 100%; max-height: 260px; height: auto; display: block; border: 1px solid #ddd; background: #fff; }
   .imgmiss { border: 1px dashed #c0392b; color: #c0392b; background: #fdf3f2; padding: 8px 10px; font-size: 12px; margin: 6px 0; word-break: break-all; user-select: text; }
   .tex { white-space: normal; }
   .qp .qi .qimg, .qp .qi .oimg { max-height: 220px; width: auto; }
-  .natbox { width: 280px; font-size: 20px; padding: 6px 8px; border: 1px solid #777; background: #fff; color: #000; text-align: left; height: 40px; }
+  .natbox { width: 280px; font-size: 20px; padding: 6px 8px; border: 1px solid #aaa; background: #fff; color: #000; text-align: left; height: 40px; }
   .keypad { display: grid; grid-template-columns: repeat(3, 58px); gap: 6px; margin-top: 10px; }
-  .keypad button { height: 40px; font-size: 16px; font-weight: bold; background: #f3f3f3; border: 1px solid #8f8f8f; border-radius: 2px; cursor: pointer; }
-  .keypad button:active { background: #dcdcdc; }
+  .keypad button { height: 40px; font-size: 16px; font-weight: bold; background: #ececec; border: 1px solid #9a9a9a; border-radius: 2px; cursor: pointer; box-shadow: 0 1px 1px rgba(0,0,0,.2); }
+  .keypad button:active { background: #d6d6d6; }
   .keypad .wide { grid-column: span 3; font-size: 14px; }
-  .bar { display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; padding: 9px 14px; border-top: 1px solid #c4c4c4; background: #f3f5f8; flex: none; }
+
+  .bar { display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; padding: 10px 14px; border-top: 1px solid #d0d0d0; background: var(--bar-bg); flex: none; }
   .bar > div { display: flex; gap: 8px; flex-wrap: wrap; }
-  .gb { background: #fff; border: 1px solid #8f8f8f; color: #000; padding: 8px 14px; font-size: 13px; cursor: pointer; border-radius: 2px; }
-  .gb:hover { background: #eef3fa; }
-  .gb.blue { background: #2e7bbd; border-color: #1f5f96; color: #fff; font-weight: bold; }
-  .gb.blue:hover { background: #276aa3; }
+  .gb { background: #fff; border: 1px solid #c4c4c4; color: #000; padding: 11px 18px; font-size: 14px; font-weight: bold; cursor: pointer; border-radius: 2px; box-shadow: 0 1px 1px rgba(0,0,0,.15); }
+  .gb:hover { background: #f0f5fb; }
+  .gb.blue { background: var(--btn); border-color: var(--btn); color: #fff; }
+  .gb.blue:hover { background: var(--btn-hv); }
   .gb:disabled { opacity: .45; cursor: not-allowed; }
+  .toast { position: fixed; left: 50%; bottom: 70px; transform: translateX(-50%); background: #333; color: #fff; padding: 8px 16px; border-radius: 3px; font-size: 13px; z-index: 80; }
 
   /* ---------- right panel ---------- */
-  .right { width: 320px; flex: none; display: flex; flex-direction: column; background: #e9f0f8; min-height: 0; }
-  .legend { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 6px; padding: 10px; font-size: 12px; background: #f6f9fc; border-bottom: 1px solid #c4cfdb; flex: none; }
-  .legend > div { display: flex; align-items: center; gap: 6px; line-height: 1.2; }
+  .rtoggle { position: absolute; right: 330px; top: 46%; width: 20px; height: 44px; background: #222; color: #fff; border: 0; border-radius: 4px 0 0 4px; cursor: pointer; z-index: 5; font-weight: bold; padding: 0; }
+  .body.collapsed .right { display: none; }
+  .body.collapsed .rtoggle { right: 0; }
+  .right { width: 330px; flex: none; display: flex; flex-direction: column; background: var(--right-bg); min-height: 0; border-left: 1px solid #c9d6e0; }
+  .cprof { display: flex; align-items: flex-start; gap: 16px; padding: 10px 14px; background: #fff; flex: none; }
+  .cprof .avatar { width: 70px; height: 82px; }
+  .cprof .avatar::before { left: 22px; top: 12px; width: 26px; height: 26px; }
+  .cprof .avatar::after { left: 8px; top: 44px; width: 54px; height: 54px; }
+  .cname { font-weight: bold; font-size: 16px; padding-top: 6px; word-break: break-word; }
+  .legend { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 8px; padding: 12px 12px 10px; font-size: 13px; flex: none; }
+  .legend > div { display: flex; align-items: center; gap: 8px; line-height: 1.2; }
   .legend .full { grid-column: span 2; }
-  .secname { background: #2e7bbd; color: #fff; font-weight: bold; padding: 7px 10px; font-size: 13px; flex: none; }
-  .palhead { padding: 8px 10px 0; font-weight: bold; font-size: 13px; flex: none; }
-  .pal { flex: 1; overflow: auto; padding: 6px 10px 10px; display: grid; grid-template-columns: repeat(4, 1fr); align-content: start; gap: 6px; }
-  .rlinks { display: flex; gap: 6px; padding: 8px 10px 0; border-top: 1px solid #c4cfdb; background: #f6f9fc; flex: none; }
-  .rlinks .gb { flex: 1; padding: 6px 4px; }
-  .rfoot { padding: 8px 10px 10px; background: #f6f9fc; flex: none; }
-  .rfoot .gb { width: 100%; padding: 10px; }
+  .secname { background: var(--tab); color: #fff; font-weight: bold; padding: 10px 14px; font-size: 16px; flex: none; }
+  .palhead { padding: 12px 14px 4px; font-weight: bold; font-size: 15px; flex: none; }
+  .pal { flex: 1; overflow: auto; padding: 8px 14px 12px; display: grid; grid-template-columns: repeat(4, 1fr); align-content: start; gap: 10px 6px; }
+  .rfoot { padding: 12px 14px 14px; flex: none; border-top: 1px solid #c9d6e0; }
+  .submit { display: block; margin: 0 auto; background: var(--submit); color: #fff; border: 0; border-radius: 2px; padding: 11px 44px; font-size: 15px; font-weight: bold; cursor: pointer; box-shadow: 0 1px 2px rgba(0,0,0,.25); }
+  .submit:hover { background: var(--submit-hv); }
 
-  .pb, .ic { position: relative; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; border: 0; padding: 0; flex: none; }
-  .pb { width: 42px; height: 36px; font-size: 14px; cursor: pointer; margin: 0 auto; }
-  .ic { width: 34px; height: 30px; font-size: 12px; }
-  .nv { background: #e6e6e6; color: #000; border: 1px solid #9c9c9c; border-radius: 3px; }
-  .na { background: #e5412d; color: #fff; border-radius: 16px 16px 3px 3px; }
-  .ans { background: #45a82f; color: #fff; border-radius: 3px 3px 16px 16px; }
-  .mr, .am { background: #6c3f9e; color: #fff; border-radius: 50%; }
-  .pb.mr, .pb.am { width: 38px; }
-  .ic.mr, .ic.am { width: 30px; }
-  .am::after { content: "\2713"; position: absolute; right: -2px; bottom: -2px; width: 14px; height: 14px; border-radius: 50%; background: #45a82f; color: #fff; font-size: 10px; line-height: 14px; text-align: center; border: 1px solid #fff; }
-  .pb.cur { outline: 2px solid #1b1b1b; outline-offset: 2px; }
+  /* palette shapes: not answered = points down, answered = points up, marked = circle, not visited = square */
+  .pb, .ic { position: relative; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; border: 0; padding: 0; flex: none; color: #fff; background: none; }
+  .pb { width: 48px; height: 44px; font-size: 16px; cursor: pointer; margin: 0 auto; }
+  .ic { width: 34px; height: 32px; font-size: 13px; }
+  .na { background: var(--red); clip-path: polygon(0 0, 100% 0, 100% 70%, 50% 100%, 0 70%); padding-bottom: 7px; }
+  .ans { background: var(--green); clip-path: polygon(0 30%, 50% 0, 100% 30%, 100% 100%, 0 100%); padding-top: 7px; }
+  .nv { background: var(--nv); color: #000; border: 1px solid var(--nv-line); border-radius: 3px; box-shadow: 0 1px 2px rgba(0,0,0,.25); }
+  .mr, .am { background: var(--purple); border-radius: 50%; }
+  .pb.mr, .pb.am { width: 44px; }
+  .ic.mr, .ic.am { width: 30px; height: 30px; }
+  .am::after { content: ""; position: absolute; right: 0; bottom: 0; width: 11px; height: 11px; border-radius: 50%; background: var(--green); border: 1px solid #fff; }
+  .pb.cur { transform: scale(1.12); }
+  .pb.cur.nv, .pb.cur.mr, .pb.cur.am { outline: 2px solid #000; outline-offset: 2px; }
+  .pb.cur.na, .pb.cur.ans { filter: brightness(.8); }
 
   /* ---------- instructions screen ---------- */
   #gate { flex: 1; display: flex; flex-direction: column; min-height: 0; background: #fff; }
@@ -105,7 +164,7 @@
   .gside .avatar::after { left: 10px; top: 58px; width: 70px; height: 70px; }
   .gside table { width: 100%; font-size: 13px; text-align: left; border-collapse: collapse; margin-top: 12px; }
   .gside td { padding: 4px 2px; border-bottom: 1px solid #e3e3e3; }
-  .gfoot { flex: none; border-top: 1px solid #c4c4c4; background: #f3f5f8; padding: 12px 28px; display: flex; flex-direction: column; gap: 10px; }
+  .gfoot { flex: none; border-top: 1px solid #c4c4c4; background: var(--bar-bg); padding: 12px 28px; display: flex; flex-direction: column; gap: 10px; }
   .gfoot label { display: flex; gap: 8px; align-items: flex-start; font-size: 13px; cursor: pointer; }
   .gfoot .gb { align-self: center; padding: 10px 28px; font-size: 14px; }
 
@@ -114,11 +173,11 @@
   .ovbox { background: #fff; border: 2px solid #4d5d73; padding: 22px 26px; max-width: 460px; text-align: center; line-height: 1.5; }
   .ovbox h2 { margin: 0 0 8px; font-size: 20px; }
   .ovbox .gb { margin-top: 12px; padding: 9px 22px; }
-  dialog { border: 2px solid #4d5d73; padding: 0; width: min(680px, calc(100% - 24px)); background: #fff; color: #000; }
+  dialog { border: 2px solid var(--dlg-head); padding: 0; width: min(680px, calc(100% - 24px)); background: #fff; color: #000; }
   dialog.big { width: min(1000px, calc(100% - 24px)); height: calc(100% - 40px); max-height: none; }
   dialog.big[open] { display: flex; flex-direction: column; }
   dialog::backdrop { background: rgba(0,0,0,.45); }
-  .dh { background: #4d6a8f; color: #fff; padding: 8px 12px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; flex: none; }
+  .dh { background: var(--dlg-head); color: #fff; padding: 8px 12px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; flex: none; }
   .dh button { background: transparent; border: 0; color: #fff; font-size: 20px; line-height: 1; cursor: pointer; }
   .db { padding: 12px; overflow: auto; flex: 1; }
   .db table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 12px; }
@@ -131,61 +190,58 @@
   .qp .qi .qt { white-space: pre-wrap; line-height: 1.5; }
   .qp .qi .qo { margin: 4px 0 0 18px; line-height: 1.5; white-space: pre-wrap; }
 
-  /* calculator */
-  .calc { position: fixed; top: 120px; left: 24px; width: 330px; background: #f2f2f2; border: 2px solid #4d5d73; box-shadow: 0 6px 22px rgba(0,0,0,.35); z-index: 40; user-select: none; touch-action: none; }
+  /* ---------- calculator (GATE style) ---------- */
+  .calc { position: fixed; top: 130px; left: 90px; width: 640px; max-width: calc(100% - 16px); background: #d3d3d3; border: 1px solid #9aa8bd; box-shadow: 0 6px 22px rgba(0,0,0,.4); z-index: 40; user-select: none; touch-action: none; }
   .calc[hidden] { display: none; }
-  .ctitle { background: #4d6a8f; color: #fff; padding: 6px 8px; cursor: move; display: flex; justify-content: space-between; align-items: center; font-weight: bold; font-size: 13px; }
-  .ctitle button { background: transparent; border: 0; color: #fff; font-size: 18px; line-height: 1; cursor: pointer; }
-  .cdisp { margin: 8px 8px 4px; background: #fff; border: 2px inset #999; height: 46px; text-align: right; font: 22px/42px "Courier New", monospace; padding: 0 8px; overflow: hidden; white-space: nowrap; position: relative; }
-  .cdisp .mi { position: absolute; left: 6px; top: 0; font-size: 12px; color: #555; }
-  .copts { display: flex; justify-content: space-between; gap: 8px; padding: 2px 10px 4px; font-size: 12px; flex-wrap: wrap; }
-  .copts label { display: inline-flex; align-items: center; gap: 3px; cursor: pointer; }
-  .cgrid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; padding: 4px 8px 8px; }
-  .cgrid button { height: 34px; font-size: 13px; border: 1px solid #8a8a8a; background: #e4e4e4; border-radius: 2px; cursor: pointer; padding: 0; }
-  .cgrid button:active { background: #cfcfcf; }
-  .cgrid button.num { background: #fff; font-weight: bold; font-size: 15px; }
-  .cgrid button.op { background: #d6e2f1; }
-  .cgrid button.mem { background: #ece6d4; font-size: 12px; }
-  .cgrid button.eq { background: #2e7bbd; color: #fff; border-color: #1f5f96; font-weight: bold; }
-  .cgrid button.clr { background: #f1c8c2; }
-
-
+  .ctitle { background: var(--calc-title); color: #fff; padding: 10px 12px; cursor: move; display: flex; justify-content: space-between; align-items: center; font-size: 16px; }
+  .ctitle button { background: transparent; border: 0; color: #fff; font-size: 26px; line-height: 1; cursor: pointer; padding: 0 4px; }
+  .cbody { padding: 12px 14px 14px; }
+  .cexpr, .cres { background: #fff; border: 1px solid #aaa; box-shadow: inset 0 2px 3px rgba(0,0,0,.15); text-align: right; padding: 0 10px; overflow: hidden; white-space: nowrap; position: relative; font: 18px/36px Arial, sans-serif; height: 38px; margin-bottom: 8px; }
+  .cres { font-size: 22px; }
+  .cexpr .mi { position: absolute; left: 6px; top: 0; font-size: 12px; color: #555; }
+  .cgrid { display: grid; grid-template-columns: repeat(11, 1fr); gap: 5px; }
+  .cgrid button { height: 32px; font-size: 12px; border: 1px solid #a9a9a9; background: linear-gradient(#f4f4f4, #dedede); border-radius: 3px; cursor: pointer; padding: 0; color: #111; box-shadow: 0 1px 1px rgba(0,0,0,.25); }
+  .cgrid button:active { background: #c9c9c9; }
+  .cgrid button.num { font-weight: bold; font-size: 14px; background: linear-gradient(#fff, #e9e9e9); }
+  .cgrid button.red { background: #e0412f; color: #fff; border-color: #b9301f; font-weight: bold; }
+  .cgrid button.eq { background: #2fc15a; color: #fff; border-color: #25a049; font-weight: bold; font-size: 16px; }
+  .cgrid .deg { grid-column: span 5; display: flex; align-items: center; gap: 12px; font-size: 12px; padding-left: 4px; }
+  .cgrid .deg label { display: inline-flex; align-items: center; gap: 4px; cursor: pointer; }
+  sup { font-size: 9px; }
 
   @media (max-width: 860px) {
     body { overflow: auto; }
     #app, .body { flex: none; }
     .body { flex-direction: column; }
+    .rtoggle { display: none; }
     .right { width: 100%; }
-    .left { min-height: 70vh; border-right: 0; }
+    .left { min-height: 70vh; }
     .gbody { flex-direction: column; }
     .gside { width: auto; border-left: 0; padding-left: 0; }
-    .calc { left: 8px; width: calc(100% - 16px); max-width: 330px; }
+    .calc { left: 8px; width: calc(100% - 16px); }
+    .cgrid button { height: 28px; font-size: 10px; padding: 0; }
+    .dl { gap: 12px; } .dbtn { font-size: 12px; }
   }
 </style>
 </head>
 <body>
 
-<header class="hdr">
-  <div class="hl"><span class="logo">GATE</span><span class="title" id="title">Practice Exam</span></div>
-  <div class="hr">
-    <button class="hbtn" id="calcBtn" hidden>Virtual Calculator</button>
-    <div class="who">
-      <div class="avatar" aria-hidden="true"></div>
-      <div>
-        <div class="cand">Candidate</div>
-        <div>Remaining Time: <span class="timer" id="timer" role="timer">--:--:--</span></div>
-      </div>
-    </div>
-  </div>
-</header>
+<header class="top"><span class="logo">GATE</span><span class="apptitle">Exam Practice - GATE Mock Test</span></header>
+<div class="dark">
+  <span class="exname" id="title">Practice Exam</span>
+  <span class="dl" id="dlinks" hidden>
+    <button class="dbtn" id="insBtn"><span class="ci">i</span>Instructions</button>
+    <button class="dbtn" id="qpBtn"><span class="cq">Q</span>Question Paper</button>
+  </span>
+</div>
 
-<!-- instructions / resume screen (shown first) -->
+<!-- instructions screen (shown first) -->
 <section id="gate">
   <div class="gbody">
     <div class="gtext" id="gtext"></div>
     <aside class="gside">
       <div class="avatar" aria-hidden="true"></div>
-      <b>Candidate</b>
+      <b id="gName">Candidate</b>
       <table id="gsum"></table>
     </aside>
   </div>
@@ -197,14 +253,24 @@
 
 <!-- exam screen -->
 <div id="app" hidden>
-  <div class="tabs" id="tabs"></div>
-  <div class="body">
+  <div class="body" id="mainBody">
     <section class="left">
+      <div class="rowA">
+        <span class="arr">&#9664;</span>
+        <span class="paper"><span id="paperTab">Exam</span><i class="inf">i</i></span>
+        <span class="grow"></span>
+        <span class="arr">&#9654;</span>
+        <button class="calcico" id="calcBtn" aria-label="Calculator" title="Calculator">
+          <svg width="26" height="30" viewBox="0 0 26 30" fill="none" stroke="#f08a4b" stroke-width="2"><rect x="3" y="2" width="20" height="26" rx="2"/><rect x="6" y="5" width="14" height="5" fill="#f08a4b" stroke="none"/><g fill="#f08a4b" stroke="none"><circle cx="8" cy="15" r="1.4"/><circle cx="13" cy="15" r="1.4"/><circle cx="18" cy="15" r="1.4"/><circle cx="8" cy="20" r="1.4"/><circle cx="13" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><circle cx="8" cy="25" r="1.4"/><circle cx="13" cy="25" r="1.4"/><circle cx="18" cy="25" r="1.4"/></g></svg>
+        </button>
+      </div>
+      <div class="rowB"><span>Sections</span><span>Time Left : <span class="timer" id="timer" role="timer">--:--:--</span></span></div>
+      <div class="rowC"><span class="arr">&#9664;</span><div class="tabs" id="tabs"></div><span class="arr">&#9654;</span></div>
       <div class="qhead">
-        <span><b>Question Type:</b> <span id="qtype"></span></span>
+        <span>Question Type: <b id="qtype"></b></span>
         <span id="qmarks"></span>
       </div>
-      <div class="qno" id="qno"></div>
+      <div class="qno"><span id="qno"></span><button class="gb" id="bUnmark" hidden>Remove Review Mark</button></div>
       <div class="qscroll" id="qbody"></div>
       <div class="bar">
         <div>
@@ -212,22 +278,20 @@
           <button class="gb" id="bClear">Clear Response</button>
         </div>
         <div>
-          <button class="gb" id="bPrev">&laquo; Previous</button>
+          <button class="gb" id="bPrev">Previous</button>
           <button class="gb blue" id="bNext">Save &amp; Next</button>
         </div>
       </div>
     </section>
 
+    <button class="rtoggle" id="rtoggle" aria-label="Show or hide the question palette">&gt;</button>
     <aside class="right">
+      <div class="cprof"><div class="avatar" aria-hidden="true"></div><div class="cname" id="candName">Candidate</div></div>
       <div class="legend" id="legend"></div>
       <div class="secname" id="secname"></div>
       <div class="palhead">Choose a Question</div>
       <div class="pal" id="pal"></div>
-      <div class="rlinks">
-        <button class="gb" id="qpBtn">Question Paper</button>
-        <button class="gb" id="insBtn">Instructions</button>
-      </div>
-      <div class="rfoot"><button class="gb blue" id="submitBtn">Submit</button></div>
+      <div class="rfoot"><button class="submit" id="submitBtn">Submit</button></div>
     </aside>
   </div>
 </div>
@@ -235,12 +299,11 @@
 <!-- virtual calculator -->
 <div class="calc" id="calc" hidden>
   <div class="ctitle" id="chandle"><span>Scientific Calculator</span><button id="cclose" aria-label="Close calculator">&times;</button></div>
-  <div class="cdisp" id="cdisp"><span class="mi" id="cmem"></span><span id="ctext">0</span></div>
-  <div class="copts">
-    <span><label><input type="radio" name="ang" value="deg" checked> Deg</label> <label><input type="radio" name="ang" value="rad"> Rad</label></span>
-    <span><label><input type="checkbox" id="cinv"> Inv</label> <label><input type="checkbox" id="chyp"> Hyp</label></span>
+  <div class="cbody">
+    <div class="cexpr"><span class="mi" id="cmem"></span><span id="ctop"></span></div>
+    <div class="cres" id="cres">0</div>
+    <div class="cgrid" id="cgrid"></div>
   </div>
-  <div class="cgrid" id="cgrid"></div>
 </div>
 
 <!-- submit summary -->
@@ -265,6 +328,8 @@
   <div class="db"><div class="gtext" id="insBody"></div></div>
 </dialog>
 
+<div class="toast" id="toast" hidden></div>
+
 <!-- blocking overlays -->
 <div class="ov" id="fsOv" hidden><div class="ovbox"><h2>Full screen is required</h2><p>You left full screen mode. The timer is still running. Return to full screen to continue the exam.</p><button class="gb blue" id="fsBack">Return to full screen</button></div></div>
 <div class="ov" id="timeUp" hidden><div class="ovbox"><h2>Time is up</h2><p>Your exam is being submitted automatically.</p></div></div>
@@ -277,14 +342,31 @@ const $ = id => document.getElementById(id);
 const raw = sessionStorage.getItem("examSession");
 if (!raw) location.replace("index.html");
 const S = JSON.parse(raw || "{}");
+if (!S.attemptId) S.attemptId = "a" + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
 const Q = S.questions || [];
 const endAt = () => S.startedAt + S.durationSec * 1000;
 let finished = false, timeUpShown = false, running = false;
 
+const C = S.candidate || { name: "Candidate", email: "", photo: "" };
 const save = () => sessionStorage.setItem("examSession", JSON.stringify(S));
 const fmtNum = n => (Math.round(n * 100) / 100).toString();
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 const hms = sec => { sec = Math.max(0, Math.round(sec)); const p = n => String(n).padStart(2, "0"); return `${p(Math.floor(sec / 3600))}:${p(Math.floor(sec % 3600 / 60))}:${p(sec % 60)}`; };
+
+function applyCandidate() {
+  $("candName").textContent = C.name; $("gName").textContent = C.name;
+  document.querySelectorAll(".avatar").forEach(a => {
+    if (C.photo) { a.classList.add("ph"); a.style.backgroundImage = `url("${C.photo}")`; }
+  });
+}
+let toastT;
+function toast(msg) { const t = $("toast"); t.textContent = msg; t.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => t.hidden = true, 2200); }
+// MCQ wrong answer penalty: from the data, else 1/3 of the marks (GATE rule)
+function negOf(q) {
+  if (qType(q) !== "MCQ") return 0;
+  const n = Number(q.negative_marks) || 0;
+  return n > 0 ? n : q.marks / 3;
+}
 
 /* ---------- question helpers ---------- */
 function qType(q) {
@@ -304,8 +386,9 @@ function optionList(q) {
 /* ---------- sections (one per topic) ---------- */
 const SECTIONS = [];
 Q.forEach((q, i) => {
-  let s = SECTIONS.find(x => x.name === q.subject);
-  if (!s) { s = { name: q.subject, idx: [] }; SECTIONS.push(s); }
+  const nm = sectionName(q);
+  let s = SECTIONS.find(x => x.name === nm);
+  if (!s) { s = { name: nm, idx: [] }; SECTIONS.push(s); }
   s.idx.push(i);
 });
 const secOf = i => SECTIONS.find(s => s.idx.includes(i));
@@ -359,7 +442,7 @@ function timeUp() {
   $("calc").hidden = true;
   $("fsOv").hidden = true;
   $("timeUp").hidden = false;
-  setTimeout(() => finish(true), 1500);
+  setTimeout(() => finish(true, "timeup"), 1500);
 }
 function startTimers() {
   running = true;
@@ -387,6 +470,7 @@ function instructionsHTML() {
     <ol>
       <li>Total duration of the exam is <b>${mins} minutes</b> (${hms(S.durationSec)}). It has <b>${Q.length} questions</b> carrying <b>${fmtNum(S.totalMarks)} marks</b>.</li>
       <li>The clock starts when you click <b>I am ready to begin</b>, and the <b>Remaining Time</b> at the top right counts down. When it reaches zero, the exam ends and your answers are <b>submitted automatically</b>. You do not need to click Submit.</li>
+      <li>Once the exam starts it <b>cannot be paused, resumed or cancelled</b>. If you close or reload the page, your answers so far are saved and the attempt ends.</li>
       <li>The exam runs in <b>full screen</b>. If you leave full screen, a message asks you to return; the clock keeps running.</li>
     </ol>
     <h3>The question palette on the right shows the status of each question:</h3>
@@ -396,7 +480,7 @@ function instructionsHTML() {
       <li>Click a question number in the palette to go to that question directly. Your answer to the current question is kept.</li>
       <li><b>Save &amp; Next</b> keeps your answer and opens the next question.</li>
       <li><b>Mark for Review &amp; Next</b> keeps your answer (if any), marks the question for review, and opens the next one. An answered question that is marked for review is still evaluated.</li>
-      <li>Click a section name at the top to jump to that section. Each topic is a section.</li>
+      <li>Click a section name at the top to jump to that section. The paper has two sections: General Aptitude and the branch core section.</li>
     </ol>
     <h3>Answering a question</h3>
     <ol>
@@ -408,6 +492,8 @@ function instructionsHTML() {
     <ol><li>Use <b>Virtual Calculator</b> at the top for calculations. Question Paper and Instructions can be opened any time from the right side.</li></ol>`;
 }
 function gateInit() {
+  applyCandidate();
+  $("title").textContent = `${S.filters.branch}  |  ${Q.length} questions, ${fmtNum(S.totalMarks)} marks`;
   const resume = !!S.startedAt;
   $("gtext").innerHTML = resume
     ? `<h2>Resume exam</h2><p style="text-align:center">Your exam is in progress and the clock has been running. Continue in full screen.</p>`
@@ -425,8 +511,8 @@ function gateInit() {
     if (!S.startedAt) { S.startedAt = Date.now(); save(); }
     $("gate").hidden = true;
     $("app").hidden = false;
-    $("calcBtn").hidden = false;
-    $("title").textContent = `${S.filters.branch}  |  ${Q.length} questions, ${fmtNum(S.totalMarks)} marks`;
+    $("dlinks").hidden = false;
+    $("paperTab").textContent = S.filters.branch;
     startTimers();
     render();
     setTimeout(fsWatch, 400);
@@ -440,19 +526,21 @@ function render() {
   const i = S.current, q = Q[i], type = qType(q), sec = secOf(i);
   if (!S.visited.includes(i)) S.visited.push(i);
 
-  $("tabs").innerHTML = '<span class="lbl">Sections</span>';
+  $("tabs").innerHTML = "";
   SECTIONS.forEach(s => {
     const b = document.createElement("button");
     b.className = "tab" + (s === sec ? " on" : "");
-    b.textContent = s.name;
+    b.append(s.name);
+    const inf = document.createElement("i"); inf.className = "inf"; inf.textContent = "i"; b.append(inf);
     b.onclick = () => go(s.idx[0]);
     $("tabs").append(b);
   });
 
   $("qtype").textContent = type;
-  const neg = type === "MCQ" && CONFIG.NEGATIVE_FOR_TYPES.includes("MCQ") ? fmtNum(q.negative_marks) : "0";
-  $("qmarks").innerHTML = `Marks for Correct Response: <b>${fmtNum(q.marks)}</b> &nbsp;|&nbsp; Negative Marks for Wrong Response: <b>${neg}</b>`;
+  const neg = CONFIG.NEGATIVE_FOR_TYPES.includes(type) ? fmtNum(negOf(q)) : "0";
+  $("qmarks").innerHTML = `Marks for correct answer: <b class="g">${fmtNum(q.marks)}</b> | Negative Marks: <b class="r">${neg}</b>`;
   $("qno").textContent = `Question No. ${i + 1}`;
+  $("bUnmark").hidden = !S.marked.includes(i);
 
   const box = $("qbody");
   box.innerHTML = "";
@@ -506,18 +594,19 @@ function render() {
         setAnswer(i, [...chosen].sort().join(";"));
         palRender();
       };
-      const k = document.createElement("b"); k.textContent = `(${o.key})`;
+      const k = document.createElement("span"); k.className = "k"; k.textContent = `${o.key}.`;
       const ob = document.createElement("div"); ob.className = "ob";
       const tx = document.createElement("span"); tx.className = "t"; richText(tx, o.text);
-      ob.append(tx);
+      ob.append(k, tx);
       IMG.forOption(q, o.key).forEach(p => ob.append(IMG.el(p, "oimg")));
-      lab.append(inp, k, ob);
+      lab.append(inp, ob);
       box.append(lab);
     });
   }
 
   $("bPrev").disabled = i === 0;
-  $("bNext").disabled = i === Q.length - 1;
+  $("bNext").disabled = false;
+  $("rtoggle").textContent = $("mainBody").classList.contains("collapsed") ? "<" : ">";
   palRender();
   save();
 }
@@ -549,20 +638,26 @@ function palRender() {
     `<div class="full"><span class="ic am">${counts.am}</span> Answered &amp; Marked for Review (will be considered for evaluation)</div>`;
 }
 
+$("rtoggle").onclick = () => { $("mainBody").classList.toggle("collapsed"); $("rtoggle").textContent = $("mainBody").classList.contains("collapsed") ? "<" : ">"; };
+
 /* ---------- buttons ---------- */
 $("bNext").onclick = () => {                       // Save & Next
   const i = S.current;
   S.marked = S.marked.filter(x => x !== i);
   save();
-  if (i < Q.length - 1) go(i + 1); else render();
+  if (i < Q.length - 1) go(i + 1);
+  else { render(); toast("Saved. This is the last question."); }
 };
 $("bMark").onclick = () => {                       // Mark for Review & Next
   const i = S.current;
   if (!S.marked.includes(i)) S.marked.push(i);
   save();
-  if (i < Q.length - 1) go(i + 1); else render();
+  if (i < Q.length - 1) go(i + 1);
+  else { render(); toast("Marked for review. This is the last question."); }
 };
-$("bClear").onclick = () => { setAnswer(S.current, ""); render(); };
+// Clear Response removes the answer AND the review mark: the question goes back to "Not Answered"
+$("bClear").onclick = () => { const i = S.current; setAnswer(i, ""); S.marked = S.marked.filter(x => x !== i); save(); render(); };
+$("bUnmark").onclick = () => { const i = S.current; S.marked = S.marked.filter(x => x !== i); save(); render(); };
 $("bPrev").onclick = () => go(S.current - 1);
 
 /* ---------- question paper + instructions ---------- */
@@ -609,13 +704,13 @@ function isCorrect(q, given) {
   return norm(given) === norm(Array.isArray(q.answer) ? q.answer.join(";") : key);
 }
 
-function buildResult(auto) {
+function buildResult(auto, status) {
   let score = 0, maxScore = 0, correct = 0, wrong = 0, unattempted = 0, noKey = 0;
   const bySubject = {}, detail = [];
   Q.forEach((q, i) => {
     const given = S.answers[i] || "";
     const hasKey = q.answer !== null && q.answer !== undefined && String(q.answer).trim() !== "";
-    const sub = bySubject[q.subject] ||= { score: 0, max: 0, correct: 0, attempted: 0 };
+    const sub = bySubject[sectionName(q)] ||= { score: 0, max: 0, correct: 0, attempted: 0 };
     let got = 0;
     if (!hasKey) { noKey++; }
     else {
@@ -624,28 +719,29 @@ function buildResult(auto) {
       else {
         sub.attempted++;
         if (isCorrect(q, given)) { got = q.marks; correct++; sub.correct++; }
-        else { wrong++; if (CONFIG.NEGATIVE_FOR_TYPES.includes(qType(q))) got = -q.negative_marks; }
+        else { wrong++; if (CONFIG.NEGATIVE_FOR_TYPES.includes(qType(q))) got = -negOf(q); }
       }
       score += got; sub.score += got;
     }
-    detail.push({ id: q.id, subject: q.subject, type: qType(q), marks: q.marks, given, answer: hasKey ? String(q.answer) : "", got });
+    detail.push({ id: q.id, subject: sectionName(q), type: qType(q), marks: q.marks, given, answer: hasKey ? String(q.answer) : "", got });
   });
   const attempted = correct + wrong;
   const timeTakenSec = Math.min(S.durationSec, Math.round((Date.now() - S.startedAt) / 1000));
   return {
-    finishedAt: new Date().toISOString(), filters: S.filters, total: Q.length,
+    finishedAt: new Date().toISOString(), name: C.name, email: C.email, filters: S.filters, total: Q.length,
     score: Math.round(score * 100) / 100, maxScore, correct, wrong, unattempted, noKey,
     accuracy: attempted ? Math.round(correct / attempted * 100) : 0,
     timeTakenSec, durationSec: S.durationSec, autoSubmitted: !!auto, bySubject, detail,
+    attemptId: S.attemptId, status: status || (auto ? "timeup" : "completed"),
   };
 }
 
-async function finish(auto) {
+async function finish(auto, status) {
   if (finished) return;
   finished = true;
   ["dlg", "qpDlg", "insDlg"].forEach(id => { try { $(id).close(); } catch {} });
   document.querySelectorAll("button, input").forEach(el => el.disabled = true);
-  const result = buildResult(auto);
+  const result = buildResult(auto, status || (auto ? "timeup" : "completed"));
   sessionStorage.setItem("lastResult", JSON.stringify(result));
   try { await API.saveResult(result); } catch (e) { console.error("Could not save result:", e); }
   sessionStorage.removeItem("examSession");
@@ -664,15 +760,30 @@ $("submitBtn").onclick = () => {
   $("dlg").showModal();
 };
 $("dlgNo").onclick = () => $("dlg").close();
-$("dlgYes").onclick = () => { $("dlg").close(); finish(false); };
+$("dlgYes").onclick = () => { $("dlg").close(); finish(false, "completed"); };
+window.addEventListener("pagehide", () => {
+  if (!running || finished) return;
+  finished = true;
+  const r = buildResult(true, "left");
+  try { sessionStorage.setItem("lastResult", JSON.stringify(r)); sessionStorage.removeItem("examSession"); } catch {}
+  API.saveResultBeacon(r);
+});
+// progress save every 20 s (only when something changed), in case the browser or device dies
+let lastSnap = "";
+setInterval(() => {
+  if (!running || finished) return;
+  const snap = JSON.stringify([S.answers, S.marked, S.visited]);
+  if (snap === lastSnap) return;
+  lastSnap = snap;
+  API.saveResult(buildResult(true, "in-progress")).catch(() => { lastSnap = ""; });
+}, 20000);
 window.addEventListener("beforeunload", e => { if (running && !finished) { e.preventDefault(); e.returnValue = ""; } });
 
 /* ======================================================
-   Virtual scientific calculator
+   Virtual scientific calculator (GATE layout, 11 columns)
    ====================================================== */
 const calc = (() => {
-  let expr = "", fresh = false, mem = 0, hasMem = false;
-  const inv = () => $("cinv").checked, hyp = () => $("chyp").checked;
+  let expr = "", fresh = false, mem = 0, hasMem = false, ans = "0";
   const deg = () => document.querySelector('input[name="ang"]:checked').value === "deg";
 
   /* --- safe expression parser (no eval) --- */
@@ -681,7 +792,7 @@ const calc = (() => {
     const open = (s.match(/\(/g) || []).length - (s.match(/\)/g) || []).length;
     if (open > 0) s += ")".repeat(open);
     const toks = [];
-    const re = /\s*(\d+\.?\d*(?:e[+-]?\d+)?|\.\d+|π|[a-z]+|[-+*\/^()!])/gy;
+    const re = /\s*(\d+\.?\d*(?:e[+-]?\d+)?|\.\d+|π|[a-z]+\d*|[-+*\/^()!,])/gy;
     let m, end = 0;
     while ((m = re.exec(s)) !== null) { toks.push(m[1]); end = re.lastIndex; }
     if (s.slice(end).trim()) throw new Error("bad");
@@ -695,7 +806,7 @@ const calc = (() => {
       sin: x => clean(Math.sin(toRad(x))), cos: x => clean(Math.cos(toRad(x))), tan: x => clean(Math.tan(toRad(x))),
       asin: x => toDeg(Math.asin(x)), acos: x => toDeg(Math.acos(x)), atan: x => toDeg(Math.atan(x)),
       sinh: Math.sinh, cosh: Math.cosh, tanh: Math.tanh, asinh: Math.asinh, acosh: Math.acosh, atanh: Math.atanh,
-      ln: Math.log, log: Math.log10, sqrt: Math.sqrt, abs: Math.abs,
+      ln: Math.log, log: Math.log10, log2: Math.log2, sqrt: Math.sqrt, cbrt: Math.cbrt, abs: Math.abs,
     };
     let p = 0;
     const peek = () => toks[p], next = () => toks[p++];
@@ -712,6 +823,7 @@ const calc = (() => {
       if (t === "(") { const v = sum(); expect(")"); return v; }
       if (t === "π" || t === "pi") return Math.PI;
       if (t === "e") return Math.E;
+      if (t === "logy") { expect("("); const a = sum(); expect(","); const b = sum(); expect(")"); return Math.log(a) / Math.log(b); }
       if (F[t]) { expect("("); const v = sum(); expect(")"); return F[t](v); }
       throw new Error("bad");
     }
@@ -720,76 +832,89 @@ const calc = (() => {
     return v;
   }
   const fmt = x => { if (!isFinite(x) || Number.isNaN(x)) throw new Error("bad"); return String(parseFloat(x.toPrecision(12))); };
-
-  /* --- display --- */
-  const show = t => { $("ctext").textContent = t === "" ? "0" : t; $("cdisp").scrollLeft = 1e6; };
-  const showMem = () => { $("cmem").textContent = hasMem ? "M" : ""; };
-  function insert(t, startsNew) {
-    if (expr === "Error") expr = "";
-    if (fresh) { if (startsNew) expr = ""; fresh = false; }
-    expr += t; show(expr);
-  }
-  function equals() {
-    if (!expr || expr === "Error") return;
-    try { expr = fmt(evaluate(expr)); fresh = true; }
-    catch { expr = "Error"; fresh = true; }
-    show(expr);
-  }
   const current = () => { try { return evaluate(expr); } catch { return null; } };
 
-  /* --- buttons --- */
-  const fnLabel = b => (inv() ? b + "⁻¹" : b).replace(/^(sin|cos|tan)(⁻¹)?$/, (_, n, i) => n + (hyp() ? "h" : "") + (i || ""));
-  const fnName = b => (inv() ? "a" : "") + b + (hyp() ? "h" : "");
-  const trig = n => ({ t: () => fnLabel(n), a: () => insert(fnName(n) + "(", true), c: "" });
-  const num = d => ({ t: d, a: () => insert(d, true), c: "num" });
-  const op = (label, ins) => ({ t: label, a: () => insert(ins, false), c: "op" });
-  const fn = (label, ins) => ({ t: label, a: () => insert(ins, true), c: "" });
-  const mem_ = (label, f) => ({ t: label, a: f, c: "mem" });
-
-  const LAYOUT = [
-    mem_("MC", () => { mem = 0; hasMem = false; showMem(); }),
-    mem_("MR", () => { if (hasMem) insert(fmt(mem), true); }),
-    mem_("MS", () => { const v = current(); if (v !== null) { mem = v; hasMem = true; showMem(); } }),
-    mem_("M+", () => { const v = current(); if (v !== null) { mem += v; hasMem = true; showMem(); } }),
-    mem_("M−", () => { const v = current(); if (v !== null) { mem -= v; hasMem = true; showMem(); } }),
-
-    trig("sin"), trig("cos"), trig("tan"), fn("(", "("), op(")", ")"),
-    fn("ln", "ln("), fn("log", "log("), op("x^y", "^"), fn("√", "sqrt("), op("x²", "^2"),
-    fn("e^x", "e^("), fn("10^x", "10^("), op("1/x", "^(-1)"), op("n!", "!"), op("mod", " mod "),
-    fn("π", "π"), fn("e", "e"), fn("|x|", "abs("), { t: "EXP", a: () => insert("*10^(", false), c: "op" }, { t: "±", a: () => negate(), c: "op" },
-
-    num("7"), num("8"), num("9"), op("÷", "÷"), { t: "C", a: () => { expr = ""; fresh = false; show(""); }, c: "clr" },
-    num("4"), num("5"), num("6"), op("×", "×"), { t: "←", a: () => { if (expr === "Error" || fresh) { expr = ""; fresh = false; } else expr = expr.replace(/(abs\(|sqrt\(|asinh\(|acosh\(|atanh\(|sinh\(|cosh\(|tanh\(|asin\(|acos\(|atan\(|sin\(|cos\(|tan\(|log\(|ln\(| mod |.)$/, ""); show(expr); }, c: "clr" },
-    num("1"), num("2"), num("3"), op("−", "−"), { t: "=", a: equals, c: "eq", rows: 2 },
-    num("0"), num("."), { t: "Ans", a: () => {}, c: "" }, op("+", "+"),
-  ];
-  function negate() {
-    if (expr === "Error") return;
+  /* --- display --- */
+  const showTop = t => { $("ctop").textContent = t; $("ctop").parentNode.scrollLeft = 1e6; };
+  const showRes = t => { $("cres").textContent = t === "" ? "0" : t; };
+  const showMem = () => { $("cmem").textContent = hasMem ? "M" : ""; };
+  function live() {
+    showTop(expr);
+    if (!expr) { showRes("0"); return; }
     const v = current();
-    if (v === null) { expr = expr.startsWith("-") ? expr.slice(1) : "-" + expr; }
-    else { try { expr = fmt(-v); } catch { expr = "Error"; } fresh = true; }
-    show(expr);
+    if (v !== null) { try { showRes(fmt(v)); } catch {} }
   }
-  // "Ans" keeps the last result
-  let ans = "0";
-  const origEquals = equals;
-  LAYOUT.find(b => b.t === "=").a = () => { origEquals(); if (expr !== "Error") ans = expr; };
-  LAYOUT.find(b => b.t === "Ans").a = () => insert(ans, true);
+  function insert(t, startsNew) {
+    if (fresh) { if (startsNew) expr = ""; fresh = false; }
+    expr += t; live();
+  }
+  function equals() {
+    if (!expr) return;
+    try { const out = fmt(evaluate(expr)); showTop(expr + " ="); expr = out; fresh = true; ans = out; showRes(out); }
+    catch { expr = ""; fresh = true; showTop(""); showRes("Error"); }
+  }
+  function negate() {
+    if (!expr) return;
+    const v = current();
+    if (v === null) expr = expr.startsWith("-") ? expr.slice(1) : "-" + expr;
+    else { try { expr = fmt(-v); } catch { return; } fresh = true; }
+    live();
+  }
+  function logy() {
+    const i = expr.lastIndexOf("logy(");
+    if (i >= 0 && !fresh && !expr.slice(i).includes(",")) insert(",", false); else insert("logy(", true);
+  }
 
+  /* --- buttons --- */
+  const num = d => ({ t: d, a: () => insert(d, true), c: "num" });
+  const op = (label, ins) => ({ t: label, a: () => insert(ins, false) });
+  const fn = (label, ins) => ({ t: label, a: () => insert(ins, true) });
+  const mm = (label, f) => ({ t: label, a: f });
+  const LAYOUT = [
+    // row 1
+    op("mod", " mod "),
+    { deg: true },
+    mm("MC", () => { mem = 0; hasMem = false; showMem(); }),
+    mm("MR", () => { if (hasMem) insert(fmt(mem), true); }),
+    mm("MS", () => { const v = current(); if (v !== null) { mem = v; hasMem = true; showMem(); } }),
+    mm("M+", () => { const v = current(); if (v !== null) { mem += v; hasMem = true; showMem(); } }),
+    mm("M-", () => { const v = current(); if (v !== null) { mem -= v; hasMem = true; showMem(); } }),
+    // row 2
+    fn("sinh", "sinh("), fn("cosh", "cosh("), fn("tanh", "tanh("), { t: "Exp", a: () => insert("*10^(", false) }, fn("(", "("), op(")", ")"),
+    { t: "\u2190", c: "red", span: 2, a: () => { if (fresh) { expr = ""; fresh = false; } else expr = expr.replace(/(abs\(|sqrt\(|cbrt\(|asinh\(|acosh\(|atanh\(|sinh\(|cosh\(|tanh\(|asin\(|acos\(|atan\(|sin\(|cos\(|tan\(|log2\(|logy\(|log\(|ln\(| mod |.)$/, ""); live(); } },
+    { t: "C", c: "red", a: () => { expr = ""; fresh = false; showTop(""); showRes("0"); } },
+    { t: "+/-", c: "red", a: negate },
+    fn("\u221a", "sqrt("),
+    // row 3
+    fn("sinh<sup>-1</sup>", "asinh("), fn("cosh<sup>-1</sup>", "acosh("), fn("tanh<sup>-1</sup>", "atanh("), fn("log<sub>2</sub>x", "log2("), fn("ln", "ln("), fn("log", "log("),
+    num("7"), num("8"), num("9"), op("/", "/"), op("%", "/100"),
+    // row 4
+    fn("\u03c0", "\u03c0"), fn("e", "e"), op("n!", "!"), { t: "log<sub>y</sub>x", a: logy }, fn("e<sup>x</sup>", "e^("), fn("10<sup>x</sup>", "10^("),
+    num("4"), num("5"), num("6"), op("*", "*"), op("1/x", "^(-1)"),
+    // row 5
+    fn("sin", "sin("), fn("cos", "cos("), fn("tan", "tan("), op("x<sup>y</sup>", "^"), op("x<sup>3</sup>", "^3"), op("x<sup>2</sup>", "^2"),
+    num("1"), num("2"), num("3"), op("-", "-"), { t: "=", c: "eq", rows: 2, a: equals },
+    // row 6
+    fn("sin<sup>-1</sup>", "asin("), fn("cos<sup>-1</sup>", "acos("), fn("tan<sup>-1</sup>", "atan("), fn("<sup>y</sup>\u221ax", "sqrt("), fn("\u221b", "cbrt("), fn("|x|", "abs("),
+    { ...num("0"), span: 2 }, num("."), op("+", "+"),
+  ];
   const grid = $("cgrid");
-  const btns = [];
   LAYOUT.forEach(d => {
+    if (!d) return;
+    if (d.deg) {
+      const w = document.createElement("div"); w.className = "deg";
+      w.innerHTML = '<label><input type="radio" name="ang" value="deg" checked> Deg</label><label><input type="radio" name="ang" value="rad"> Rad</label>';
+      grid.append(w); return;
+    }
     const b = document.createElement("button");
+    b.type = "button";
     b.className = d.c || "";
+    b.innerHTML = d.t;
+    if (d.span) b.style.gridColumn = `span ${d.span}`;
     if (d.rows) b.style.gridRow = `span ${d.rows}`;
     b.onclick = d.a;
-    b.type = "button";
     grid.append(b);
-    btns.push([b, d]);
   });
-  function labels() { btns.forEach(([b, d]) => { b.textContent = typeof d.t === "function" ? d.t() : d.t; }); }
-  $("cinv").onchange = $("chyp").onchange = labels;
-  labels();
 
   /* --- open / close / drag --- */
   const box = $("calc");
@@ -814,16 +939,14 @@ const calc = (() => {
   return {};
 })();
 
-
-
 /* ---------- start ---------- */
 if (Q.length) {
-  if (S.startedAt && Date.now() >= endAt()) {
-    // time already ran out (for example the page was closed): submit straight away
+  if (S.startedAt) {
+    // the exam had already started and the page was reopened: no resume, the attempt ends with the answers it had
     running = true;
     $("gate").hidden = true;
-    $("app").hidden = false;
-    timeUp();
+    $("fsOv").hidden = true;
+    finish(true, "left");
   } else {
     gateInit();
   }

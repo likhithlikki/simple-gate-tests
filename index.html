@@ -22,7 +22,33 @@
     <div id="lastBody"></div>
   </section>
 
-  <section class="card">
+  <section class="card" id="idCard">
+    <h1>Candidate details</h1>
+    <p class="muted" style="margin-top:0">Enter your name and email. Neither is verified. Your email identifies you (saved in lower case) and your name is shown on the exam screen.</p>
+    <div class="grid">
+      <div><label for="cName">Name</label><input id="cName" type="text" autocomplete="name" maxlength="80"></div>
+      <div><label for="cMail">Email</label><input id="cMail" type="text" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" maxlength="120"></div>
+      <div>
+        <label for="cPhoto">Photo (PNG, optional)</label>
+        <input id="cPhoto" type="file" accept="image/png">
+        <img id="cPrev" alt="" hidden style="margin-top:.5rem;width:72px;height:84px;object-fit:cover;border:1px solid var(--line);border-radius:4px">
+      </div>
+    </div>
+    <div id="idMsg"></div>
+    <button class="btn primary" id="idBtn">Continue</button>
+  </section>
+
+  <section class="card" id="idDone" hidden>
+    <div class="row" style="justify-content:space-between">
+      <div class="row">
+        <img id="whoImg" alt="" hidden style="width:44px;height:52px;object-fit:cover;border:1px solid var(--line);border-radius:4px">
+        <div><b id="whoName"></b><br><span class="muted" id="whoMail"></span></div>
+      </div>
+      <button class="btn" id="idChange">Change</button>
+    </div>
+  </section>
+
+  <section class="card" id="setupCard" hidden>
     <h1>Set up a test</h1>
     <div id="loadMsg" class="muted">Loading questions…</div>
     <div id="form" hidden>
@@ -37,16 +63,27 @@
     </div>
   </section>
 
-  <section class="card">
+  <section class="card" id="histCard" hidden>
     <h2>Past attempts</h2>
     <div class="scroll" id="history"><span class="muted">Loading…</span></div>
   </section>
 </main>
 
+<dialog id="renameDlg">
+  <h2>Change name?</h2>
+  <p>The email <b id="rnMail"></b> is already saved with the name:</p>
+  <p style="font-size:1.1rem"><b id="rnOld"></b></p>
+  <p>Do you want to replace it with the new name <b id="rnNew"></b>? The old name will be removed.</p>
+  <div class="row" style="justify-content:flex-end">
+    <button class="btn" id="rnNo">No, keep old name</button>
+    <button class="btn primary" id="rnYes">Yes, change name</button>
+  </div>
+</dialog>
+
 <dialog id="dlg">
   <h2>Your test is ready</h2>
   <div class="stats" id="dlgStats"></div>
-  <p class="muted">Time is set by marks: 65 questions (100 marks) get 3 hours. The test ends automatically when time runs out.</p>
+  <p class="muted">Time is set by marks: 65 questions (100 marks) get 3 hours. Once the exam starts it cannot be paused, resumed or cancelled. If you close the page, your answers so far are saved and the attempt ends. The test also ends automatically when time runs out.</p>
   <div id="dlgErr"></div>
   <div class="row" style="justify-content:flex-end">
     <button class="btn" id="dlgCancel">Back</button>
@@ -64,6 +101,80 @@ const fmtNum = n => (Math.round(n * 100) / 100).toString();
 
 let ALL = [];
 let picked = null;
+let CAND = null;          // { name, email, photo }
+let newPhoto = "";        // PNG data URL chosen on this page (optional)
+const getCand = () => { try { return JSON.parse(localStorage.getItem("candidate")); } catch { return null; } };
+
+/* ---------- candidate details ---------- */
+function pngToSmall(file) {
+  return new Promise((resolve, reject) => {
+    if (file.type !== "image/png") return reject(new Error("Please choose a PNG image."));
+    if (file.size > 8 * 1024 * 1024) return reject(new Error("That image is too large (max 8 MB)."));
+    const url = URL.createObjectURL(file), img = new Image();
+    img.onload = () => {
+      const k = Math.min(1, 240 / Math.max(img.width, img.height));
+      const c = document.createElement("canvas");
+      c.width = Math.max(1, Math.round(img.width * k)); c.height = Math.max(1, Math.round(img.height * k));
+      c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+      URL.revokeObjectURL(url);
+      resolve(c.toDataURL("image/png"));
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); reject(new Error("Could not read that image.")); };
+    img.src = url;
+  });
+}
+$("cPhoto").onchange = async () => {
+  newPhoto = ""; $("cPrev").hidden = true; $("idMsg").innerHTML = "";
+  const f = $("cPhoto").files[0];
+  if (!f) return;
+  try { newPhoto = await pngToSmall(f); $("cPrev").src = newPhoto; $("cPrev").hidden = false; }
+  catch (e) { $("cPhoto").value = ""; $("idMsg").innerHTML = `<div class="notice err">${esc(e.message)}</div>`; }
+};
+
+function askRename(oldName, mail, newName) {
+  return new Promise(resolve => {
+    $("rnMail").textContent = mail; $("rnOld").textContent = oldName; $("rnNew").textContent = newName;
+    const d = $("renameDlg");
+    const done = v => { d.close(); resolve(v); };
+    $("rnYes").onclick = () => done(true);
+    $("rnNo").onclick = () => done(false);
+    d.oncancel = () => resolve(false);
+    d.showModal();
+  });
+}
+
+$("idBtn").onclick = async () => {
+  const name = $("cName").value.trim().replace(/\s+/g, " ");
+  const email = $("cMail").value.trim().toLowerCase();
+  if (!name || !email) { $("idMsg").innerHTML = '<div class="notice err">Please enter both name and email.</div>'; return; }
+  const btn = $("idBtn"); btn.disabled = true; btn.textContent = "Saving…"; $("idMsg").innerHTML = "";
+  try {
+    let r = await API.register({ name, email, photo: newPhoto });
+    if (r.conflict) {
+      const yes = await askRename(r.oldName, email, name);
+      if (!yes) { $("idMsg").innerHTML = `<div class="notice">Nothing was changed. This email is saved as <b>${esc(r.oldName)}</b>. Enter that name, or confirm the change.</div>`; return; }
+      r = await API.register({ name, email, photo: newPhoto, confirmRename: true });
+    }
+    CAND = { name: r.name, email: r.email, photo: r.photo || newPhoto || "" };
+    localStorage.setItem("candidate", JSON.stringify(CAND));
+    enter();
+  } catch (e) {
+    $("idMsg").innerHTML = `<div class="notice err">${esc(e.message)}</div>`;
+  } finally { btn.disabled = false; btn.textContent = "Continue"; }
+};
+$("idChange").onclick = () => {
+  $("cName").value = CAND ? CAND.name : ""; $("cMail").value = CAND ? CAND.email : "";
+  newPhoto = ""; $("cPhoto").value = ""; $("cPrev").hidden = true;
+  $("idCard").hidden = false; $("idDone").hidden = true; $("setupCard").hidden = true; $("histCard").hidden = true;
+};
+function enter() {
+  $("idCard").hidden = true; $("idDone").hidden = false;
+  $("whoName").textContent = CAND.name; $("whoMail").textContent = CAND.email;
+  if (CAND.photo) { $("whoImg").src = CAND.photo; $("whoImg").hidden = false; } else $("whoImg").hidden = true;
+  $("setupCard").hidden = false; $("histCard").hidden = false;
+  showHistory();
+  if (!ALL.length) loadQuestions();
+}
 
 if (API.isDemo()) {
   $("modeNote").innerHTML = '<div class="notice">Demo mode: sample questions and results are stored in this browser only. Set <code>API_URL</code> in config.js to connect your sheet.</div>';
@@ -130,13 +241,17 @@ $("dlgGo").onclick = async () => {
   try {
     const full = await API.getQuestionsByIds(picked.map(p => p.id));
     // group by topic so each topic becomes a section in the exam (order inside a topic stays random)
-    full.sort((a, b) => a.subject.localeCompare(b.subject));
+    // General Aptitude first (like GATE), then the other topics A to Z
+    const ga = s => isGASubject(s) ? 0 : 1;
+    full.sort((a, b) => ga(a.subject) - ga(b.subject) || a.subject.localeCompare(b.subject));
     const session = {
       questions: full,
       totalMarks: picked._meta.totalMarks,
       durationSec: picked._meta.minutes * 60,
       startedAt: null,          // the clock starts when the exam page's "I am ready to begin" is clicked
       filters: { branch: $("branch").value.replace("|", " "), year: $("year").value, topic: $("topic").value },
+      candidate: CAND,
+      attemptId: "a" + Date.now().toString(36) + Math.random().toString(36).slice(2, 8),
       answers: {}, marked: [], visited: [], current: 0,
     };
     sessionStorage.removeItem("lastResult");
@@ -149,6 +264,7 @@ $("dlgGo").onclick = async () => {
 };
 
 /* ---------- results ---------- */
+const statusText = r => r.status === "timeup" ? " (time ran out)" : (r.status === "left" || r.status === "in-progress") ? " (exam was closed; answers auto-saved)" : "";
 function showLast() {
   const raw = sessionStorage.getItem("lastResult");
   if (!raw) return;
@@ -158,7 +274,7 @@ function showLast() {
     return `<tr><td>${esc(name)}</td><td class="num">${s.correct}/${s.attempted}</td><td class="num">${fmtNum(s.score)} / ${fmtNum(s.max)}</td><td><div class="bar"><i style="width:${pct}%"></i></div></td></tr>`;
   }).join("");
   $("lastBody").innerHTML = `
-    <p class="muted">${esc(r.filters.branch)}, ${r.filters.year === "all" ? "all years" : esc(r.filters.year)}, ${r.filters.topic === "all" ? "all topics" : esc(r.filters.topic)}${r.autoSubmitted ? " (time ran out)" : ""}</p>
+    <p class="muted">${esc(r.filters.branch)}, ${r.filters.year === "all" ? "all years" : esc(r.filters.year)}, ${r.filters.topic === "all" ? "all topics" : esc(r.filters.topic)}${statusText(r)}</p>
     <div class="stats">
       <div class="stat"><b>${fmtNum(r.score)} / ${fmtNum(r.maxScore)}</b><span>score</span></div>
       <div class="stat"><b>${r.accuracy}%</b><span>accuracy</span></div>
@@ -168,9 +284,9 @@ function showLast() {
       <div class="stat"><b>${fmtTime(r.timeTakenSec)}</b><span>of ${fmtTime(r.durationSec)}</span></div>
     </div>
     ${r.noKey ? `<p class="muted">${r.noKey} question(s) have no answer key and were not scored.</p>` : ""}
-    <div class="scroll"><table><thead><tr><th>Topic</th><th class="num">Correct</th><th class="num">Score</th><th>Progress</th></tr></thead><tbody>${subj}</tbody></table></div>
+    <div class="scroll"><table><thead><tr><th>Section</th><th class="num">Correct</th><th class="num">Score</th><th>Progress</th></tr></thead><tbody>${subj}</tbody></table></div>
     <details style="margin-top:1rem"><summary>Question by question</summary>
-      <div class="scroll"><table><thead><tr><th>Q</th><th>Topic</th><th>Your answer</th><th>Correct answer</th><th class="num">Marks</th></tr></thead><tbody>
+      <div class="scroll"><table><thead><tr><th>Q</th><th>Section</th><th>Your answer</th><th>Correct answer</th><th class="num">Marks</th></tr></thead><tbody>
       ${r.detail.map((d, i) => `<tr><td>${i + 1}</td><td>${esc(d.subject)}</td><td>${esc(d.given || "none")}</td><td>${esc(d.answer || "no key")}</td><td class="num" style="color:var(${d.got > 0 ? "--good" : d.got < 0 ? "--bad" : "--muted"})">${d.got > 0 ? "+" : ""}${fmtNum(d.got)}</td></tr>`).join("")}
       </tbody></table></div>
     </details>`;
@@ -179,10 +295,10 @@ function showLast() {
 
 async function showHistory() {
   try {
-    const list = (await API.getResults()).slice().reverse();
+    const list = (await API.getResults(CAND.email)).slice().reverse();
     if (!list.length) { $("history").innerHTML = '<span class="muted">No attempts yet. Your finished tests will appear here.</span>'; return; }
-    $("history").innerHTML = `<table><thead><tr><th>Date</th><th>Test</th><th class="num">Questions</th><th class="num">Score</th><th class="num">Accuracy</th><th class="num">Time</th></tr></thead><tbody>` +
-      list.map(r => `<tr><td>${new Date(r.finishedAt).toLocaleString()}</td><td>${esc(r.filters.branch)}, ${r.filters.year === "all" ? "all years" : esc(r.filters.year)}, ${r.filters.topic === "all" ? "all topics" : esc(r.filters.topic)}</td><td class="num">${r.total}</td><td class="num">${fmtNum(r.score)} / ${fmtNum(r.maxScore)}</td><td class="num">${r.accuracy}%</td><td class="num">${fmtTime(r.timeTakenSec)}</td></tr>`).join("") +
+    $("history").innerHTML = `<table><thead><tr><th>Date</th><th>Test</th><th class="num">Questions</th><th class="num">Score</th><th class="num">Accuracy</th><th class="num">Time</th><th>Status</th></tr></thead><tbody>` +
+      list.map(r => `<tr><td>${new Date(r.finishedAt).toLocaleString()}</td><td>${esc(r.filters.branch)}, ${r.filters.year === "all" ? "all years" : esc(r.filters.year)}, ${r.filters.topic === "all" ? "all topics" : esc(r.filters.topic)}</td><td class="num">${r.total}</td><td class="num">${fmtNum(r.score)} / ${fmtNum(r.maxScore)}</td><td class="num">${r.accuracy}%</td><td class="num">${fmtTime(r.timeTakenSec)}</td><td>${r.status === "timeup" ? "Time over" : (r.status === "left" || r.status === "in-progress") ? "Closed (auto-saved)" : "Submitted"}</td></tr>`).join("") +
       `</tbody></table>`;
   } catch (e) {
     $("history").innerHTML = `<div class="notice err">Could not load past attempts: ${esc(e.message)}</div>`;
@@ -190,9 +306,7 @@ async function showHistory() {
 }
 
 /* ---------- start-up ---------- */
-(async () => {
-  showLast();
-  showHistory();
+async function loadQuestions() {
   try {
     ALL = await API.getMeta();
     $("loadMsg").hidden = true;
@@ -200,8 +314,14 @@ async function showHistory() {
     $("form").hidden = false;
     fillBranches();
   } catch (e) {
+    $("loadMsg").hidden = false;
     $("loadMsg").innerHTML = `<div class="notice err">Could not load questions: ${esc(e.message)}</div>`;
   }
+}
+(() => {
+  showLast();
+  CAND = getCand();
+  if (CAND && CAND.email) { $("cName").value = CAND.name; $("cMail").value = CAND.email; enter(); }
 })();
 </script>
 </body>

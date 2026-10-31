@@ -8,6 +8,9 @@
     POST {API_URL} {action:"upload", rows:[row,...]}      -> { ok:true, added:n, skipped:n }   (existing ids are NOT overwritten)
     POST {API_URL} {action:"getByIds", ids:[...]}         -> { questions:[row,...] }
     POST {API_URL} {action:"saveResult", result:{...}}    -> { ok:true }
+    POST {API_URL} {action:"register", name, email, photo?, confirmRename?}
+                                                          -> { ok:true, name, email, photo } or { conflict:true, oldName }
+    GET  {API_URL}?action=results&email=...               -> only that candidate's results
 
   With API_URL empty, everything is stored in localStorage (demo mode, about 5 MB max).
 */
@@ -61,8 +64,15 @@ const API = (() => {
     return rows;
   }
 
-  async function get(action) {
-    const res = await fetch(`${CONFIG.API_URL}?action=${action}`);
+  function demoSave(result) {
+    const list = LS.get("demo_results", []);
+    const at = result.attemptId ? list.findIndex(r => r.attemptId === result.attemptId) : -1;
+    if (at >= 0) list[at] = result; else list.push(result);
+    LS.set("demo_results", list);
+  }
+
+  async function get(action, extra) {
+    const res = await fetch(`${CONFIG.API_URL}?action=${action}${extra || ""}`);
     if (!res.ok) throw new Error(`Server returned ${res.status}`);
     return checked(await res.json());
   }
@@ -113,17 +123,49 @@ const API = (() => {
       return post({ action: "upload", rows });
     },
 
+    // Insert, or update the same attempt (attemptId) so progress saves and the final save share one row.
     async saveResult(result) {
-      if (demo()) { const list = LS.get("demo_results", []); list.push(result); LS.set("demo_results", list); return { ok: true }; }
+      if (demo()) { demoSave(result); return { ok: true }; }
       return post({ action: "saveResult", result });
     },
 
-    async getResults() {
-      if (demo()) return LS.get("demo_results", []);
-      return (await get("results")).results;
+    // For when the page is closing: fire-and-forget, survives tab close.
+    saveResultBeacon(result) {
+      if (demo()) { try { demoSave(result); } catch {} return; }
+      const body = JSON.stringify({ action: "saveResult", result });
+      try { if (navigator.sendBeacon && navigator.sendBeacon(CONFIG.API_URL, new Blob([body], { type: "text/plain;charset=UTF-8" }))) return; } catch {}
+      try { fetch(CONFIG.API_URL, { method: "POST", keepalive: true, headers: { "Content-Type": "text/plain;charset=utf-8" }, body }).catch(() => {}); } catch {}
+    },
+
+    async getResults(email) {
+      email = String(email || "").trim().toLowerCase();
+      if (demo()) return LS.get("demo_results", []).filter(r => String(r.email || "").toLowerCase() === email);
+      return (await get("results", "&email=" + encodeURIComponent(email))).results;
+    },
+
+    // Candidate details. Email is saved in lower case. Name is only for show, never verified.
+    // Same email + different name -> { conflict:true, oldName } until called again with confirmRename:true.
+    async register({ name, email, photo, confirmRename }) {
+      name = String(name || "").trim().replace(/\s+/g, " ");
+      email = String(email || "").trim().toLowerCase();
+      if (!name || !email) throw new Error("Please enter your name and email.");
+      if (demo()) {
+        const users = LS.get("demo_users", {});
+        const old = users[email];
+        const norm = x => x.toLowerCase();
+        if (old && norm(old.name) !== norm(name) && !confirmRename) return { conflict: true, oldName: old.name };
+        users[email] = { name, photo: photo || (old && old.photo) || "" };
+        LS.set("demo_users", users);
+        return { ok: true, name, email, photo: users[email].photo };
+      }
+      return post({ action: "register", name, email, photo: photo || "", confirmRename: !!confirmRename });
     },
   };
 })();
+
+// Section rule for the exam: only two sections, General Aptitude and the branch core. No subject names shown.
+const isGASubject = s => /general aptitude|aptitude|^\s*ga\s*$|verbal|numerical ability|analytical|quantitative|spatial|logical/i.test(String(s || ""));
+const sectionName = q => isGASubject(q.subject) ? "General Aptitude" : `${String(q.branch || "Branch").toUpperCase()} Core`;
 
 /* ------------------------------------------------------------------
    Images. A question's "images" list holds exact paths from the JSON:
