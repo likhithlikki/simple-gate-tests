@@ -8,6 +8,9 @@
     POST {API_URL} {action:"upload", rows:[row,...]}      -> { ok:true, added:n, skipped:n }   (existing ids are NOT overwritten)
     POST {API_URL} {action:"getByIds", ids:[...]}         -> { questions:[row,...] }
     POST {API_URL} {action:"saveResult", result:{...}}    -> { ok:true }
+    GET  {API_URL}?action=gpMeta                          -> { meta: [ {id, branch, subject, topic, type, marks}, ... ] }   (gatepractise.gs)
+    POST {API_URL} {action:"gpGetByIds", ids:[...]}       -> { questions:[row,...] }                                       (gatepractise.gs)
+    POST {API_URL} {action:"gpUpload", branch, questions} -> { ok, added, duplicates, rejected, firstId, lastId }          (gatepractise.gs)
     POST {API_URL} {action:"register", name, email, photo?, confirmRename?}
                                                           -> { ok:true, name, email, photo } or { conflict:true, oldName }
     GET  {API_URL}?action=results&email=...               -> only that candidate's results
@@ -141,6 +144,48 @@ const API = (() => {
       email = String(email || "").trim().toLowerCase();
       if (demo()) return LS.get("demo_results", []).filter(r => String(r.email || "").toLowerCase() === email);
       return (await get("results", "&email=" + encodeURIComponent(email))).results;
+    },
+
+    /* ---------- GATE practice questions (made with an AI, not previous-year papers) ---------- */
+    // light list for the "take a practice test" form: [{id, branch, subject, topic, type, marks}]
+    async gpGetMeta() {
+      if (demo()) return LS.get("demo_gp", []).map(q => ({ id: q.id, branch: q.branch, subject: q.subject, topic: q.topic, type: q.question_type, marks: q.marks }));
+      return (await get("gpMeta")).meta;
+    },
+    // full questions, same order as ids
+    async gpGetQuestions(ids) {
+      let list;
+      if (demo()) { const set = new Set(ids); list = LS.get("demo_gp", []).filter(q => set.has(q.id)).map(normalize); }
+      else list = (await post({ action: "gpGetByIds", ids })).questions.map(normalize);
+      const map = new Map(list.map(q => [String(q.id), q]));
+      const ordered = ids.map(id => map.get(String(id))).filter(Boolean);
+      if (ordered.length !== ids.length) throw new Error("Some questions could not be loaded. Try again.");
+      return ordered;
+    },
+    // Insert only. Server answers { ok, added, duplicates, rejected:[{n,reason}], firstId, lastId }.
+    async gpUpload(branch, questions) {
+      if (!demo()) return post({ action: "gpUpload", branch, questions });
+      const all = LS.get("demo_gp", []);
+      const seen = new Set(all.filter(q => q.branch === branch).map(q => q.question.toLowerCase().replace(/\s+/g, " ").trim()));
+      let n = all.filter(q => q.branch === branch).length, added = 0, duplicates = 0;
+      const ids = [];
+      questions.forEach(q => {
+        const k = String(q.question).toLowerCase().replace(/\s+/g, " ").trim();
+        if (seen.has(k)) { duplicates++; return; }
+        seen.add(k); n++;
+        const type = String(q.type).toUpperCase();
+        let answer = type === "NAT" ? String(q.answer ?? "") : String(Array.isArray(q.answer) ? q.answer.join(";") : q.answer).toUpperCase();
+        if (type === "NAT" && q.answer_min != null && q.answer_max != null && +q.answer_min !== +q.answer_max) answer = `${q.answer_min} to ${q.answer_max}`;
+        all.push({
+          id: branch + String(n).padStart(4, "0"), exam: "GATE", branch, year: "Practice", subject: q.subject, topic: q.topic || "",
+          question_type: type, answer_format: type === "NAT" ? "numeric" : "option", marks: Number(q.marks),
+          negative_marks: type === "MCQ" ? (q.negative_marks ?? +(q.marks / 3).toFixed(2)) : 0, question: q.question,
+          options: type === "NAT" ? null : q.options, answer, explanation: q.explanation || "", images: [],
+        });
+        ids.push(all[all.length - 1].id); added++;
+      });
+      LS.set("demo_gp", all);
+      return { ok: true, added, duplicates, rejected: [], ids, firstId: ids[0] || "", lastId: ids[ids.length - 1] || "" };
     },
 
     // Candidate details. Email is saved in lower case. Name is only for show, never verified.
