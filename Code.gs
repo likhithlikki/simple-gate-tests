@@ -77,6 +77,7 @@ function setup() {
   getSheet_(QUESTIONS_TAB, Q_HEADERS);
   getSheet_(RESULTS_TAB, R_HEADERS);
   getSheet_(USERS_TAB, U_HEADERS);
+  getSheet_(GP_QUESTIONS_TAB, GP_HEADERS);
   DriveApp.getFolderById(IMAGE_FOLDER_ID).getName();   // makes Google ask for Drive permission
   Logger.log("Done. Sheets and Drive folder are ready.");
 }
@@ -88,7 +89,8 @@ function doGet(e) {
     if (action === "meta") return json_({ meta: readMeta_() });
     if (action === "ids") return json_({ ids: readIds_() });
     if (action === "results") return json_({ results: readResults_(e.parameter.email) });
-    return json_({ error: "Unknown action. Use ?action=meta, ?action=ids or ?action=results" });
+    if (action === "gpMeta") return json_({ meta: gpReadMeta_() });
+    return json_({ error: "Unknown action. Use ?action=meta, ?action=ids, ?action=results or ?action=gpMeta" });
   } catch (err) {
     return json_({ error: String(err && err.message || err) });
   }
@@ -100,9 +102,11 @@ function doPost(e) {
   try {
     const body = JSON.parse(e.postData.contents);
     if (body.action === "getByIds") return json_({ questions: readByIds_(body.ids || []) });
+    if (body.action === "gpGetByIds") return json_({ questions: gpReadByIds_(body.ids || []) });
     lock.waitLock(30000);
     locked = true;
     if (body.action === "upload") return json_(insertQuestions_(body.rows || []));
+    if (body.action === "gpUpload") return json_(gpUpload_(body));
     if (body.action === "saveResult") return json_(appendResult_(body.result));
     if (body.action === "register") return json_(registerUser_(body));
     return json_({ error: "Unknown action: " + body.action });

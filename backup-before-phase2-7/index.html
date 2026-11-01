@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Exam Practice</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Serif:wght@400;600&display=swap">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<style>
+/* ---- top bar: never overlaps on a phone ---- */
+.top .in { flex-wrap: wrap; row-gap: .5rem; }
+.top .brand { white-space: nowrap; }
+.top .ecet { text-decoration: none; padding: .4rem .85rem; font-size: .9rem; white-space: nowrap; margin-left: auto; }
+@media (max-width: 420px) { .top .in { padding: .6rem .8rem; } .top .brand { font-size: 1rem; } .top .ecet { font-size: .82rem; padding: .35rem .65rem; } }
+
+/* ---- GATE practice section (AI-made questions, not previous-year papers) ---- */
+.gp-gap { margin-top: 4rem; padding-top: 2rem; border-top: 3px dashed var(--line); }
+.gp-title { margin-bottom: .3rem; }
+.gp-tag { display: inline-block; font-size: .75rem; font-weight: 600; padding: .1rem .55rem; border-radius: 99px; background: var(--warn-bg); border: 1px solid var(--warn-line); margin-left: .4rem; vertical-align: middle; }
+.step { display: flex; gap: .6rem; align-items: center; margin: 1.2rem 0 .6rem; font-weight: 600; }
+.step i { font-style: normal; flex: none; width: 1.7rem; height: 1.7rem; border-radius: 50%; background: var(--accent); color: var(--accent-ink); display: grid; place-items: center; font-size: .9rem; }
+#gpPrompt { width: 100%; min-height: 15rem; font: .82rem/1.45 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; padding: .7rem; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 6px; resize: vertical; }
+.btn.copied { background: var(--good); border-color: var(--good); color: #fff; }
+.gp-msg { margin-top: .8rem; }
+.gp-msg ul { margin: .3rem 0 0 1.1rem; padding: 0; }
+
+/* ---- result of a practice test ---- */
+.rs-top { border: 2px solid var(--accent); border-radius: 12px; padding: 1rem; margin-bottom: 1rem; background: var(--bg); }
+.rs-marks { font-family: "IBM Plex Serif", Georgia, serif; font-size: 2.4rem; font-weight: 600; line-height: 1.1; }
+.rs-marks small { font-size: 1.1rem; color: var(--muted); font-weight: 400; }
+.rs-chips { display: flex; flex-wrap: wrap; gap: .6rem; margin: .8rem 0; }
+.chip { flex: 1 1 8.5rem; border-radius: 10px; padding: .55rem .8rem; border: 2px solid; background: var(--card); }
+.chip b { display: block; font-size: 1.5rem; line-height: 1.15; }
+.chip span { font-size: .82rem; color: var(--muted); }
+.chip.pos { border-color: var(--good); } .chip.pos b { color: var(--good); }
+.chip.neg { border-color: var(--bad); } .chip.neg b { color: var(--bad); }
+.chip.net { border-color: var(--accent); } .chip.net b { color: var(--accent); }
+.rs-filter { display: flex; flex-wrap: wrap; gap: .4rem; margin: .6rem 0 1rem; }
+.rs-filter .btn { padding: .35rem .8rem; font-size: .88rem; }
+.rs-filter .btn.on { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.rq { border: 1px solid var(--line); border-radius: 10px; padding: .9rem; margin-bottom: .9rem; background: var(--card); }
+.rq.ok { border-left: 6px solid var(--good); } .rq.bad { border-left: 6px solid var(--bad); } .rq.skip { border-left: 6px solid var(--line); }
+.rq-h { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; justify-content: space-between; margin-bottom: .5rem; font-size: .88rem; color: var(--muted); }
+.rq-h b { color: var(--ink); }
+.badge { font-weight: 700; padding: .1rem .6rem; border-radius: 99px; border: 1px solid; font-size: .85rem; }
+.badge.ok { color: var(--good); border-color: var(--good); } .badge.bad { color: var(--bad); border-color: var(--bad); } .badge.skip { color: var(--muted); border-color: var(--line); }
+.rq-q { margin: 0 0 .7rem; white-space: pre-wrap; overflow-wrap: anywhere; }
+.opt { display: flex; gap: .6rem; padding: .5rem .7rem; border: 1px solid var(--line); border-radius: 8px; margin-bottom: .4rem; align-items: flex-start; overflow-wrap: anywhere; }
+.opt .k { flex: none; font-weight: 700; min-width: 1.4rem; }
+.opt .t { flex: 1; }
+.opt .tag { flex: none; font-size: .75rem; font-weight: 700; white-space: nowrap; }
+.opt.correct { background: rgba(26,127,75,.16); border-color: var(--good); }
+.opt.correct .tag { color: var(--good); }
+.opt.wrong { background: rgba(192,57,43,.14); border-color: var(--bad); }
+.opt.wrong .tag { color: var(--bad); }
+.nat-line { padding: .5rem .7rem; border-radius: 8px; border: 1px solid var(--line); margin-bottom: .4rem; }
+.nat-line.correct { background: rgba(26,127,75,.16); border-color: var(--good); }
+.nat-line.wrong { background: rgba(192,57,43,.14); border-color: var(--bad); }
+.sol-btn { margin-top: .4rem; padding: .35rem .9rem; font-size: .88rem; }
+.sol { margin-top: .6rem; padding: .7rem .8rem; border-radius: 8px; background: var(--bg); border: 1px dashed var(--accent); white-space: pre-wrap; overflow-wrap: anywhere; }
+.sol b.h { display: block; color: var(--accent); margin-bottom: .2rem; }
+</style>
+</head>
+<body>
+<header class="top"><div class="in">
+  <span class="brand">Exam Practice</span>
+  <a class="btn primary ecet" href="https://likhithlikki.github.io/EXAM/index.html">ECET Practice Tests &rarr;</a>
+</div></header>
+
+<main class="wrap">
+  <div id="modeNote"></div>
+
+  <section class="card" id="lastCard" hidden>
+    <h2>Your last attempt</h2>
+    <div id="lastBody"></div>
+  </section>
+
+  <section class="card" id="idCard">
+    <h1>Candidate details</h1>
+    <p class="muted" style="margin-top:0">Enter your name and email. Neither is verified. Your email identifies you (saved in lower case) and your name is shown on the exam screen.</p>
+    <div class="grid">
+      <div><label for="cName">Name</label><input id="cName" type="text" autocomplete="name" maxlength="80"></div>
+      <div><label for="cMail">Email</label><input id="cMail" type="text" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" maxlength="120"></div>
+      <div>
+        <label for="cPhoto">Photo (PNG, optional)</label>
+        <input id="cPhoto" type="file" accept="image/png">
+        <img id="cPrev" alt="" hidden style="margin-top:.5rem;width:72px;height:84px;object-fit:cover;border:1px solid var(--line);border-radius:4px">
+      </div>
+    </div>
+    <div id="idMsg"></div>
+    <button class="btn primary" id="idBtn">Continue</button>
+  </section>
+
+  <section class="card" id="idDone" hidden>
+    <div class="row" style="justify-content:space-between">
+      <div class="row">
+        <img id="whoImg" alt="" hidden style="width:44px;height:52px;object-fit:cover;border:1px solid var(--line);border-radius:4px">
+        <div><b id="whoName"></b><br><span class="muted" id="whoMail"></span></div>
+      </div>
+      <button class="btn" id="idChange">Change</button>
+    </div>
+  </section>
+
+  <section class="card" id="setupCard" hidden>
+    <h1>Set up a test</h1>
+    <div id="loadMsg" class="muted">Loading questions…</div>
+    <div id="form" hidden>
+      <div class="grid">
+        <div><label for="branch">Branch</label><select id="branch"></select></div>
+        <div><label for="year">Year</label><select id="year"></select></div>
+        <div><label for="topic">Topic</label><select id="topic"></select></div>
+        <div><label for="mode">Test type</label><select id="mode">
+          <option value="full">Full GATE paper (65 questions, 100 marks, 3 hours)</option>
+          <option value="custom">Custom test</option>
+        </select></div>
+        <div id="mtypeBox"><label for="mtype">Marks</label><select id="mtype">
+          <option value="mix">Mix of 1 and 2 marks (GATE ratio)</option>
+          <option value="1">Only 1-mark questions</option>
+          <option value="2">Only 2-mark questions</option>
+        </select></div>
+        <div id="countBox"><label for="count">Number of questions</label><input id="count" type="number" min="1" value="10"></div>
+      </div>
+      <div class="avail" id="avail"></div>
+      <button class="btn primary" id="startBtn">Start test</button>
+    </div>
+  </section>
+
+  <section class="card" id="histCard" hidden>
+    <h2>Past attempts</h2>
+    <div class="scroll" id="history"><span class="muted">Loading…</span></div>
+  </section>
+
+  <!-- ================= GATE PRACTICE TESTS (AI-made questions, not previous-year papers) ================= -->
+  <div class="gp-gap" id="gpSection">
+    <h1 class="gp-title">GATE Practice Tests <span class="gp-tag">not previous-year papers</span></h1>
+    <p class="muted" style="margin-top:0">New practice questions made with an AI tool and shared by students. Everything uploaded here becomes a test everyone can take.</p>
+
+    <section class="card" id="gpTake">
+      <h2>Take a practice test</h2>
+      <div id="gpLoad" class="muted">Loading practice questions…</div>
+      <div id="gpForm" hidden>
+        <div class="grid">
+          <div><label for="gpTBranch">Branch</label><select id="gpTBranch"></select></div>
+          <div><label for="gpTSubject">Subject</label><select id="gpTSubject"></select></div>
+          <div><label for="gpTTopic">Topic</label><select id="gpTTopic"></select></div>
+          <div><label for="gpTCount">Number of questions</label><input id="gpTCount" type="number" min="1" value="10"></div>
+        </div>
+        <div class="avail" id="gpTAvail"></div>
+        <div id="gpTMsg"></div>
+        <button class="btn primary" id="gpTStart">Start practice test</button>
+      </div>
+    </section>
+
+    <section class="card" id="gpMake">
+      <h2>Create your own GATE practice test</h2>
+      <p class="muted" style="margin-top:0">Choose what you want, copy the prompt into any AI tool (ChatGPT, Claude, Gemini…), then upload the JSON file it gives you.</p>
+
+      <div class="step"><i>1</i> Choose your test</div>
+      <div class="grid">
+        <div><label for="gpBranch">Branch</label><select id="gpBranch"></select></div>
+        <div><label for="gpSubject">Subject (names from our question bank)</label><select id="gpSubject"></select></div>
+        <div><label for="gpTopic">Topic under the subject (optional)</label><input id="gpTopic" type="text" maxlength="80" placeholder="e.g. Laplace transform of periodic signals"></div>
+        <div><label for="gpCount">Number of questions (1–25)</label><input id="gpCount" type="number" min="1" max="25" value="10"></div>
+        <div><label for="gpTypes">Question types</label><select id="gpTypes">
+          <option value="mix">Mix of MCQ, MSQ and NAT</option>
+          <option value="mcq">Only MCQ</option>
+          <option value="mcqnat">MCQ and NAT</option>
+          <option value="nat">Only NAT (numerical)</option>
+        </select></div>
+        <div><label for="gpMarks">Marks</label><select id="gpMarks">
+          <option value="mix">Mix of 1-mark and 2-mark</option>
+          <option value="1">Only 1-mark</option>
+          <option value="2">Only 2-mark</option>
+        </select></div>
+        <div><label for="gpLevel">Difficulty</label><select id="gpLevel">
+          <option value="easy">Easy (warm-up)</option>
+          <option value="medium">Medium</option>
+          <option value="gate" selected>GATE standard</option>
+          <option value="hard">Hard</option>
+        </select></div>
+      </div>
+
+      <div class="step"><i>2</i> Copy this prompt and give it to an AI tool</div>
+      <textarea id="gpPrompt" readonly spellcheck="false"></textarea>
+      <div class="row" style="margin-top:.6rem"><button class="btn primary" id="gpCopy">Copy prompt</button><span class="muted">The AI should answer with a JSON file only.</span></div>
+
+      <div class="step"><i>3</i> Upload the JSON file the AI gave you</div>
+      <div class="drop">
+        <input id="gpFile" type="file" accept=".json,application/json,text/plain">
+        <div class="muted" style="margin-top:.4rem">Questions already in the bank (same text) are skipped. Nothing is overwritten.</div>
+      </div>
+      <div class="gp-msg" id="gpUpMsg"></div>
+      <button class="btn primary" id="gpUpBtn" style="margin-top:.8rem" disabled>Upload questions</button>
+    </section>
+  </div>
+</main>
+
+<dialog id="renameDlg">
+  <h2>Change name?</h2>
+  <p>The email <b id="rnMail"></b> is already saved with the name:</p>
+  <p style="font-size:1.1rem"><b id="rnOld"></b></p>
+  <p>Do you want to replace it with the new name <b id="rnNew"></b>? The old name will be removed.</p>
+  <div class="row" style="justify-content:flex-end">
+    <button class="btn" id="rnNo">No, keep old name</button>
+    <button class="btn primary" id="rnYes">Yes, change name</button>
+  </div>
+</dialog>
+
+<dialog id="gpDlg">
+  <h2>Your practice test is ready</h2>
+  <div class="stats" id="gpDlgStats"></div>
+  <p class="muted">Time is set by marks (100 marks = 3 hours). Once the exam starts it cannot be paused. If you close the page, your answers so far are saved and the attempt ends. After you submit you will see your marks, the correct answers and a solution for every question.</p>
+  <div id="gpDlgErr"></div>
+  <div class="row" style="justify-content:flex-end">
+    <button class="btn" id="gpDlgCancel">Back</button>
+    <button class="btn primary" id="gpDlgGo">Begin exam</button>
+  </div>
+</dialog>
+
+<dialog id="dlg">
+  <h2>Your test is ready</h2>
+  <div class="stats" id="dlgStats"></div>
+  <p class="muted">Time is set by marks: 65 questions (100 marks) get 3 hours. Once the exam starts it cannot be paused, resumed or cancelled. If you close the page, your answers so far are saved and the attempt ends. The test also ends automatically when time runs out.</p>
+  <div id="dlgErr"></div>
+  <div class="row" style="justify-content:flex-end">
+    <button class="btn" id="dlgCancel">Back</button>
+    <button class="btn primary" id="dlgGo">Begin exam</button>
+  </div>
+</dialog>
+
+<script src="config.js"></script>
+<script src="subjects.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="api.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const fmtTime = sec => { sec = Math.max(0, Math.round(sec)); const h = Math.floor(sec / 3600), m = Math.floor(sec % 3600 / 60), s = sec % 60; return h ? `${h}h ${m}m` : `${m}m ${s}s`; };
+const fmtNum = n => (Math.round(n * 100) / 100).toString();
+
+let ALL = [];
+let picked = null;
+let CAND = null;          // { name, email, photo }
+let newPhoto = "";        // PNG data URL chosen on this page (optional)
+// Storage can be full or blocked: never let that stop the user. Only name+email go to localStorage (tiny);
+// the photo goes to sessionStorage, and is re-fetched from the server when missing.
+const getCand = () => {
+  try {
+    const c = JSON.parse(localStorage.getItem("candidate"));
+    if (c) { try { c.photo = sessionStorage.getItem("candPhoto") || ""; } catch { c.photo = ""; } }
+    return c;
+  } catch { return null; }
+};
+const saveCand = () => {
+  try { localStorage.setItem("candidate", JSON.stringify({ name: CAND.name, email: CAND.email })); } catch {}
+  try { if (CAND.photo) sessionStorage.setItem("candPhoto", CAND.photo); } catch {}
+};
+
+/* ---------- candidate details ---------- */
+function pngToSmall(file) {
+  return new Promise((resolve, reject) => {
+    if (file.type !== "image/png") return reject(new Error("Please choose a PNG image."));
+    if (file.size > 8 * 1024 * 1024) return reject(new Error("That image is too large (max 8 MB)."));
+    const url = URL.createObjectURL(file), img = new Image();
+    img.onload = () => {
+      const k = Math.min(1, 150 / Math.max(img.width, img.height));
+      const c = document.createElement("canvas");
+      c.width = Math.max(1, Math.round(img.width * k)); c.height = Math.max(1, Math.round(img.height * k));
+      c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+      URL.revokeObjectURL(url);
+      resolve(c.toDataURL("image/png"));
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); reject(new Error("Could not read that image.")); };
+    img.src = url;
+  });
+}
+$("cPhoto").onchange = async () => {
+  newPhoto = ""; $("cPrev").hidden = true; $("idMsg").innerHTML = "";
+  const f = $("cPhoto").files[0];
+  if (!f) return;
+  try { newPhoto = await pngToSmall(f); $("cPrev").src = newPhoto; $("cPrev").hidden = false; }
+  catch (e) { $("cPhoto").value = ""; $("idMsg").innerHTML = `<div class="notice err">${esc(e.message)}</div>`; }
+};
+
+function askRename(oldName, mail, newName) {
+  return new Promise(resolve => {
+    $("rnMail").textContent = mail; $("rnOld").textContent = oldName; $("rnNew").textContent = newName;
+    const d = $("renameDlg");
+    const done = v => { d.close(); resolve(v); };
+    $("rnYes").onclick = () => done(true);
+    $("rnNo").onclick = () => done(false);
+    d.oncancel = () => resolve(false);
+    d.showModal();
+  });
+}
+
+$("idBtn").onclick = async () => {
+  const name = $("cName").value.trim().replace(/\s+/g, " ");
+  const email = $("cMail").value.trim().toLowerCase();
+  if (!name || !email) { $("idMsg").innerHTML = '<div class="notice err">Please enter both name and email.</div>'; return; }
+  const btn = $("idBtn"); btn.disabled = true; btn.textContent = "Saving…"; $("idMsg").innerHTML = "";
+  try {
+    let r = await API.register({ name, email, photo: newPhoto });
+    if (r.conflict) {
+      const yes = await askRename(r.oldName, email, name);
+      if (!yes) { $("idMsg").innerHTML = `<div class="notice">Nothing was changed. This email is saved as <b>${esc(r.oldName)}</b>. Enter that name, or confirm the change.</div>`; return; }
+      r = await API.register({ name, email, photo: newPhoto, confirmRename: true });
+    }
+    CAND = { name: r.name, email: r.email, photo: r.photo || newPhoto || "" };
+    saveCand();
+    enter();
+  } catch (e) {
+    $("idMsg").innerHTML = `<div class="notice err">${esc(e.message)}</div>`;
+  } finally { btn.disabled = false; btn.textContent = "Continue"; }
+};
+$("idChange").onclick = () => {
+  $("cName").value = CAND ? CAND.name : ""; $("cMail").value = CAND ? CAND.email : "";
+  newPhoto = ""; $("cPhoto").value = ""; $("cPrev").hidden = true;
+  $("idCard").hidden = false; $("idDone").hidden = true; $("setupCard").hidden = true; $("histCard").hidden = true;
+};
+function enter() {
+  $("idCard").hidden = true; $("idDone").hidden = false;
+  $("whoName").textContent = CAND.name; $("whoMail").textContent = CAND.email;
+  if (CAND.photo) { $("whoImg").src = CAND.photo; $("whoImg").hidden = false; } else $("whoImg").hidden = true;
+  $("setupCard").hidden = false; $("histCard").hidden = false;
+  showHistory();
+  if (!ALL.length) loadQuestions();
+}
+
+if (API.isDemo()) {
+  $("modeNote").innerHTML = '<div class="notice">Demo mode: sample questions and results are stored in this browser only. Set <code>API_URL</code> in config.js to connect your sheet.</div>';
+}
+
+/* ---------- filters ---------- */
+const branchKey = r => `${r.exam}|${r.branch}`;
+const uniq = a => [...new Set(a)];
+
+function fillBranches() {
+  const keys = uniq(ALL.map(branchKey)).sort();
+  $("branch").innerHTML = keys.map(k => `<option value="${esc(k)}">${esc(k.replace("|", " "))}</option>`).join("");
+  fillYears();
+}
+function byBranch() { return ALL.filter(r => branchKey(r) === $("branch").value); }
+function fillYears() {
+  // real years newest first, then "Unmapped"
+  const years = uniq(byBranch().map(r => r.year)).sort((a, b) => (typeof a === "number" && typeof b === "number") ? b - a : (typeof a === "number" ? -1 : typeof b === "number" ? 1 : 0));
+  $("year").innerHTML = `<option value="all">All years</option>` + years.map(y => `<option>${y}</option>`).join("");
+  fillTopics();
+}
+function byYear() { const y = $("year").value; return byBranch().filter(r => y === "all" || String(r.year) === y); }
+function fillTopics() {
+  const topics = uniq(byYear().map(r => r.subject)).sort();
+  $("topic").innerHTML = `<option value="all">All topics</option>` + topics.map(t => `<option>${esc(t)}</option>`).join("");
+  update();
+}
+function filtered() { const t = $("topic").value; return byYear().filter(r => t === "all" || r.subject === t); }
+
+/* GATE paper pattern: General Aptitude 5x1 + 5x2 marks, core 25x1 + 30x2 marks (65 questions, 100 marks) */
+const NEED = { ga1: 5, ga2: 5, c1: 25, c2: 30 };
+const NEED_TOTAL = 65;
+const LABEL = { ga1: "Aptitude 1-mark", ga2: "Aptitude 2-mark", c1: "Core 1-mark", c2: "Core 2-mark" };
+
+function buckets(pool) {
+  const b = { ga1: [], ga2: [], c1: [], c2: [] };
+  pool.forEach(r => {
+    const m = Number(r.marks), k = (isGASubject(r.subject) ? "ga" : "c") + m;
+    if (b[k]) b[k].push(r);
+  });
+  return b;
+}
+// full paper pool: topic filter applies to the core part only, aptitude is always all aptitude questions of the year
+function fullPool() {
+  const t = $("topic").value;
+  return byYear().filter(r => isGASubject(r.subject) || t === "all" || r.subject === t);
+}
+// split n questions over the 4 groups in the GATE ratio, limited by what is available
+function alloc(n, have) {
+  const keys = Object.keys(NEED), a = {};
+  let used = 0;
+  keys.forEach(k => { a[k] = Math.min(have[k], Math.floor(n * NEED[k] / NEED_TOTAL)); used += a[k]; });
+  const order = keys.slice().sort((x, y) => ((n * NEED[y] / NEED_TOTAL) % 1) - ((n * NEED[x] / NEED_TOTAL) % 1));
+  let left = n - used;
+  while (left > 0) {
+    let moved = false;
+    for (const k of order) if (left > 0 && a[k] < have[k]) { a[k]++; left--; moved = true; }
+    if (!moved) break;
+  }
+  return a;
+}
+const customPool = () => {
+  const t = $("mtype").value, pool = filtered();
+  return t === "mix" ? pool.filter(r => [1, 2].includes(Number(r.marks))) : pool.filter(r => Number(r.marks) === Number(t));
+};
+
+function update() {
+  const full = $("mode").value === "full";
+  $("mtypeBox").hidden = full; $("countBox").hidden = full;
+  if (full) {
+    const B = buckets(fullPool());
+    const parts = Object.keys(NEED).map(k => {
+      const short = B[k].length < NEED[k];
+      return `<span style="${short ? "color:var(--bad)" : ""}">${LABEL[k]}: <b>${B[k].length}</b> / ${NEED[k]}</span>`;
+    });
+    const short = Object.keys(NEED).some(k => B[k].length < NEED[k]);
+    $("avail").innerHTML = parts.join(" &nbsp;|&nbsp; ") + (short ? "<br>Not enough questions for a full paper in some groups. The test will use what is available." : "");
+    $("startBtn").disabled = Object.keys(NEED).every(k => B[k].length === 0);
+    return;
+  }
+  const pool = customPool();
+  let n = pool.length;
+  if ($("mtype").value === "mix") { const B = buckets(pool); n = Object.keys(NEED).reduce((s, k) => s + B[k].length, 0); }
+  $("avail").innerHTML = `<b>${n}</b> question${n === 1 ? "" : "s"} available`;
+  $("count").max = n;
+  if (+$("count").value > n) $("count").value = n || 1;
+  $("startBtn").disabled = n === 0;
+}
+
+$("branch").onchange = fillYears;
+$("year").onchange = fillTopics;
+$("topic").onchange = update;
+$("mode").onchange = update;
+$("mtype").onchange = update;
+
+/* ---------- start ---------- */
+function shuffle(a) { a = [...a]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+
+$("startBtn").onclick = () => {
+  if ($("mode").value === "full") {
+    const B = buckets(fullPool());
+    picked = Object.keys(NEED).flatMap(k => shuffle(B[k]).slice(0, NEED[k]));
+  } else {
+    const pool = customPool();
+    const t = $("mtype").value;
+    let cap = pool.length;
+    if (t === "mix") { const B = buckets(pool); cap = Object.keys(NEED).reduce((s, k) => s + B[k].length, 0); }
+    const want = Math.min(Math.max(1, parseInt($("count").value) || 1), cap);
+    $("count").value = want;
+    if (t === "mix") {
+      const B = buckets(pool), have = {};
+      Object.keys(NEED).forEach(k => have[k] = B[k].length);
+      const a = alloc(want, have);
+      picked = Object.keys(NEED).flatMap(k => shuffle(B[k]).slice(0, a[k]));
+    } else picked = shuffle(pool).slice(0, want);
+  }
+  const n = picked.length;
+  const totalMarks = picked.reduce((s, q) => s + q.marks, 0);
+  const minutes = Math.max(1, Math.round(totalMarks * CONFIG.MINUTES_PER_MARK));
+  picked._meta = { totalMarks, minutes };
+  $("dlgStats").innerHTML =
+    `<div class="stat"><b>${n}</b><span>questions</span></div>` +
+    `<div class="stat"><b>${fmtNum(totalMarks)}</b><span>total marks</span></div>` +
+    `<div class="stat"><b>${minutes >= 60 ? Math.floor(minutes / 60) + "h " + (minutes % 60) + "m" : minutes + " min"}</b><span>time allowed</span></div>`;
+  $("dlgErr").innerHTML = "";
+  $("dlg").showModal();
+};
+$("dlgCancel").onclick = () => $("dlg").close();
+$("dlgGo").onclick = async () => {
+  const go = $("dlgGo");
+  go.disabled = true; go.textContent = "Loading questions…";
+  try {
+    const full = await API.getQuestionsByIds(picked.map(p => p.id));
+    // group by topic so each topic becomes a section in the exam (order inside a topic stays random)
+    // General Aptitude first (like GATE), then the other topics A to Z
+    const ga = s => isGASubject(s) ? 0 : 1;
+    full.sort((a, b) => ga(a.subject) - ga(b.subject) || a.marks - b.marks);   // stable: random order kept inside each group
+    const session = {
+      questions: full,
+      totalMarks: picked._meta.totalMarks,
+      durationSec: picked._meta.minutes * 60,
+      startedAt: null,          // the clock starts when the exam page's "I am ready to begin" is clicked
+      filters: { branch: $("branch").value.replace("|", " "), year: $("year").value, topic: $("topic").value },
+      candidate: CAND,
+      attemptId: "a" + Date.now().toString(36) + Math.random().toString(36).slice(2, 8),
+      answers: {}, marked: [], visited: [], current: 0,
+    };
+    sessionStorage.removeItem("lastResult");
+    sessionStorage.setItem("examSession", JSON.stringify(session));
+    location.href = "exam.html";
+  } catch (e) {
+    go.disabled = false; go.textContent = "Begin exam";
+    $("dlgErr").innerHTML = `<div class="notice err">${esc(e.message)}</div>`;
+  }
+};
+
+/* ---------- results ---------- */
+const statusText = r => r.status === "timeup" ? " (time ran out)" : (r.status === "left" || r.status === "in-progress") ? " (exam was closed; answers auto-saved)" : "";
+function showLast() {
+  const raw = sessionStorage.getItem("lastResult");
+  if (!raw) return;
+  const r = JSON.parse(raw);
+  if (r.review) return showPracticeResult(r);
+  const subj = Object.entries(r.bySubject || {}).map(([name, s]) => {
+    const pct = s.max > 0 ? Math.max(0, s.score) / s.max * 100 : 0;
+    return `<tr><td>${esc(name)}</td><td class="num">${s.correct}/${s.attempted}</td><td class="num">${fmtNum(s.score)} / ${fmtNum(s.max)}</td><td><div class="bar"><i style="width:${pct}%"></i></div></td></tr>`;
+  }).join("");
+  $("lastBody").innerHTML = `
+    <p class="muted">${esc(r.filters.branch)}, ${r.filters.year === "all" ? "all years" : esc(r.filters.year)}, ${r.filters.topic === "all" ? "all topics" : esc(r.filters.topic)}${statusText(r)}</p>
+    <div class="stats">
+      <div class="stat"><b>${fmtNum(r.score)} / ${fmtNum(r.maxScore)}</b><span>score</span></div>
+      <div class="stat"><b>${r.accuracy}%</b><span>accuracy</span></div>
+      <div class="stat"><b style="color:var(--good)">${r.correct}</b><span>correct</span></div>
+      <div class="stat"><b style="color:var(--bad)">${r.wrong}</b><span>wrong</span></div>
+      <div class="stat"><b>${r.unattempted}</b><span>not attempted</span></div>
+      <div class="stat"><b>${fmtTime(r.timeTakenSec)}</b><span>of ${fmtTime(r.durationSec)}</span></div>
+    </div>
+    ${r.noKey ? `<p class="muted">${r.noKey} question(s) have no answer key and were not scored.</p>` : ""}
+    <div class="scroll"><table><thead><tr><th>Section</th><th class="num">Correct</th><th class="num">Score</th><th>Progress</th></tr></thead><tbody>${subj}</tbody></table></div>
+    <details style="margin-top:1rem"><summary>Question by question</summary>
+      <div class="scroll"><table><thead><tr><th>Q</th><th>Section</th><th>Your answer</th><th>Correct answer</th><th class="num">Marks</th></tr></thead><tbody>
+      ${r.detail.map((d, i) => `<tr><td>${i + 1}</td><td>${esc(d.subject)}</td><td>${esc(d.given || "none")}</td><td>${esc(d.answer || "no key")}</td><td class="num" style="color:var(${d.got > 0 ? "--good" : d.got < 0 ? "--bad" : "--muted"})">${d.got > 0 ? "+" : ""}${fmtNum(d.got)}</td></tr>`).join("")}
+      </tbody></table></div>
+    </details>`;
+  $("lastCard").hidden = false;
+}
+
+async function showHistory() {
+  try {
+    const list = (await API.getResults(CAND.email)).slice().reverse();
+    if (!list.length) { $("history").innerHTML = '<span class="muted">No attempts yet. Your finished tests will appear here.</span>'; return; }
+    $("history").innerHTML = `<table><thead><tr><th>Date</th><th>Test</th><th class="num">Questions</th><th class="num">Score</th><th class="num">Accuracy</th><th class="num">Time</th><th>Status</th></tr></thead><tbody>` +
+      list.map(r => `<tr><td>${new Date(r.finishedAt).toLocaleString()}</td><td>${esc(r.filters.branch)}, ${r.filters.year === "all" ? "all years" : esc(r.filters.year)}, ${r.filters.topic === "all" ? "all topics" : esc(r.filters.topic)}</td><td class="num">${r.total}</td><td class="num">${fmtNum(r.score)} / ${fmtNum(r.maxScore)}</td><td class="num">${r.accuracy}%</td><td class="num">${fmtTime(r.timeTakenSec)}</td><td>${r.status === "timeup" ? "Time over" : (r.status === "left" || r.status === "in-progress") ? "Closed (auto-saved)" : "Submitted"}</td></tr>`).join("") +
+      `</tbody></table>`;
+  } catch (e) {
+    $("history").innerHTML = `<div class="notice err">Could not load past attempts: ${esc(e.message)}</div>`;
+  }
+}
+
+/* =====================================================================
+   GATE PRACTICE TESTS  (AI-made questions; stored by gatepractise.gs)
+   ===================================================================== */
+const GP_BRANCH_NAMES = { CE: "Civil Engineering", CS: "Computer Science and Information Technology", DA: "Data Science and Artificial Intelligence", EC: "Electronics and Communication Engineering", EE: "Electrical Engineering", IT: "Information Technology", ME: "Mechanical Engineering" };
+// GP_SUBJECTS is supplied by subjects.js as a compatibility view of TAXONOMY. / topic names already in the question bank, per branch
+let GP_META = [];                   // practice questions available to take: {id, branch, subject, topic, type, marks}
+let gpPicked = [];
+let gpPending = null;               // { branch, questions } read from the chosen JSON file
+
+/* ---------- create: options -> prompt ---------- */
+function gpFillCreate() {
+  $("gpBranch").innerHTML = Object.keys(GP_BRANCH_NAMES).map(b => `<option value="${b}">${b} – ${esc(GP_BRANCH_NAMES[b])}</option>`).join("");
+  gpFillSubjects();
+}
+function gpFillSubjects() {
+  const list = GP_SUBJECTS[$("gpBranch").value] || [];
+  $("gpSubject").innerHTML = list.map(s => `<option>${esc(s)}</option>`).join("") || "<option>General</option>";
+  gpPrompt();
+}
+function gpCount() { return Math.min(25, Math.max(1, parseInt($("gpCount").value) || 10)); }
+function gpPrompt() {
+  const br = $("gpBranch").value, brName = GP_BRANCH_NAMES[br], subj = $("gpSubject").value;
+  const topic = $("gpTopic").value.trim().replace(/\s+/g, " "), n = gpCount();
+  const types = { mix: "a mix of MCQ (about 50%), NAT (about 35%) and MSQ (about 15%)", mcq: "only MCQ", mcqnat: "MCQ and NAT (about 60% MCQ, 40% NAT)", nat: "only NAT (numerical answer type)" }[$("gpTypes").value];
+  const marks = { mix: "a mix of 1-mark and 2-mark questions (roughly equal numbers)", 1: "only 1-mark questions", 2: "only 2-mark questions" }[$("gpMarks").value];
+  const level = { easy: "easy (warm-up)", medium: "medium", gate: "the standard of the real GATE exam", hard: "hard (top-rank level)" }[$("gpLevel").value];
+  const example = `{
+  "branch": "${br}",
+  "questions": [
+    {
+      "subject": "${subj}",
+      "topic": "${topic || "Specific topic name"}",
+      "type": "MCQ",
+      "marks": 2,
+      "negative_marks": 0.67,
+      "question": "Full question text. Maths like [latex]\\\\frac{a}{b}[/latex]",
+      "options": { "A": "first option", "B": "second option", "C": "third option", "D": "fourth option" },
+      "answer": "B",
+      "explanation": "Short step-by-step solution that proves why B is correct."
+    },
+    {
+      "subject": "${subj}",
+      "topic": "${topic || "Specific topic name"}",
+      "type": "NAT",
+      "marks": 1,
+      "negative_marks": 0,
+      "question": "Question whose answer is a number. Give the answer up to 2 decimal places.",
+      "answer": "3.5",
+      "answer_min": 3.45,
+      "answer_max": 3.55,
+      "explanation": "Short step-by-step solution."
+    }
+  ]
+}`;
+  $("gpPrompt").value = `You are an expert GATE (Graduate Aptitude Test in Engineering) paper setter for the ${brName} (${br}) branch.
+
+TASK
+Create ${n} new, original practice question${n === 1 ? "" : "s"} for GATE ${br}.
+Subject: ${subj}
+Topic: ${topic || "any important topic of this subject"}
+Difficulty: ${level}
+Question types: ${types}
+Marks: ${marks}
+
+OUTPUT RULES (very important)
+1. Reply with ONE valid JSON file and nothing else: no greeting, no explanation, no extra text. If you can create a downloadable file, give it as questions.json. If you cannot, put the JSON in one single code block.
+2. Use exactly this structure (the example shows one MCQ and one NAT question):
+${example}
+3. Field rules:
+   - "type" is MCQ (exactly one correct option), MSQ (one or more correct options) or NAT (numerical answer, no options).
+   - "marks" is 1 or 2.
+   - "negative_marks": for MCQ use 0.33 (1 mark) or 0.67 (2 marks). For MSQ and NAT use 0.
+   - MCQ and MSQ need "options" with all four keys A, B, C, D. "answer" is "B" for MCQ and "A;C" for MSQ (letters separated by semicolons).
+   - NAT has no "options". Give "answer" as a number in quotes. If a range is acceptable, also give "answer_min" and "answer_max" as numbers.
+   - "explanation" is a short step-by-step solution.
+   - "subject" must be exactly "${subj}" in every question. "topic" is the specific topic of that question.
+4. Write all maths inside [latex] ... [/latex] tags. Do not use $ signs. Inside JSON every backslash must be doubled (write \\\\frac, \\\\sqrt, \\\\Omega).
+5. Do not use figures, images or tables that need a picture. Describe any circuit, graph or diagram in words only.
+6. Every question must be original, correct and unambiguous. Solve each one carefully and check the final answer before you write it. Do not repeat a question.
+7. The JSON must be valid: double quotes, no trailing commas, no comments.`;
+}
+["gpBranch"].forEach(id => $(id).onchange = gpFillSubjects);
+["gpSubject", "gpTypes", "gpMarks", "gpLevel"].forEach(id => $(id).onchange = gpPrompt);
+["gpTopic", "gpCount"].forEach(id => $(id).oninput = gpPrompt);
+
+$("gpCopy").onclick = async () => {
+  const btn = $("gpCopy"), t = $("gpPrompt").value;
+  let ok = false;
+  try { await navigator.clipboard.writeText(t); ok = true; } catch {}
+  if (!ok) { try { $("gpPrompt").focus(); $("gpPrompt").select(); ok = document.execCommand("copy"); } catch {} }
+  btn.textContent = ok ? "Copied!" : "Select the text and copy it";
+  btn.classList.toggle("copied", ok);
+  clearTimeout(btn._t);
+  btn._t = setTimeout(() => { btn.textContent = "Copy prompt"; btn.classList.remove("copied"); }, 2200);
+};
+
+/* ---------- create: read + check the JSON file ---------- */
+function gpCheck(q) {
+  if (!q || typeof q !== "object") return "not a question";
+  if (!String(q.question || "").trim()) return "question text is empty";
+  if (!String(q.subject || "").trim()) return "subject is missing";
+  const type = String(q.type || "").toUpperCase();
+  if (!["MCQ", "MSQ", "NAT"].includes(type)) return "type must be MCQ, MSQ or NAT";
+  const m = Number(q.marks);
+  if (!(m > 0 && m <= 5)) return "marks must be 1 or 2";
+  const has = v => v !== undefined && v !== null && String(v).trim() !== "";
+  if (type === "NAT") {
+    const range = has(q.answer_min) && has(q.answer_max);
+    if (!has(q.answer) && !range) return "NAT needs an answer (or answer_min and answer_max)";
+    if (has(q.answer) && isNaN(Number(q.answer))) return "NAT answer must be a number";
+    if (range && (isNaN(Number(q.answer_min)) || isNaN(Number(q.answer_max)))) return "NAT range must be numbers";
+    if (range && Number(q.answer_min) > Number(q.answer_max)) return "answer_min is bigger than answer_max";
+    return "";
+  }
+  const o = q.options || {};
+  if (!["A", "B", "C", "D"].every(k => has(o[k]))) return "needs four options A, B, C, D";
+  const ans = String(Array.isArray(q.answer) ? q.answer.join(";") : (q.answer ?? "")).toUpperCase().split(/[;,\s]+/).filter(Boolean);
+  if (!ans.length) return "answer is missing";
+  if (ans.some(a => !/^[ABCD]$/.test(a))) return "answer must be A, B, C or D (for MSQ: A;C)";
+  if (type === "MCQ" && ans.length !== 1) return "MCQ must have exactly one correct option";
+  return "";
+}
+$("gpFile").onchange = async () => {
+  gpPending = null; $("gpUpBtn").disabled = true; $("gpUpMsg").innerHTML = "";
+  const f = $("gpFile").files[0];
+  if (!f) return;
+  const fail = m => { $("gpUpMsg").innerHTML = `<div class="notice err">${esc(m)}</div>`; };
+  if (f.size > 2 * 1024 * 1024) return fail("That file is too large (max 2 MB).");
+  let data;
+  try {
+    let txt = (await f.text()).replace(/^\uFEFF/, "").trim();
+    const fence = txt.match(/```(?:json)?\s*([\s\S]*?)```/i);       // the AI sometimes wraps the file in a code block
+    if (fence) txt = fence[1].trim();
+    data = JSON.parse(txt);
+  } catch { return fail("This is not a valid JSON file. Ask the AI to reply with valid JSON only, then try again."); }
+  const list = Array.isArray(data) ? data : data && data.questions;
+  if (!Array.isArray(list) || !list.length) return fail('No questions found. The file must look like { "branch": "EC", "questions": [ ... ] }.');
+  const fileBranch = String((!Array.isArray(data) && data.branch) || "").trim().toUpperCase();
+  const branch = GP_BRANCH_NAMES[fileBranch] ? fileBranch : $("gpBranch").value;
+  const good = [], bad = [];
+  list.forEach((q, i) => { const why = gpCheck(q); if (why) bad.push(`Question ${i + 1}: ${why}`); else good.push(q); });
+  if (!good.length) return fail("None of the questions are usable:\n" + bad.slice(0, 5).join("\n"));
+  gpPending = { branch, questions: good };
+  $("gpUpMsg").innerHTML = `<div class="notice ok">Ready: <b>${good.length}</b> question${good.length === 1 ? "" : "s"} for <b>${esc(branch)}</b>.` +
+    (bad.length ? ` <b>${bad.length}</b> will be skipped:<ul>${bad.slice(0, 6).map(b => `<li>${esc(b)}</li>`).join("")}</ul>` : "") + `</div>`;
+  $("gpUpBtn").disabled = false;
+};
+$("gpUpBtn").onclick = async () => {
+  if (!gpPending) return;
+  const btn = $("gpUpBtn"); btn.disabled = true; btn.textContent = "Uploading…";
+  try {
+    const r = await API.gpUpload(gpPending.branch, gpPending.questions);
+    const rej = (r.rejected || []).map(x => `Question ${x.n}: ${x.reason}`);
+    $("gpUpMsg").innerHTML = `<div class="notice ${r.added ? "ok" : ""}"><b>${r.added}</b> new question${r.added === 1 ? "" : "s"} added` +
+      (r.added ? ` (${esc(r.firstId)}${r.lastId !== r.firstId ? " to " + esc(r.lastId) : ""})` : "") +
+      (r.duplicates ? `, <b>${r.duplicates}</b> already existed and ${r.duplicates === 1 ? "was" : "were"} skipped` : "") + "." +
+      (r.added ? " Everyone can now take them in “Take a practice test” above." : "") +
+      (rej.length ? `<ul>${rej.slice(0, 6).map(x => `<li>${esc(x)}</li>`).join("")}</ul>` : "") + `</div>`;
+    gpPending = null; $("gpFile").value = "";
+    gpLoad();
+  } catch (e) {
+    $("gpUpMsg").innerHTML = `<div class="notice err">${esc(e.message)}</div>`; btn.disabled = false;
+  } finally { btn.textContent = "Upload questions"; }
+};
+
+/* ---------- take a practice test ---------- */
+async function gpLoad() {
+  try {
+    GP_META = await API.gpGetMeta();
+    $("gpLoad").hidden = !!GP_META.length;
+    if (!GP_META.length) { $("gpLoad").innerHTML = "No practice questions yet. Create the first test below ↓"; $("gpForm").hidden = true; return; }
+    $("gpForm").hidden = false;
+    gpFillTake();
+  } catch (e) {
+    $("gpLoad").hidden = false; $("gpForm").hidden = true;
+    $("gpLoad").innerHTML = /Unknown action|not set up/i.test(e.message)
+      ? "Practice questions are not switched on yet (the new gatepractise.gs has not been added to the backend)."
+      : `<div class="notice err">Could not load practice questions: ${esc(e.message)}</div>`;
+  }
+}
+const gpBy = (k, v, rows) => rows.filter(r => r[k] === v);
+function gpFillTake() {
+  const keep = $("gpTBranch").value;
+  const branches = uniq(GP_META.map(r => r.branch)).sort();
+  $("gpTBranch").innerHTML = branches.map(b => `<option value="${b}">${b} – ${esc(GP_BRANCH_NAMES[b] || b)} (${gpBy("branch", b, GP_META).length})</option>`).join("");
+  if (branches.includes(keep)) $("gpTBranch").value = keep;
+  gpFillTakeSubjects();
+}
+function gpFillTakeSubjects() {
+  const rows = gpBy("branch", $("gpTBranch").value, GP_META);
+  const subs = uniq(rows.map(r => r.subject)).sort();
+  $("gpTSubject").innerHTML = `<option value="all">All subjects</option>` + subs.map(s => `<option value="${esc(s)}">${esc(s)} (${gpBy("subject", s, rows).length})</option>`).join("");
+  gpFillTakeTopics();
+}
+function gpTakeRowsBySubject() {
+  const rows = gpBy("branch", $("gpTBranch").value, GP_META), s = $("gpTSubject").value;
+  return s === "all" ? rows : gpBy("subject", s, rows);
+}
+function gpFillTakeTopics() {
+  const rows = gpTakeRowsBySubject();
+  const tops = uniq(rows.map(r => r.topic).filter(Boolean)).sort();
+  $("gpTTopic").innerHTML = `<option value="all">All topics</option>` + tops.map(t => `<option value="${esc(t)}">${esc(t)}</option>`).join("");
+  gpTakeUpdate();
+}
+function gpTakePool() { const t = $("gpTTopic").value, rows = gpTakeRowsBySubject(); return t === "all" ? rows : gpBy("topic", t, rows); }
+function gpTakeUpdate() {
+  const n = gpTakePool().length;
+  $("gpTAvail").innerHTML = `<b>${n}</b> question${n === 1 ? "" : "s"} available`;
+  $("gpTCount").max = n;
+  if (+$("gpTCount").value > n) $("gpTCount").value = n || 1;
+  $("gpTStart").disabled = n === 0;
+}
+$("gpTBranch").onchange = gpFillTakeSubjects;
+$("gpTSubject").onchange = gpFillTakeTopics;
+$("gpTTopic").onchange = gpTakeUpdate;
+
+$("gpTStart").onclick = () => {
+  $("gpTMsg").innerHTML = "";
+  if (!CAND) {
+    $("gpTMsg").innerHTML = '<div class="notice err">Please enter your name and email in “Candidate details” at the top of the page first.</div>';
+    window.scrollTo({ top: 0, behavior: "smooth" }); return;
+  }
+  const pool = gpTakePool();
+  const want = Math.min(Math.max(1, parseInt($("gpTCount").value) || 1), pool.length);
+  $("gpTCount").value = want;
+  gpPicked = shuffle(pool).slice(0, want);
+  const totalMarks = gpPicked.reduce((s, q) => s + q.marks, 0);
+  const minutes = Math.max(1, Math.round(totalMarks * CONFIG.MINUTES_PER_MARK));
+  gpPicked._meta = { totalMarks, minutes };
+  $("gpDlgStats").innerHTML =
+    `<div class="stat"><b>${want}</b><span>questions</span></div>` +
+    `<div class="stat"><b>${fmtNum(totalMarks)}</b><span>total marks</span></div>` +
+    `<div class="stat"><b>${minutes >= 60 ? Math.floor(minutes / 60) + "h " + (minutes % 60) + "m" : minutes + " min"}</b><span>time allowed</span></div>`;
+  $("gpDlgErr").innerHTML = "";
+  $("gpDlg").showModal();
+};
+$("gpDlgCancel").onclick = () => $("gpDlg").close();
+$("gpDlgGo").onclick = async () => {
+  const go = $("gpDlgGo");
+  go.disabled = true; go.textContent = "Loading questions…";
+  try {
+    const full = await API.gpGetQuestions(gpPicked.map(p => p.id));
+    const ga = s => isGASubject(s) ? 0 : 1;
+    full.sort((a, b) => ga(a.subject) - ga(b.subject) || a.marks - b.marks);
+    const br = $("gpTBranch").value, sub = $("gpTSubject").value, top = $("gpTTopic").value;
+    const session = {
+      questions: full, practice: true,
+      totalMarks: gpPicked._meta.totalMarks, durationSec: gpPicked._meta.minutes * 60, startedAt: null,
+      filters: { branch: `${br} Practice`, year: "AI-made", topic: top !== "all" ? top : sub },
+      candidate: CAND,
+      attemptId: "a" + Date.now().toString(36) + Math.random().toString(36).slice(2, 8),
+      answers: {}, marked: [], visited: [], current: 0,
+    };
+    sessionStorage.removeItem("lastResult");
+    sessionStorage.setItem("examSession", JSON.stringify(session));
+    location.href = "exam.html";
+  } catch (e) {
+    go.disabled = false; go.textContent = "Begin exam";
+    $("gpDlgErr").innerHTML = `<div class="notice err">${esc(e.message)}</div>`;
+  }
+};
+
+/* ---------- result of a practice test: marks, answers, solutions ---------- */
+function showPracticeResult(r) {
+  const D = r.detail || [], R = r.review || [];
+  const pos = D.reduce((s, d) => s + (d.got > 0 ? d.got : 0), 0);
+  const neg = D.reduce((s, d) => s + (d.got < 0 ? -d.got : 0), 0);
+  const pct = r.maxScore > 0 ? Math.round(Math.max(0, r.score) / r.maxScore * 100) : 0;
+  $("lastBody").innerHTML = `
+    <div class="rs-top">
+      <div class="muted">${esc(r.filters.branch)} · ${esc(r.filters.topic === "all" ? "all subjects" : r.filters.topic)}${statusText(r)}</div>
+      <div class="rs-marks">${fmtNum(r.score)} <small>/ ${fmtNum(r.maxScore)} marks &nbsp;(${pct}%)</small></div>
+      <div class="rs-chips">
+        <div class="chip pos"><b>+${fmtNum(pos)}</b><span>positive marks</span></div>
+        <div class="chip neg"><b>−${fmtNum(neg)}</b><span>negative marks</span></div>
+        <div class="chip net"><b>${fmtNum(r.score)}</b><span>final marks</span></div>
+      </div>
+      <div class="stats" style="margin:0">
+        <div class="stat"><b style="color:var(--good)">${r.correct}</b><span>correct</span></div>
+        <div class="stat"><b style="color:var(--bad)">${r.wrong}</b><span>wrong</span></div>
+        <div class="stat"><b>${r.unattempted}</b><span>not attempted</span></div>
+        <div class="stat"><b>${r.accuracy}%</b><span>accuracy</span></div>
+        <div class="stat"><b>${fmtTime(r.timeTakenSec)}</b><span>of ${fmtTime(r.durationSec)}</span></div>
+      </div>
+    </div>
+    <div class="rs-filter" id="rsFilter"></div>
+    <div id="rsList"></div>`;
+  // a question counts as right when it scored marks (a correct answer always scores more than 0)
+  const kind = d => !d.given ? "skip" : d.got > 0 ? "ok" : "bad";
+  const filters = [["all", "All"], ["ok", "Correct"], ["bad", "Wrong"], ["skip", "Not attempted"]];
+  $("rsFilter").innerHTML = filters.map(([k, t]) => `<button class="btn${k === "all" ? " on" : ""}" data-f="${k}">${t}</button>`).join("");
+  const list = $("rsList");
+  R.forEach((q, i) => {
+    const d = D[i] || {}, k = kind(d);
+    const card = document.createElement("div");
+    card.className = `rq ${k}`; card.dataset.k = k;
+    const gotTxt = !d.given ? "Not attempted" : d.got > 0 ? `+${fmtNum(d.got)}` : `${d.got < 0 ? "−" : ""}${fmtNum(Math.abs(d.got))}`;
+    card.innerHTML = `<div class="rq-h"><span><b>Q${i + 1}</b> · ${esc(q.type)} · ${fmtNum(q.marks)} mark${q.marks === 1 ? "" : "s"}${q.topic ? " · " + esc(q.topic) : ""}</span><span class="badge ${k}">${gotTxt}</span></div><div class="rq-q"></div><div class="rq-o"></div>`;
+    richText(card.querySelector(".rq-q"), q.question);
+    const box = card.querySelector(".rq-o");
+    const hasKey = q.answer !== null && q.answer !== undefined && String(q.answer).trim() !== "";
+    if (q.type === "NAT") {
+      const key = String(q.answer ?? "").trim();
+      const you = document.createElement("div");
+      you.className = "nat-line " + (!d.given ? "" : d.got > 0 ? "correct" : "wrong");
+      you.textContent = "Your answer: " + (d.given || "not attempted") + (d.given ? (d.got > 0 ? "  ✓" : "  ✗") : "");
+      box.append(you);
+      const cor = document.createElement("div");
+      cor.className = "nat-line correct";
+      cor.textContent = "Correct answer: " + (hasKey ? key.replace(/\s*to\s*/i, " to ") : "no answer key");
+      box.append(cor);
+    } else {
+      const right = new Set(hasKey ? String(q.answer).toUpperCase().split(/[;,\s]+/).filter(Boolean) : []);
+      const mine = new Set(String(d.given || "").toUpperCase().split(/[;,\s]+/).filter(Boolean));
+      q.options.forEach(o => {
+        const row = document.createElement("div");
+        const isR = right.has(String(o.key).toUpperCase()), isM = mine.has(String(o.key).toUpperCase());
+        row.className = "opt" + (isR ? " correct" : isM ? " wrong" : "");
+        const kk = document.createElement("span"); kk.className = "k"; kk.textContent = o.key + ".";
+        const tt = document.createElement("span"); tt.className = "t"; richText(tt, o.text);
+        const tag = document.createElement("span"); tag.className = "tag";
+        tag.textContent = isM && isR ? "Your answer ✓" : isM ? "Your answer ✗" : isR ? "Correct answer" : "";
+        row.append(kk, tt, tag); box.append(row);
+      });
+      if (!hasKey) box.append(Object.assign(document.createElement("div"), { className: "muted", textContent: "No answer key for this question." }));
+      if (!d.given) box.append(Object.assign(document.createElement("div"), { className: "muted", textContent: "You did not answer this question." }));
+    }
+    const btn = document.createElement("button");
+    btn.className = "btn sol-btn"; btn.textContent = "View solution";
+    const sol = document.createElement("div"); sol.className = "sol"; sol.hidden = true;
+    const h = document.createElement("b"); h.className = "h"; h.textContent = "Solution";
+    const body = document.createElement("div");
+    if (String(q.explanation || "").trim()) richText(body, q.explanation); else { body.className = "muted"; body.textContent = "No solution was given for this question."; }
+    sol.append(h, body);
+    btn.onclick = () => { sol.hidden = !sol.hidden; btn.textContent = sol.hidden ? "View solution" : "Hide solution"; };
+    card.append(btn, sol);
+    list.append(card);
+  });
+  $("rsFilter").onclick = e => {
+    const b = e.target.closest("button[data-f]"); if (!b) return;
+    $("rsFilter").querySelectorAll("button").forEach(x => x.classList.toggle("on", x === b));
+    list.querySelectorAll(".rq").forEach(c => c.hidden = b.dataset.f !== "all" && c.dataset.k !== b.dataset.f);
+  };
+  $("lastCard").querySelector("h2").textContent = "Your practice test result";
+  $("lastCard").hidden = false;
+}
+
+function gpInit() { gpFillCreate(); gpLoad(); }
+
+/* ---------- start-up ---------- */
+async function loadQuestions() {
+  try {
+    ALL = await API.getMeta();
+    $("loadMsg").hidden = true;
+    if (!ALL.length) { $("loadMsg").hidden = false; $("loadMsg").innerHTML = 'No questions in the sheet yet.'; return; }
+    $("form").hidden = false;
+    fillBranches();
+  } catch (e) {
+    $("loadMsg").hidden = false;
+    $("loadMsg").innerHTML = `<div class="notice err">Could not load questions: ${esc(e.message)}</div>`;
+  }
+}
+(() => {
+  CAND = getCand();
+  gpInit();
+  showLast();
+  if (CAND && CAND.email) {
+    $("cName").value = CAND.name; $("cMail").value = CAND.email; enter();
+    if (!CAND.photo) {            // photo is not kept in the browser: ask the server for it
+      API.register({ name: CAND.name, email: CAND.email }).then(r => {
+        if (r && r.photo) { CAND.photo = r.photo; saveCand(); $("whoImg").src = r.photo; $("whoImg").hidden = false; }
+      }).catch(() => {});
+    }
+  }
+})();
+</script>
+</body>
+</html>

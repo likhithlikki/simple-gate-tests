@@ -149,7 +149,7 @@ const API = (() => {
     /* ---------- GATE practice questions (made with an AI, not previous-year papers) ---------- */
     // light list for the "take a practice test" form: [{id, branch, subject, topic, type, marks}]
     async gpGetMeta() {
-      if (demo()) return LS.get("demo_gp", []).map(q => ({ id: q.id, branch: q.branch, subject: q.subject, topic: q.topic, type: q.question_type, marks: q.marks }));
+      if (demo()) return LS.get("demo_gp", []).map(q => ({ id: q.id, branch: q.branch, subject: q.subject, topic: q.topic, type: q.question_type || q.type, marks: Number(q.marks) }));
       return (await get("gpMeta")).meta;
     },
     // full questions, same order as ids
@@ -163,8 +163,10 @@ const API = (() => {
       return ordered;
     },
     // Insert only. Server answers { ok, added, duplicates, rejected:[{n,reason}], firstId, lastId }.
-    async gpUpload(branch, questions) {
-      if (!demo()) return post({ action: "gpUpload", branch, questions });
+    async gpUpload(branch, questions, allowCustom = false) {
+      if (!Array.isArray(questions) || !questions.length) throw new Error("No questions to upload.");
+      if (questions.length > 100) throw new Error("Upload limit is 100 questions per file.");
+      if (!demo()) return post({ action: "gpUpload", branch, questions, allowCustom: !!allowCustom });
       const all = LS.get("demo_gp", []);
       const seen = new Set(all.filter(q => q.branch === branch).map(q => q.question.toLowerCase().replace(/\s+/g, " ").trim()));
       let n = all.filter(q => q.branch === branch).length, added = 0, duplicates = 0;
@@ -174,13 +176,17 @@ const API = (() => {
         if (seen.has(k)) { duplicates++; return; }
         seen.add(k); n++;
         const type = String(q.type).toUpperCase();
+        const rawSubject = String(q.subject || "").trim().replace(/\s+/g, " ");
+        const canonicalSubject = typeof SUBJECTS_BY_BRANCH !== "undefined" && (SUBJECTS_BY_BRANCH[branch] || []).includes(rawSubject);
+        const acronyms = { ai: "AI", ml: "ML", dsa: "DSA", sql: "SQL", dbms: "DBMS", nlp: "NLP", llm: "LLM", gpu: "GPU", cpu: "CPU", api: "API", edc: "EDC", os: "OS" };
+        const storedSubject = canonicalSubject ? rawSubject : rawSubject.split(" ").map(w => acronyms[w.toLowerCase()] || (w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())).join(" ").slice(0, 80);
         let answer = type === "NAT" ? String(q.answer ?? "") : String(Array.isArray(q.answer) ? q.answer.join(";") : q.answer).toUpperCase();
         if (type === "NAT" && q.answer_min != null && q.answer_max != null && +q.answer_min !== +q.answer_max) answer = `${q.answer_min} to ${q.answer_max}`;
         all.push({
-          id: branch + String(n).padStart(4, "0"), exam: "GATE", branch, year: "Practice", subject: q.subject, topic: q.topic || "",
+          id: branch + String(n).padStart(4, "0"), exam: "GATE", branch, year: "Practice", subject: storedSubject, topic: q.topic || "",
           question_type: type, answer_format: type === "NAT" ? "numeric" : "option", marks: Number(q.marks),
-          negative_marks: type === "MCQ" ? (q.negative_marks ?? +(q.marks / 3).toFixed(2)) : 0, question: q.question,
-          options: type === "NAT" ? null : q.options, answer, explanation: q.explanation || "", images: [],
+          negative_marks: type === "MCQ" ? (Number(q.marks) === 1 ? 0.33 : 0.67) : 0, question: q.question,
+          options: type === "NAT" ? null : q.options, answer, explanation: q.explanation || "", images: [], source: (!canonicalSubject || q.allow_custom || q.custom_subject) ? "custom" : "ai",
         });
         ids.push(all[all.length - 1].id); added++;
       });

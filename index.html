@@ -25,6 +25,25 @@
 .btn.copied { background: var(--good); border-color: var(--good); color: #fff; }
 .gp-msg { margin-top: .8rem; }
 .gp-msg ul { margin: .3rem 0 0 1.1rem; padding: 0; }
+.gp-picker { border:1px solid var(--line); border-radius:8px; padding:.65rem; background:var(--bg); margin:.35rem 0 .7rem; }
+.gp-picker-tools { display:flex; flex-wrap:wrap; gap:.4rem; align-items:center; margin-bottom:.55rem; }
+.gp-picker-tools input { flex:1 1 12rem; min-width:8rem; margin:0; }
+.gp-picker-tools button,.gp-picker-group button { padding:.25rem .55rem; font-size:.8rem; }
+.gp-picker-groups { display:grid; gap:.55rem; max-height:17rem; overflow:auto; }
+.gp-picker-group { border-top:1px solid var(--line); padding-top:.4rem; }
+.gp-picker-group-head { display:flex; justify-content:space-between; gap:.5rem; align-items:center; font-size:.85rem; font-weight:600; margin-bottom:.3rem; }
+.gp-picker-options { display:flex; flex-wrap:wrap; gap:.35rem; }
+.gp-pick-chip { display:inline-flex; align-items:center; gap:.35rem; border:1px solid var(--line); border-radius:99px; padding:.22rem .55rem; background:var(--card); font-size:.83rem; cursor:pointer; }
+.gp-pick-chip.custom { border-style:dashed; border-color:var(--accent); }
+.gp-pick-chip input { width:auto; margin:0; }
+.gp-picker-add { display:flex; gap:.4rem; margin-top:.6rem; }
+.gp-picker-add input { flex:1; min-width:0; margin:0; }
+.gp-prompt-part { border:1px solid var(--line); border-radius:8px; padding:.75rem; margin:.6rem 0; background:var(--bg); }
+.gp-prompt-head { display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:.5rem; margin-bottom:.5rem; }
+.gp-prompt-part textarea { width:100%; min-height:14rem; font:.8rem/1.45 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; padding:.7rem; color:var(--ink); background:var(--card); border:1px solid var(--line); border-radius:6px; resize:vertical; }
+.gp-prompt-actions { display:flex; gap:.4rem; flex-wrap:wrap; }
+@media(max-width:520px){.gp-picker-tools{align-items:stretch}.gp-picker-tools input{flex-basis:100%}.gp-prompt-head{align-items:flex-start}}
+
 
 /* ---- result of a practice test ---- */
 .rs-top { border: 2px solid var(--accent); border-radius: 12px; padding: 1rem; margin-bottom: 1rem; background: var(--bg); }
@@ -143,53 +162,70 @@
       <div id="gpForm" hidden>
         <div class="grid">
           <div><label for="gpTBranch">Branch</label><select id="gpTBranch"></select></div>
-          <div><label for="gpTSubject">Subject</label><select id="gpTSubject"></select></div>
-          <div><label for="gpTTopic">Topic</label><select id="gpTTopic"></select></div>
-          <div><label for="gpTCount">Number of questions</label><input id="gpTCount" type="number" min="1" value="10"></div>
+          <div><label for="gpTMode">Test type</label><select id="gpTMode">
+            <option value="custom">Custom practice test</option>
+            <option value="full">Full GATE practice paper (65 questions, 100 marks)</option>
+          </select></div>
+          <div id="gpTCountBox"><label for="gpTCount">Number of questions</label><input id="gpTCount" type="number" min="1" max="65" value="10"></div>
+        </div>
+        <div id="gpTFilters">
+          <label>Subjects (select one or more; leave empty for all)</label>
+          <div id="gpTSubjectsPicker" class="gp-picker"></div>
+          <label style="margin-top:.9rem">Topics (optional; grouped by subject)</label>
+          <div id="gpTTopicsPicker" class="gp-picker"></div>
         </div>
         <div class="avail" id="gpTAvail"></div>
-        <div id="gpTMsg"></div>
+        <div id="gpTMsg" class="gp-msg"></div>
         <button class="btn primary" id="gpTStart">Start practice test</button>
       </div>
     </section>
 
     <section class="card" id="gpMake">
       <h2>Create your own GATE practice test</h2>
-      <p class="muted" style="margin-top:0">Choose what you want, copy the prompt into any AI tool (ChatGPT, Claude, Gemini…), then upload the JSON file it gives you.</p>
+      <p class="muted" style="margin-top:0">Build a coverage blueprint, copy each part into an AI tool, then upload the generated JSON files. Uploaded questions enter the shared practice bank.</p>
 
       <div class="step"><i>1</i> Choose your test</div>
       <div class="grid">
         <div><label for="gpBranch">Branch</label><select id="gpBranch"></select></div>
-        <div><label for="gpSubject">Subject (names from our question bank)</label><select id="gpSubject"></select></div>
-        <div><label for="gpTopic">Topic under the subject (optional)</label><input id="gpTopic" type="text" maxlength="80" placeholder="e.g. Laplace transform of periodic signals"></div>
-        <div><label for="gpCount">Number of questions (1–25)</label><input id="gpCount" type="number" min="1" max="25" value="10"></div>
-        <div><label for="gpTypes">Question types</label><select id="gpTypes">
-          <option value="mix">Mix of MCQ, MSQ and NAT</option>
-          <option value="mcq">Only MCQ</option>
-          <option value="mcqnat">MCQ and NAT</option>
-          <option value="nat">Only NAT (numerical)</option>
-        </select></div>
-        <div><label for="gpMarks">Marks</label><select id="gpMarks">
-          <option value="mix">Mix of 1-mark and 2-mark</option>
-          <option value="1">Only 1-mark</option>
-          <option value="2">Only 2-mark</option>
-        </select></div>
-        <div><label for="gpLevel">Difficulty</label><select id="gpLevel">
-          <option value="easy">Easy (warm-up)</option>
-          <option value="medium">Medium</option>
-          <option value="gate" selected>GATE standard</option>
-          <option value="hard">Hard</option>
+        <div><label for="gpTestType">Test type</label><select id="gpTestType">
+          <option value="custom">Custom test</option>
+          <option value="full">Full GATE paper (65 questions, 100 marks, 180 minutes)</option>
         </select></div>
       </div>
+      <div id="gpCustomFields">
+        <label>Subjects (select one or more; leave empty for all)</label>
+        <div id="gpSubjectsPicker" class="gp-picker"></div>
+        <label style="margin-top:.9rem">Topics (optional; grouped by subject)</label>
+        <div id="gpTopicsPicker" class="gp-picker"></div>
+        <div class="grid" style="margin-top:1rem">
+          <div><label for="gpCount">Number of questions (1–65)</label><input id="gpCount" type="number" min="1" max="65" value="10"></div>
+          <div><label>Question types (tick one or more)</label>
+            <div id="gpTypes" class="gp-types" style="display:flex;gap:1rem;flex-wrap:wrap;padding:.5rem 0">
+              <label style="display:flex;gap:.35rem;align-items:center;margin:0"><input type="checkbox" value="MCQ" checked> MCQ</label>
+              <label style="display:flex;gap:.35rem;align-items:center;margin:0"><input type="checkbox" value="MSQ" checked> MSQ</label>
+              <label style="display:flex;gap:.35rem;align-items:center;margin:0"><input type="checkbox" value="NAT" checked> NAT</label>
+            </div></div>
+          <div><label for="gpMarks">Marks</label><select id="gpMarks">
+            <option value="mix">Mix of 1 and 2 marks</option>
+            <option value="1">Only 1 mark</option>
+            <option value="2">Only 2 marks</option>
+          </select></div>
+          <div><label for="gpLevel">Difficulty</label><select id="gpLevel">
+            <option value="easy">Easy</option><option value="medium">Medium</option>
+            <option value="gate" selected>GATE standard</option><option value="hard">Hard</option>
+          </select></div>
+        </div>
+      </div>
+      <div id="gpFullNote" class="notice" hidden>Full-paper mode uses the fixed 65-question / 100-mark GATE blueprint. It generates four prompt parts and keeps General Aptitude separate from branch core.</div>
 
-      <div class="step"><i>2</i> Copy this prompt and give it to an AI tool</div>
-      <textarea id="gpPrompt" readonly spellcheck="false"></textarea>
-      <div class="row" style="margin-top:.6rem"><button class="btn primary" id="gpCopy">Copy prompt</button><span class="muted">The AI should answer with a JSON file only.</span></div>
+      <div class="step"><i>2</i> Copy the prompts into an AI tool</div>
+      <div id="gpPromptParts"></div>
+      <div class="muted" style="margin-top:.4rem">Each prompt contains a fixed slot list. The AI must return exactly one question per slot, in order.</div>
 
-      <div class="step"><i>3</i> Upload the JSON file the AI gave you</div>
+      <div class="step"><i>3</i> Upload the generated JSON file(s)</div>
       <div class="drop">
-        <input id="gpFile" type="file" accept=".json,application/json,text/plain">
-        <div class="muted" style="margin-top:.4rem">Questions already in the bank (same text) are skipped. Nothing is overwritten.</div>
+        <input id="gpFile" type="file" accept=".json,application/json,text/plain" multiple>
+        <div class="muted" style="margin-top:.4rem">Upload one or more part files together. Duplicate question text is skipped; existing questions are never overwritten. Each file may contain up to 100 questions.</div>
       </div>
       <div class="gp-msg" id="gpUpMsg"></div>
       <button class="btn primary" id="gpUpBtn" style="margin-top:.8rem" disabled>Upload questions</button>
@@ -231,6 +267,7 @@
 </dialog>
 
 <script src="config.js"></script>
+<script src="subjects.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
 <script src="api.js"></script>
 <script>
@@ -527,110 +564,275 @@ async function showHistory() {
 }
 
 /* =====================================================================
-   GATE PRACTICE TESTS  (AI-made questions; stored by gatepractise.gs)
+   GATE PRACTICE TESTS — multi-select, deterministic coverage blueprint,
+   multi-part prompts, shared bank and full-paper assembly.
    ===================================================================== */
-const GP_BRANCH_NAMES = { CE: "Civil Engineering", CS: "Computer Science and Information Technology", DA: "Data Science and Artificial Intelligence", EC: "Electronics and Communication Engineering", EE: "Electrical Engineering", IT: "Information Technology", ME: "Mechanical Engineering" };
-const GP_SUBJECTS = {"EC":["BJT Analysis","Communication Systems","Control Systems","Digital Circuits","Digital Communication Systems","Diodes Applications","Electromagnetics","Electronic Devices","Engineering Mathematics","Feedback Amplifiers","FET and MOSFET Analysis","Finite State Machine and Miscellaneous","Frequency Response Analysis","Frequency Response of Amplifier","Graph Theory and State Equations","IC Fabrication","Information Theory and Coding","Instructions of 8085 Microprocessor","Interfacing and Peripheral Devices","Laplace Transform","Linear Algebra","Logic Families","Logic Gates","LTI Systems Continuous and Discrete","Memories","Microprocessor 8085 Interrupts","Microprocessor 8085 Programming","Microprocessors","Miscellaneous Topics","Multivibrators and 555 Timer","Network Functions","Network Theorems","Network Theory","Number Systems","Numerical Ability","Numerical Methods","Operational Amplifiers","Oscillator Circuits","PN-Junction Diodes and Special Diodes","Probability and Statistics","Random Signals and Noise","Root Locus","Sampling","Sequential Circuits","Signals and Systems","Sinusoidal Steady State","Sinusoidal Steady State Analysis","Stability Analysis","State Space Analysis","Time Response Analysis","Transient Analysis","Transmission Lines","Two Port Networks","Uniform Plane Waves","Verbal Ability","Waveguides","Z-Transform"],"CE":["Construction Materials and Management","Design of Steel Structures","Engineering Mathematics","Environmental Engineering","Evaporation, Transpiration and Stream Flow Measurement","Flood Routing and Flood Control","Fluid Mechanics and Hydraulics","Fluid Properties and Manometry","Friction","Geomatics Engineering","Geometric Design of Highway and Planning","Geotechnical Engineering","Highway Maintenance","Highway Materials","Hydraulic Pumps","Hydrostatic Forces","Impact of Jets and Turbines","Infiltration, Runoff and Hydrographs","Influence Line Diagram and Rolling Loads","Irrigation Engineering","Levelling and Contouring","Linear Algebra","Matrix Method of Structural Analysis","Methods of Structural Analysis","Municipal Solid Waste Management","Numerical Ability","Numerical Methods","Open Channel Flow","Ordinary Differential Equation","Partial Differential Equation","Pavement Design","Plastic Analysis","Plate Griders and Industrial Roofs","Precipitation and General Aspects of Hydrology","Prestressed Concrete Beams","Principal Stress and Principal Strain","Probability and Statistics","Properties of Metals, Stress and Strain","Properties of Soils","Quality and Characteristics of Waste Water","Quality Characteristics of Water","Railway and Airport Engineering","RCC Structures","Remote Sensing, GIS, GPS and Photogrammetry","Retaining Wall-Earth Pressure Theories","Seepage Analysis","Shallow Foundation and Bearing Capacity","Shear Force and Bending Moment","Shear Strength of Soil","Shear, Torsion, Bond, Anchorage and Development Length","Soil Stabilization and Soil Exploration","Solid Mechanics","Source of Water Supply, Distribution System and Well Hydraulics","Stability Analysis of Slopes","Stress Distribution in the Soil","Structural Analysis","Structural Fasteners","Tacheometric, Curve and Hydrographic Surveying","Tension Member","Theodolites, Compass and Traverse Surveying","Theories of Seepage, Spillways and Miscellaneous","Theory of Columns and Shear Centre","Torsion of Shafts and Pressure Vessels","Traffic Engineering","Treatment of Waste Water","Trusses","Turbulent Flow","Verbal Ability","Viscous Flow of Incompressible Fluid","Water Demand","Water Treatment","Working Stress and Limit State Method"],"DA":["Artificial Intelligence","Calculus and Optimization","Database Management and Warehousing","General Aptitude","Linear Algebra","Machine Learning","Numerical Ability","Probability and Statistics","Programming in Python","Verbal Ability"],"CS":["Algorithm","Asymptotic Notation","C Programming","Calculus","Computer Network","Computer Organization","Conditional Statement","Data Link Layer","Data Structure","Digital Logic","Discrete Mathematics","Divide and Conquer","Dynamic Programming","Engineering Mathematics","ER Model","File System","Function","Functions","Graph Theory","Graph Traversal","Greedy Technique","Group Theory","Hashing","Heap Tree","Integrity Constraints","Intermediate Code Generation","Interrupt","IO Interface","ISRO CSE 2007","ISRO CSE 2008","ISRO CSE 2009","ISRO CSE 2011","ISRO CSE 2015","ISRO CSE 2016","ISRO CSE 2018","ISRO CSE 2020","Lattice","Lexical Analysis","Linear Algebra","Link List","Loop","Machine Instruction","Matching","Memory Chip Design","Memory Management","Minimum Spanning Tree","n-ary Tree","Network Layer Protocol","Network Security","Normal Form","Number System","Numerical Ability","Numerical Method","Operating System","OSI Layer","P-NP Theory","Parsing","Physical Layer","Pipeline Processor","Planar Graph","Probability Theory","Process","Process Synchronization","Propositional Logic","Push-down Automata","Queue","Recurrence","Recurrence Relation","Recursive Language","Regular Expression","Regular Grammar","Regular Language","Relation","Relational Algebra","Relational Schema","Runtime Environment","Secondary Storage","Sequential Circuit","Set Theory","Shortest Path","Software Engg","Sorting","SQL","Stack","Syntax-directed Translation","System Call","Theory of Computation","Thread","Transaction","Transactions","Transport Layer Protocol","Tuple Calculus","Turing Machine","Undecidability","Verbal Ability","Web Technology"],"ME":["Engineering Mathematics","FBD, Equilirbium, Plane Trusses and Virtual work","Fluid Mechanics","Fluid Properties","Fluid Statics","Friction","Gear and Gear Train","Gears","Gyroscope","Heat Exchanger","Heat Pumps and Cycles","Heat Transfer","Heat Transfer in Flow Over Plates and Pipes","IC Engine","Impulse and Momentum, Energy Formulations","Inventory Control","Joining-Welding","Linear Algebra","Linear Programming","Machine Design","Machining and Machine Tool Operation","Manufacturing Engineering","Metrology and Inspection","Mohr's Circle","Numerical Ability","Numerical Methods","PERT and CPM","Planar Mechanisms","Plane Motion","Power System","Probability and Statistics","Production Planning and Control","Properties of Moist Air","Psychrometric Process","Pure Substances","Queuing Theory and Transportation","Radiation","Second Law, Carnot Cycle and Entropy","Shear-force and Bending Moment Diagrams","Sheet Metal Operation","Springs","Static Dynamic Loading and Failure Theories","Strain Energy and Thermal Stresses","Strength of Materials","Stress and Strain","Stress-strain Relationship and Elastic Constants","Theory of Machine","Thermodynamic System and Processes","Thermodynamics","Thin Cylinder","Torsion of Shafts","Translation and Rotation","Turbines and Pumps","Vapor and Gas Refrigeration","Verbal Ability","Vibration","Viscous, Turbulent Flow and Boundary Layer Theory"],"EE":["BJT, FET and their Biasing Circuits","Control Systems","Design of Control Systems","Digital Electronics","Diodes and their Applications","Electric Circuits","Electrical and Electronic Measurements","Electrical Machines","Electromagnetic Theory","Electrostatic Fields","Engineering Mathematics","Feedback Characteristics of Control Systems","Frequency Response Analysis","Galvanometers, Voltmeters and Ammeters","Generating Power Stations","High Voltage DC Transmission","Instrument Transformers","Introduction of C.T. and D.T. Signals","Inverters","Laplace Transform","Linear Algebra","Linear Time Invariant Systems","Load Flow Studies","Logic Families and Miscellaneous","Logic Gates","Magnetically Coupled Circuits, Network Topology and Filters","Magnetostatic Fields","Mathematical Models of Physical Systems","Measurement of Energy and Power","Measurement of Resistance and Potentiometers","Microprocessors","Miscellaneous","Network Theorems","Numerical Ability","Numerical Methods","Operational Amplifiers","Oscillators and Feedback Amplifiers","Per Unit System","Performance of Transmission Lines, Line Parameters and Corona","Phase Controlled Rectifiers","Power Electronics","Power Semiconductor Devices and Commutation Techniques","Power System Stability","Power System Transients","Power Systems","Probability and Statistics","Resonance and Locus Diagrams","Root Locus Techniques","Sampling","Sequential Logic Circuits","Signals and Systems","Single Phase Induction Motors, Special Purpose Machines and Electromechanical Energy Conversion System","Small Signal Analysis","State Variable Analysis","Steady State AC Analysis","Switch Gear and Protection","Synchronous Machines","Three Phase Induction Machines","Three-Phase Circuits","Time Response Analysis","Time Varying Fields","Transformers","Transients and Steady State Response","Two Port Network and Network Functions","Verbal Ability","Z-Transform"],"IT":["Asymptotic Notation","C Programming","Computer Network","Computer Organization","Conditional Statement","Data Link Layer","Data Structure","Digital Logic","Discrete Mathematics","Engineering Mathematics","ER Model","File System","Function","Functions","Graph Theory","Graph Traversal","Greedy Technique","Group Theory","Hashing","Heap Tree","IO Interface","Lattice","Linear Algebra","Link List","Machine Instruction","Memory Chip Design","Memory Management","Minimum Spanning Tree","Network Layer Protocol","Network Security","Normal Form","Number System","Numerical Ability","Numerical Method","Operating System","P-NP Theory","Parsing","Physical Layer","Pipeline Processor","Probability Theory","Process","Process Synchronization","Propositional Logic","Push-down Automata","Queue","Recurrence","Recurrence Relation","Regular Expression","Regular Grammar","Regular Language","Relation","Relational Algebra","Runtime Environment","Secondary Storage","Sequential Circuit","Set Theory","Shortest Path","Software Engg","Sorting","SQL","Stack","System Call","Theory of Computation","Thread","Transaction","Transport Layer Protocol","Tuple Calculus","Web Technology"]};   // subject / topic names already in the question bank, per branch
-let GP_META = [];                   // practice questions available to take: {id, branch, subject, topic, type, marks}
+const GP_BRANCH_NAMES = {
+  CE: "Civil Engineering", CS: "Computer Science and Information Technology",
+  DA: "Data Science and Artificial Intelligence", EC: "Electronics and Communication Engineering",
+  EE: "Electrical Engineering", IT: "Information Technology", ME: "Mechanical Engineering"
+};
+let GP_META = [];
 let gpPicked = [];
-let gpPending = null;               // { branch, questions } read from the chosen JSON file
+let gpPending = [];
+let gpSubjectsPicker = null, gpTopicsPicker = null;
+let gpTSubjectsPicker = null, gpTTopicsPicker = null;
 
-/* ---------- create: options -> prompt ---------- */
-function gpFillCreate() {
-  $("gpBranch").innerHTML = Object.keys(GP_BRANCH_NAMES).map(b => `<option value="${b}">${b} – ${esc(GP_BRANCH_NAMES[b])}</option>`).join("");
-  gpFillSubjects();
+function gpCleanCustom(value) {
+  return String(value || "").replace(/[<>]/g, "").trim().replace(/\s+/g, " ").slice(0, 80);
 }
-function gpFillSubjects() {
-  const list = GP_SUBJECTS[$("gpBranch").value] || [];
-  $("gpSubject").innerHTML = list.map(s => `<option>${esc(s)}</option>`).join("") || "<option>General</option>";
-  gpPrompt();
-}
-function gpCount() { return Math.min(25, Math.max(1, parseInt($("gpCount").value) || 10)); }
-function gpPrompt() {
-  const br = $("gpBranch").value, brName = GP_BRANCH_NAMES[br], subj = $("gpSubject").value;
-  const topic = $("gpTopic").value.trim().replace(/\s+/g, " "), n = gpCount();
-  const types = { mix: "a mix of MCQ (about 50%), NAT (about 35%) and MSQ (about 15%)", mcq: "only MCQ", mcqnat: "MCQ and NAT (about 60% MCQ, 40% NAT)", nat: "only NAT (numerical answer type)" }[$("gpTypes").value];
-  const marks = { mix: "a mix of 1-mark and 2-mark questions (roughly equal numbers)", 1: "only 1-mark questions", 2: "only 2-mark questions" }[$("gpMarks").value];
-  const level = { easy: "easy (warm-up)", medium: "medium", gate: "the standard of the real GATE exam", hard: "hard (top-rank level)" }[$("gpLevel").value];
-  const example = `{
-  "branch": "${br}",
-  "questions": [
-    {
-      "subject": "${subj}",
-      "topic": "${topic || "Specific topic name"}",
-      "type": "MCQ",
-      "marks": 2,
-      "negative_marks": 0.67,
-      "question": "Full question text. Maths like [latex]\\\\frac{a}{b}[/latex]",
-      "options": { "A": "first option", "B": "second option", "C": "third option", "D": "fourth option" },
-      "answer": "B",
-      "explanation": "Short step-by-step solution that proves why B is correct."
+function gpKey(value) { return String(value || "").trim().toLowerCase(); }
+function gpUniq(list) { const seen = new Set(); return list.filter(x => { const k = gpKey(x); if (!k || seen.has(k)) return false; seen.add(k); return true; }); }
+
+/* Reusable accessible chip picker. Values are strings; options may include group/count/custom. */
+function makePicker(containerId, { getOptions, allowCustom = false, getCustomGroup = () => "Custom" } = {}) {
+  const root = $(containerId), selected = new Set(), customOptions = new Map();
+  let onChange = () => {};
+  root.innerHTML = `
+    <div class="gp-picker-tools">
+      <input type="search" class="gp-picker-search" aria-label="Search options" placeholder="Search…">
+      <button type="button" class="btn" data-action="select-visible">Select all</button>
+      <button type="button" class="btn" data-action="clear">Clear</button>
+    </div>
+    <div class="gp-picker-groups"></div>
+    ${allowCustom ? `<div class="gp-picker-add"><input type="text" maxlength="80" placeholder="Type your own value (max 80 characters)"><button type="button" class="btn" data-action="add-custom">Add</button></div>` : ""}
+  `;
+  const search = root.querySelector(".gp-picker-search");
+  const groupBox = root.querySelector(".gp-picker-groups");
+  const addInput = root.querySelector(".gp-picker-add input");
+  const optionsNow = () => {
+    const base = (getOptions ? getOptions() : []).map(o => typeof o === "string" ? { value: o, label: o, group: "Options" } : ({ ...o }));
+    return [...base, ...customOptions.values()];
+  };
+  function getItems() {
+    const map = new Map(optionsNow().map(o => [String(o.value), o]));
+    return [...selected].map(v => map.get(v)).filter(Boolean).map(o => ({ ...o }));
+  }
+  function render() {
+    const q = gpKey(search.value);
+    const all = optionsNow();
+    const visible = all.filter(o => !q || gpKey(o.label).includes(q) || gpKey(o.group).includes(q));
+    const groups = new Map();
+    visible.forEach(o => { const g = o.group || "Options"; if (!groups.has(g)) groups.set(g, []); groups.get(g).push(o); });
+    groupBox.innerHTML = [...groups.entries()].map(([group, rows]) => `
+      <div class="gp-picker-group">
+        <div class="gp-picker-group-head"><span>${esc(group)}</span><button type="button" class="btn" data-action="select-group" data-group="${encodeURIComponent(group)}">Select all in this group</button></div>
+        <div class="gp-picker-options">${rows.map(o => {
+          const value = String(o.value), isCustom = !!o.custom;
+          return `<label class="gp-pick-chip${isCustom ? " custom" : ""}"><input type="checkbox" data-value="${encodeURIComponent(value)}" ${selected.has(value) ? "checked" : ""}><span>${esc(o.label)}${o.count !== undefined ? ` (${Number(o.count)})` : ""}</span></label>`;
+        }).join("")}</div>
+      </div>`).join("") || `<div class="muted">No matching options.</div>`;
+  }
+  function changed() { render(); onChange(getItems()); }
+  function addCustom(value) {
+    if (!allowCustom) return false;
+    const clean = gpCleanCustom(value);
+    if (!clean) return false;
+    const duplicate = optionsNow().find(o => gpKey(o.label) === gpKey(clean));
+    if (duplicate) { selected.add(String(duplicate.value)); changed(); return true; }
+    const group = String(getCustomGroup() || "Custom");
+    const key = `__custom__:${gpKey(group)}:${gpKey(clean)}`;
+    customOptions.set(key, { value: key, label: clean, group, custom: true });
+    selected.add(key); changed();
+    if (addInput) addInput.value = "";
+    return true;
+  }
+  root.addEventListener("change", e => {
+    const input = e.target.closest("input[data-value]");
+    if (!input) return;
+    const value = decodeURIComponent(input.dataset.value);
+    if (input.checked) selected.add(value); else selected.delete(value);
+    onChange(getItems());
+  });
+  root.addEventListener("input", e => { if (e.target === search) render(); });
+  root.addEventListener("click", e => {
+    const btn = e.target.closest("button[data-action]"); if (!btn) return;
+    const action = btn.dataset.action;
+    if (action === "clear") { selected.clear(); changed(); }
+    if (action === "select-visible") { const q = gpKey(search.value); optionsNow().filter(o => !q || gpKey(o.label).includes(q) || gpKey(o.group).includes(q)).forEach(o => selected.add(String(o.value))); changed(); }
+    if (action === "select-group") { const group = decodeURIComponent(btn.dataset.group); optionsNow().filter(o => (o.group || "Options") === group).forEach(o => selected.add(String(o.value))); changed(); }
+    if (action === "add-custom") addCustom(addInput && addInput.value);
+  });
+  if (addInput) addInput.addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); addCustom(addInput.value); } });
+  render();
+  return {
+    get: () => getItems().map(o => String(o.value)),
+    getItems,
+    getCustom: () => getItems().filter(o => o.custom).map(o => o.label),
+    set(list) {
+      selected.clear();
+      const opts = optionsNow();
+      (list || []).forEach(v => { const found = opts.find(o => String(o.value) === String(v)); if (found) selected.add(String(found.value)); });
+      changed();
     },
-    {
-      "subject": "${subj}",
-      "topic": "${topic || "Specific topic name"}",
-      "type": "NAT",
-      "marks": 1,
-      "negative_marks": 0,
-      "question": "Question whose answer is a number. Give the answer up to 2 decimal places.",
-      "answer": "3.5",
-      "answer_min": 3.45,
-      "answer_max": 3.55,
-      "explanation": "Short step-by-step solution."
-    }
-  ]
-}`;
-  $("gpPrompt").value = `You are an expert GATE (Graduate Aptitude Test in Engineering) paper setter for the ${brName} (${br}) branch.
+    setItems(items) {
+      selected.clear();
+      (items || []).forEach(item => {
+        if (item.custom) {
+          const key = String(item.value || `__custom__:${gpKey(item.group)}:${gpKey(item.label)}`);
+          customOptions.set(key, { ...item, value: key, custom: true }); selected.add(key);
+        } else selected.add(String(item.value));
+      });
+      changed();
+    },
+    refresh: render,
+    clearCustom() { customOptions.clear(); [...selected].forEach(v => { if (v.startsWith("__custom__:")) selected.delete(v); }); changed(); },
+    onChange(fn) { onChange = typeof fn === "function" ? fn : () => {}; },
+  };
+}
+
+function gpCanonicalSubject(branch, subject) {
+  const s = String(subject || "").trim();
+  return TOPIC_TO_SUBJECT[`${branch}|${s.toLowerCase()}`] || s;
+}
+function gpCreateSubjectOptions() {
+  const br = $("gpBranch").value, tax = TAXONOMY[br] || {};
+  const rows = Object.keys(tax).map(s => ({ value: s, label: s, group: "GATE subjects" }));
+  if ((LEGACY_TOPICS[br] || []).length) rows.push({ value: OTHER_SUBJECT, label: OTHER_SUBJECT, group: "Legacy" });
+  return rows;
+}
+function gpCreateTopicOptions() {
+  const br = $("gpBranch").value, tax = TAXONOMY[br] || {};
+  const selected = gpSubjectsPicker ? gpSubjectsPicker.getItems().map(o => o.label) : [];
+  const subjects = selected.length ? selected : [...Object.keys(tax), ...((LEGACY_TOPICS[br] || []).length ? [OTHER_SUBJECT] : [])];
+  const rows = [];
+  subjects.forEach(subject => {
+    gpBlueprintTopics(br, subject).forEach(topic => rows.push({ value: `${subject}\u001f${topic}`, label: topic, group: subject }));
+  });
+  return rows;
+}
+function gpCreateCustomTopicGroup() {
+  const selected = gpSubjectsPicker ? gpSubjectsPicker.getItems() : [];
+  const custom = selected.find(o => o.custom);
+  if (custom) return custom.label;
+  return selected[0] ? selected[0].label : (Object.keys(TAXONOMY[$("gpBranch").value] || {})[0] || "General Aptitude");
+}
+function gpUpdateCreateTopics() {
+  if (!gpTopicsPicker) return;
+  const br = $("gpBranch").value;
+  const selectedSubjects = gpSubjectsPicker.getItems().map(o => o.label);
+  const allowed = new Set(gpCreateTopicOptions().map(o => String(o.value)));
+  const keep = gpTopicsPicker.getItems().filter(o => o.custom || allowed.has(String(o.value)));
+  gpTopicsPicker.refresh();
+  gpTopicsPicker.setItems(keep);
+}
+function gpCreateSelections() {
+  const br = $("gpBranch").value;
+  const subjects = gpSubjectsPicker.getItems().map(o => o.label);
+  const selectedTopics = gpTopicsPicker.getItems().map(o => ({
+    subject: o.custom ? o.group : String(o.value).split("\u001f")[0],
+    topic: o.label,
+  }));
+  return { branch: br, subjects, topics: selectedTopics };
+}
+function gpTypesValue() { return [...$("gpTypes").querySelectorAll("input:checked")].map(x => x.value); }
+function gpCount() { return Math.min(65, Math.max(1, parseInt($("gpCount").value, 10) || 10)); }
+function gpDifficulty() {
+  return { easy: "easy (warm-up)", medium: "medium", gate: "the standard of the real GATE exam", hard: "hard (advanced GATE level)" }[$("gpLevel").value] || "the standard of the real GATE exam";
+}
+function gpPromptForPart(branch, part, fullMode, level) {
+  const brName = GP_BRANCH_NAMES[branch] || branch;
+  const slots = part.slots;
+  const rows = slots.map(q => `| ${q.slot} | ${String(q.subject).replace(/\|/g, "\\|")} | ${String(q.topic).replace(/\|/g, "\\|")} | ${q.type} | ${q.marks} |`).join("\n");
+  const first = slots[0] || { slot: 1, subject: "Subject", topic: "Topic", type: "MCQ", marks: 1 };
+  const nat = first.type === "NAT";
+  const exampleQuestion = {
+    slot: first.slot, subject: first.subject, topic: first.topic, type: first.type, marks: first.marks,
+    negative_marks: first.type === "MCQ" ? Number((first.marks / 3).toFixed(2)) : 0,
+    options: nat ? null : { A: "Option A", B: "Option B", C: "Option C", D: "Option D" },
+    answer: nat ? "3.5" : first.type === "MSQ" ? "A;C" : "B",
+    explanation: nat ? "Show the calculation step by step." : first.type === "MSQ" ? "Explain why each selected option is correct." : "Explain why the answer is correct."
+  };
+  const exampleJson = JSON.stringify({ branch, part: part.part, questions: [exampleQuestion] });
+  return `You are an expert GATE paper setter for ${brName} (${branch}).
 
 TASK
-Create ${n} new, original practice question${n === 1 ? "" : "s"} for GATE ${br}.
-Subject: ${subj}
-Topic: ${topic || "any important topic of this subject"}
+This is part ${part.part} of ${part.totalParts}. Write exactly ${slots.length} new, original questions, one for each slot below, in the same order.
 Difficulty: ${level}
-Question types: ${types}
-Marks: ${marks}
+${fullMode ? "This is part of a complete 65-question, 100-mark GATE paper. Preserve the given General Aptitude / branch-core subject labels." : "This is a custom practice test."}
 
-OUTPUT RULES (very important)
-1. Reply with ONE valid JSON file and nothing else: no greeting, no explanation, no extra text. If you can create a downloadable file, give it as questions.json. If you cannot, put the JSON in one single code block.
-2. Use exactly this structure (the example shows one MCQ and one NAT question):
-${example}
-3. Field rules:
-   - "type" is MCQ (exactly one correct option), MSQ (one or more correct options) or NAT (numerical answer, no options).
-   - "marks" is 1 or 2.
-   - "negative_marks": for MCQ use 0.33 (1 mark) or 0.67 (2 marks). For MSQ and NAT use 0.
-   - MCQ and MSQ need "options" with all four keys A, B, C, D. "answer" is "B" for MCQ and "A;C" for MSQ (letters separated by semicolons).
-   - NAT has no "options". Give "answer" as a number in quotes. If a range is acceptable, also give "answer_min" and "answer_max" as numbers.
-   - "explanation" is a short step-by-step solution.
-   - "subject" must be exactly "${subj}" in every question. "topic" is the specific topic of that question.
-4. Write all maths inside [latex] ... [/latex] tags. Do not use $ signs. Inside JSON every backslash must be doubled (write \\\\frac, \\\\sqrt, \\\\Omega).
-5. Do not use figures, images or tables that need a picture. Describe any circuit, graph or diagram in words only.
-6. Every question must be original, correct and unambiguous. Solve each one carefully and check the final answer before you write it. Do not repeat a question.
-7. The JSON must be valid: double quotes, no trailing commas, no comments.`;
+SLOTS
+| slot | subject | topic | type | marks |
+|---:|---|---|---|---:|
+${rows}
+
+OUTPUT RULES
+1. Reply with ONE valid JSON object and nothing else (a single JSON code block is acceptable).
+2. Use this structure (the example shows one question; your output must include every slot): ${exampleJson}
+3. Write exactly one question for every slot, in slot order. Do not add, skip, merge or reorder slots.
+4. Copy slot, subject, topic, type and marks exactly from the slot table. Do not change capitalization or wording.
+5. MCQ: exactly one correct option. MSQ: one or more correct options, answer letters separated by semicolons (for example "A;C"). NAT: no options; answer is a numeric string. Include answer_min and answer_max only when a valid answer range is intended.
+6. Negative marks: MCQ 1-mark = 0.33 and 2-mark = 0.67; MSQ and NAT = 0.
+7. Write all mathematics inside [latex]...[/latex] tags. Do not use dollar signs. In JSON, double every backslash.
+8. No images or tables. Describe any required diagram in words.
+9. Questions must be original, unambiguous and at the stated difficulty. Solve and independently verify every answer. Avoid repeating concepts between slots.
+10. Valid JSON only: double quotes, no trailing commas, no comments.`;
 }
-["gpBranch"].forEach(id => $(id).onchange = gpFillSubjects);
-["gpSubject", "gpTypes", "gpMarks", "gpLevel"].forEach(id => $(id).onchange = gpPrompt);
-["gpTopic", "gpCount"].forEach(id => $(id).oninput = gpPrompt);
+function gpRenderPrompts(blueprint, fullMode) {
+  const parts = splitParts(blueprint, fullMode ? 17 : 20);
+  const branch = $("gpBranch").value, level = fullMode ? "the standard of the real GATE exam" : gpDifficulty();
+  $("gpPromptParts").innerHTML = parts.map((part, i) => `
+    <div class="gp-prompt-part">
+      <div class="gp-prompt-head"><b>Part ${part.part} of ${part.totalParts} · ${part.slots.length} questions</b>
+        <div class="gp-prompt-actions"><button type="button" class="btn primary" data-copy-part="${i}">Copy prompt</button></div>
+      </div>
+      <textarea readonly spellcheck="false" aria-label="Prompt part ${part.part}">${esc(gpPromptForPart(branch, part, fullMode, level))}</textarea>
+    </div>`).join("");
+  $("gpPromptParts").querySelectorAll("[data-copy-part]").forEach(btn => btn.onclick = async () => {
+    const area = btn.closest(".gp-prompt-part").querySelector("textarea");
+    let ok = false;
+    try { await navigator.clipboard.writeText(area.value); ok = true; } catch {}
+    if (!ok) { try { area.focus(); area.select(); ok = document.execCommand("copy"); } catch {} }
+    btn.textContent = ok ? "Copied!" : "Select text and copy";
+    btn.classList.toggle("copied", ok);
+    setTimeout(() => { btn.textContent = "Copy prompt"; btn.classList.remove("copied"); }, 2200);
+  });
+}
+function gpPrompt() {
+  try {
+    const fullMode = $("gpTestType").value === "full";
+    $("gpCustomFields").hidden = fullMode;
+    $("gpFullNote").hidden = !fullMode;
+    if (fullMode) $("gpFullNote").textContent = "Full-paper mode uses the fixed 65-question / 100-mark GATE blueprint. It generates four prompt parts and keeps General Aptitude separate from branch core." + ($("gpBranch").value === "IT" ? " " + IT_NOTE : "");
+    let blueprint;
+    if (fullMode) blueprint = fullBlueprint($("gpBranch").value);
+    else {
+      const sel = gpCreateSelections();
+      blueprint = customBlueprint({ branch: sel.branch, subjects: sel.subjects, topics: sel.topics, count: gpCount(), types: gpTypesValue(), marks: $("gpMarks").value });
+    }
+    gpRenderPrompts(blueprint, fullMode);
+  } catch (e) {
+    $("gpPromptParts").innerHTML = `<div class="notice err">${esc(e.message)}</div>`;
+  }
+}
+function gpFillCreate() {
+  $("gpBranch").innerHTML = Object.keys(GP_BRANCH_NAMES).map(b => `<option value="${b}">${b} – ${esc(GP_BRANCH_NAMES[b])}</option>`).join("");
+  gpSubjectsPicker = makePicker("gpSubjectsPicker", { getOptions: gpCreateSubjectOptions, allowCustom: true, getCustomGroup: () => "Custom subjects" });
+  gpTopicsPicker = makePicker("gpTopicsPicker", { getOptions: gpCreateTopicOptions, allowCustom: true, getCustomGroup: gpCreateCustomTopicGroup });
+  gpSubjectsPicker.onChange(() => { gpUpdateCreateTopics(); gpPrompt(); });
+  gpTopicsPicker.onChange(gpPrompt);
+  $("gpBranch").onchange = () => { gpSubjectsPicker.clearCustom(); gpTopicsPicker.clearCustom(); gpSubjectsPicker.set([]); gpTopicsPicker.set([]); gpSubjectsPicker.refresh(); gpTopicsPicker.refresh(); gpPrompt(); };
+  ["gpTestType", "gpMarks", "gpLevel"].forEach(id => $(id).onchange = gpPrompt);
+  $("gpBranch").addEventListener("change", gpPrompt);
+  $("gpTypes").querySelectorAll("input").forEach(cb => cb.onchange = () => {
+    if (!gpTypesValue().length) cb.checked = true;   // at least one type must stay ticked
+    gpPrompt();
+  });
+  $("gpCount").oninput = gpPrompt;
+  gpPrompt();
+}
 
-$("gpCopy").onclick = async () => {
-  const btn = $("gpCopy"), t = $("gpPrompt").value;
-  let ok = false;
-  try { await navigator.clipboard.writeText(t); ok = true; } catch {}
-  if (!ok) { try { $("gpPrompt").focus(); $("gpPrompt").select(); ok = document.execCommand("copy"); } catch {} }
-  btn.textContent = ok ? "Copied!" : "Select the text and copy it";
-  btn.classList.toggle("copied", ok);
-  clearTimeout(btn._t);
-  btn._t = setTimeout(() => { btn.textContent = "Copy prompt"; btn.classList.remove("copied"); }, 2200);
-};
-
-/* ---------- create: read + check the JSON file ---------- */
+/* ---------- upload: parse and validate one or more generated part files ---------- */
 function gpCheck(q) {
   if (!q || typeof q !== "object") return "not a question";
   if (!String(q.question || "").trim()) return "question text is empty";
   if (!String(q.subject || "").trim()) return "subject is missing";
+  if (!String(q.topic || "").trim()) return "topic is missing";
+  if (String(q.subject).trim().length > 80 || String(q.topic).trim().length > 80) return "subject and topic must be 80 characters or fewer";
   const type = String(q.type || "").toUpperCase();
   if (!["MCQ", "MSQ", "NAT"].includes(type)) return "type must be MCQ, MSQ or NAT";
   const m = Number(q.marks);
-  if (!(m > 0 && m <= 5)) return "marks must be 1 or 2";
+  if (![1, 2].includes(m)) return "marks must be 1 or 2";
   const has = v => v !== undefined && v !== null && String(v).trim() !== "";
   if (type === "NAT") {
     const range = has(q.answer_min) && has(q.answer_max);
@@ -649,148 +851,233 @@ function gpCheck(q) {
   return "";
 }
 $("gpFile").onchange = async () => {
-  gpPending = null; $("gpUpBtn").disabled = true; $("gpUpMsg").innerHTML = "";
-  const f = $("gpFile").files[0];
-  if (!f) return;
+  gpPending = []; $("gpUpBtn").disabled = true; $("gpUpMsg").innerHTML = "";
+  const files = [...($("gpFile").files || [])];
+  if (!files.length) return;
   const fail = m => { $("gpUpMsg").innerHTML = `<div class="notice err">${esc(m)}</div>`; };
-  if (f.size > 2 * 1024 * 1024) return fail("That file is too large (max 2 MB).");
-  let data;
-  try {
-    let txt = (await f.text()).replace(/^\uFEFF/, "").trim();
-    const fence = txt.match(/```(?:json)?\s*([\s\S]*?)```/i);       // the AI sometimes wraps the file in a code block
-    if (fence) txt = fence[1].trim();
-    data = JSON.parse(txt);
-  } catch { return fail("This is not a valid JSON file. Ask the AI to reply with valid JSON only, then try again."); }
-  const list = Array.isArray(data) ? data : data && data.questions;
-  if (!Array.isArray(list) || !list.length) return fail('No questions found. The file must look like { "branch": "EC", "questions": [ ... ] }.');
-  const fileBranch = String((!Array.isArray(data) && data.branch) || "").trim().toUpperCase();
-  const branch = GP_BRANCH_NAMES[fileBranch] ? fileBranch : $("gpBranch").value;
-  const good = [], bad = [];
-  list.forEach((q, i) => { const why = gpCheck(q); if (why) bad.push(`Question ${i + 1}: ${why}`); else good.push(q); });
-  if (!good.length) return fail("None of the questions are usable:\n" + bad.slice(0, 5).join("\n"));
-  gpPending = { branch, questions: good };
-  $("gpUpMsg").innerHTML = `<div class="notice ok">Ready: <b>${good.length}</b> question${good.length === 1 ? "" : "s"} for <b>${esc(branch)}</b>.` +
-    (bad.length ? ` <b>${bad.length}</b> will be skipped:<ul>${bad.slice(0, 6).map(b => `<li>${esc(b)}</li>`).join("")}</ul>` : "") + `</div>`;
+  const summary = [];
+  for (const f of files) {
+    if (f.size > 2 * 1024 * 1024) return fail(`${f.name}: file is too large (max 2 MB).`);
+    let data;
+    try {
+      let txt = (await f.text()).replace(/^\uFEFF/, "").trim();
+      const fence = txt.match(/```(?:json)?\s*([\s\S]*?)```/i); if (fence) txt = fence[1].trim();
+      data = JSON.parse(txt);
+    } catch { return fail(`${f.name}: invalid JSON. Ask the AI to return valid JSON only.`); }
+    const list = Array.isArray(data) ? data : data && data.questions;
+    if (!Array.isArray(list) || !list.length) return fail(`${f.name}: no questions array was found.`);
+    if (list.length > 100) return fail(`${f.name}: ${list.length} questions exceeds the 100-question upload limit.`);
+    const fileBranch = String((!Array.isArray(data) && data.branch) || "").trim().toUpperCase();
+    const branch = GP_BRANCH_NAMES[fileBranch] ? fileBranch : $("gpBranch").value;
+    const good = [], bad = [];
+    list.forEach((q, i) => { const why = gpCheck(q); if (why) bad.push(`Question ${i + 1}: ${why}`); else good.push({ ...q, type: String(q.type).toUpperCase(), marks: Number(q.marks) }); });
+    if (!good.length) return fail(`${f.name}: none of the questions are usable. ${bad.slice(0, 4).join("; ")}`);
+    const allowCustom = good.some(q => q.allow_custom === true || q.custom_subject === true || !SUBJECTS_BY_BRANCH[branch].includes(String(q.subject).trim()));
+    gpPending.push({ branch, questions: good, allowCustom, fileName: f.name, rejected: bad });
+    summary.push(`${f.name}: ${good.length} ready${bad.length ? `, ${bad.length} invalid` : ""}`);
+  }
+  $("gpUpMsg").innerHTML = `<div class="notice ok">Ready to upload ${gpPending.reduce((s,p) => s + p.questions.length, 0)} questions in ${gpPending.length} file(s).<ul>${summary.map(x => `<li>${esc(x)}</li>`).join("")}</ul></div>`;
   $("gpUpBtn").disabled = false;
 };
 $("gpUpBtn").onclick = async () => {
-  if (!gpPending) return;
-  const btn = $("gpUpBtn"); btn.disabled = true; btn.textContent = "Uploading…";
+  if (!gpPending.length) return;
+  const btn = $("gpUpBtn"), pending = gpPending.slice(); btn.disabled = true;
+  let totalAdded = 0, totalDuplicates = 0, totalRejected = 0, done = 0;
   try {
-    const r = await API.gpUpload(gpPending.branch, gpPending.questions);
-    const rej = (r.rejected || []).map(x => `Question ${x.n}: ${x.reason}`);
-    $("gpUpMsg").innerHTML = `<div class="notice ${r.added ? "ok" : ""}"><b>${r.added}</b> new question${r.added === 1 ? "" : "s"} added` +
-      (r.added ? ` (${esc(r.firstId)}${r.lastId !== r.firstId ? " to " + esc(r.lastId) : ""})` : "") +
-      (r.duplicates ? `, <b>${r.duplicates}</b> already existed and ${r.duplicates === 1 ? "was" : "were"} skipped` : "") + "." +
-      (r.added ? " Everyone can now take them in “Take a practice test” above." : "") +
-      (rej.length ? `<ul>${rej.slice(0, 6).map(x => `<li>${esc(x)}</li>`).join("")}</ul>` : "") + `</div>`;
-    gpPending = null; $("gpFile").value = "";
-    gpLoad();
+    for (const file of pending) {
+      btn.textContent = `Uploading ${done + 1}/${pending.length}…`;
+      const r = await API.gpUpload(file.branch, file.questions, file.allowCustom);
+      totalAdded += Number(r.added || 0); totalDuplicates += Number(r.duplicates || 0);
+      totalRejected += (r.rejected || []).length + file.rejected.length; done++;
+    }
+    $("gpUpMsg").innerHTML = `<div class="notice ${totalAdded ? "ok" : ""}"><b>${totalAdded}</b> added, <b>${totalDuplicates}</b> duplicates skipped, <b>${totalRejected}</b> rejected across ${done} file(s). Questions are now available to everyone using the shared bank.</div>`;
+    gpPending = []; $("gpFile").value = ""; await gpLoad();
   } catch (e) {
-    $("gpUpMsg").innerHTML = `<div class="notice err">${esc(e.message)}</div>`; btn.disabled = false;
+    $("gpUpMsg").innerHTML = `<div class="notice err">Upload stopped after ${done} file(s): ${esc(e.message)}. Successfully uploaded files remain saved; retry only the remaining files.</div>`;
+    btn.disabled = false;
   } finally { btn.textContent = "Upload questions"; }
 };
 
-/* ---------- take a practice test ---------- */
-async function gpLoad() {
-  try {
-    GP_META = await API.gpGetMeta();
-    $("gpLoad").hidden = !!GP_META.length;
-    if (!GP_META.length) { $("gpLoad").innerHTML = "No practice questions yet. Create the first test below ↓"; $("gpForm").hidden = true; return; }
-    $("gpForm").hidden = false;
-    gpFillTake();
-  } catch (e) {
-    $("gpLoad").hidden = false; $("gpForm").hidden = true;
-    $("gpLoad").innerHTML = /Unknown action|not set up/i.test(e.message)
-      ? "Practice questions are not switched on yet (the new gatepractise.gs has not been added to the backend)."
-      : `<div class="notice err">Could not load practice questions: ${esc(e.message)}</div>`;
+/* ---------- take: subject/topic filters and shared-bank selection ---------- */
+function gpAttemptedKey() { return `gp_attempted_ids_${String(CAND && CAND.email || "guest").trim().toLowerCase()}`; }
+function gpAttemptedSet() { try { return new Set(JSON.parse(localStorage.getItem(gpAttemptedKey()) || "[]").map(String)); } catch { return new Set(); } }
+function gpRecordAttempted(ids) {
+  try { const set = gpAttemptedSet(); (ids || []).filter(Boolean).forEach(id => set.add(String(id))); localStorage.setItem(gpAttemptedKey(), JSON.stringify([...set].slice(-5000))); } catch {}
+}
+function gpFreshFirst(rows) {
+  const attempted = gpAttemptedSet();
+  return [...gpShuffle(rows.filter(q => !attempted.has(String(q.id)))), ...gpShuffle(rows.filter(q => attempted.has(String(q.id))))];
+}
+function gpMetaForBranch() { return GP_META.filter(r => String(r.branch || "").toUpperCase() === $("gpTBranch").value); }
+function gpTakeSubjectOptions() {
+  const br = $("gpTBranch").value, rows = gpMetaForBranch();
+  const subjects = gpUniq([...Object.keys(TAXONOMY[br] || {}), ...rows.map(r => gpCanonicalSubject(br, r.subject)), ...(LEGACY_TOPICS[br] || []).length ? [OTHER_SUBJECT] : []]);
+  return subjects.map(s => ({ value: s, label: s, group: "Subjects", count: rows.filter(r => gpCanonicalSubject(br, r.subject) === s).length }));
+}
+function gpTakeTopicOptions() {
+  const br = $("gpTBranch").value, rows = gpMetaForBranch();
+  const selected = gpTSubjectsPicker ? gpTSubjectsPicker.getItems().map(o => o.label) : [];
+  const filtered = selected.length ? rows.filter(r => selected.includes(gpCanonicalSubject(br, r.subject))) : rows;
+  const counts = new Map();
+  filtered.forEach(r => { const subject = gpCanonicalSubject(br, r.subject), topic = String(r.topic || "Unspecified topic"); const key = `${subject}\u001f${topic}`; counts.set(key, (counts.get(key) || 0) + 1); });
+  return [...counts.entries()].map(([key,count]) => { const [group,label] = key.split("\u001f"); return { value: key, label, group, count }; });
+}
+function gpTakeUpdate() {
+  const rows = gpTakePool();
+  $("gpTAvail").innerHTML = `<b>${rows.length}</b> matching practice question${rows.length === 1 ? "" : "s"} available. Unattempted questions are preferred.`;
+  $("gpTCount").max = Math.max(1, rows.length);
+  if (+$("gpTCount").value > rows.length && rows.length) $("gpTCount").value = rows.length;
+  $("gpTStart").disabled = $("gpTMode").value === "custom" && rows.length === 0;
+}
+function gpTakePool() {
+  const br = $("gpTBranch").value;
+  let rows = gpMetaForBranch().map(r => ({ ...r, subject: gpCanonicalSubject(br, r.subject) }));
+  const subjects = gpTSubjectsPicker ? gpTSubjectsPicker.getItems().map(o => o.label) : [];
+  if (subjects.length) rows = rows.filter(r => subjects.includes(r.subject));
+  const topics = gpTTopicsPicker ? gpTTopicsPicker.getItems() : [];
+  if (topics.length) {
+    const keys = new Set(topics.map(o => o.value));
+    rows = rows.filter(r => keys.has(`${r.subject}\u001f${String(r.topic || "Unspecified topic")}`));
   }
+  return rows;
 }
-const gpBy = (k, v, rows) => rows.filter(r => r[k] === v);
 function gpFillTake() {
-  const keep = $("gpTBranch").value;
-  const branches = uniq(GP_META.map(r => r.branch)).sort();
-  $("gpTBranch").innerHTML = branches.map(b => `<option value="${b}">${b} – ${esc(GP_BRANCH_NAMES[b] || b)} (${gpBy("branch", b, GP_META).length})</option>`).join("");
-  if (branches.includes(keep)) $("gpTBranch").value = keep;
-  gpFillTakeSubjects();
+  const branches = Object.keys(GP_BRANCH_NAMES);
+  const keep = $("gpTBranch").value || "EC";
+  $("gpTBranch").innerHTML = branches.map(b => `<option value="${b}">${b} – ${esc(GP_BRANCH_NAMES[b])} (${GP_META.filter(r => r.branch === b).length})</option>`).join("");
+  $("gpTBranch").value = branches.includes(keep) ? keep : "EC";
+  if (!gpTSubjectsPicker) {
+    gpTSubjectsPicker = makePicker("gpTSubjectsPicker", { getOptions: gpTakeSubjectOptions, allowCustom: false });
+    gpTTopicsPicker = makePicker("gpTTopicsPicker", { getOptions: gpTakeTopicOptions, allowCustom: false });
+    gpTSubjectsPicker.onChange(() => {
+      const valid = new Set(gpTakeTopicOptions().map(o => String(o.value)));
+      const keep = gpTTopicsPicker.getItems().filter(o => valid.has(String(o.value)));
+      gpTTopicsPicker.setItems(keep);
+      gpTTopicsPicker.refresh(); gpTakeUpdate();
+    });
+    gpTTopicsPicker.onChange(gpTakeUpdate);
+    $("gpTBranch").onchange = () => { gpTSubjectsPicker.set([]); gpTTopicsPicker.set([]); gpTSubjectsPicker.refresh(); gpTTopicsPicker.refresh(); gpTakeUpdate(); };
+    $("gpTMode").onchange = gpToggleTakeMode;
+    $("gpTCount").oninput = gpTakeUpdate;
+    $("gpTStart").onclick = gpStartTake;
+  } else { gpTSubjectsPicker.refresh(); gpTTopicsPicker.refresh(); }
+  gpToggleTakeMode(); gpTakeUpdate();
 }
-function gpFillTakeSubjects() {
-  const rows = gpBy("branch", $("gpTBranch").value, GP_META);
-  const subs = uniq(rows.map(r => r.subject)).sort();
-  $("gpTSubject").innerHTML = `<option value="all">All subjects</option>` + subs.map(s => `<option value="${esc(s)}">${esc(s)} (${gpBy("subject", s, rows).length})</option>`).join("");
-  gpFillTakeTopics();
-}
-function gpTakeRowsBySubject() {
-  const rows = gpBy("branch", $("gpTBranch").value, GP_META), s = $("gpTSubject").value;
-  return s === "all" ? rows : gpBy("subject", s, rows);
-}
-function gpFillTakeTopics() {
-  const rows = gpTakeRowsBySubject();
-  const tops = uniq(rows.map(r => r.topic).filter(Boolean)).sort();
-  $("gpTTopic").innerHTML = `<option value="all">All topics</option>` + tops.map(t => `<option value="${esc(t)}">${esc(t)}</option>`).join("");
+function gpToggleTakeMode() {
+  const full = $("gpTMode").value === "full";
+  $("gpTFilters").hidden = full;
+  $("gpTCountBox").hidden = full;
+  $("gpTStart").textContent = full ? "Build full GATE paper" : "Start practice test";
   gpTakeUpdate();
 }
-function gpTakePool() { const t = $("gpTTopic").value, rows = gpTakeRowsBySubject(); return t === "all" ? rows : gpBy("topic", t, rows); }
-function gpTakeUpdate() {
-  const n = gpTakePool().length;
-  $("gpTAvail").innerHTML = `<b>${n}</b> question${n === 1 ? "" : "s"} available`;
-  $("gpTCount").max = n;
-  if (+$("gpTCount").value > n) $("gpTCount").value = n || 1;
-  $("gpTStart").disabled = n === 0;
+function gpBuildFullSelection(branch) {
+  const blueprint = fullBlueprint(branch), rows = GP_META.filter(r => String(r.branch || "").toUpperCase() === branch);
+  const used = new Set(), attempted = gpAttemptedSet(), selected = [], needed = new Map();
+  blueprint.forEach(slot => { const k = `${slot.subject}|${slot.marks}`; needed.set(k, (needed.get(k) || 0) + 1); });
+  const availableCounts = new Map();
+  rows.forEach(r => {
+    const subject = gpCanonicalSubject(branch, r.subject), k = `${subject}|${Number(r.marks)}`;
+    availableCounts.set(k, (availableCounts.get(k) || 0) + 1);
+  });
+  const shortages = [];
+  for (const [key, count] of needed) {
+    const available = availableCounts.get(key) || 0;
+    if (available < count) {
+      const [subject, marks] = key.split("|");
+      shortages.push({ subject, marks: Number(marks), needed: count, available, missing: count - available });
+    }
+  }
+  blueprint.forEach(slot => {
+    const candidates = rows.filter(r => !used.has(String(r.id)) && gpCanonicalSubject(branch, r.subject) === slot.subject && Number(r.marks) === slot.marks);
+    if (!candidates.length) return;
+    const sorted = gpShuffle(candidates).sort((a,b) => {
+      const score = q => (String(q.type || q.question_type).toUpperCase() === slot.type ? 0 : 4) + (String(q.topic || "") === slot.topic ? 0 : 2) + (attempted.has(String(q.id)) ? 1 : 0);
+      return score(a) - score(b);
+    });
+    const pick = sorted[0]; used.add(String(pick.id));
+    selected.push({ ...pick, subject: gpCanonicalSubject(branch, pick.subject), _slot: slot.slot });
+  });
+  return { blueprint, selected, shortages, missing: blueprint.length - selected.length };
 }
-$("gpTBranch").onchange = gpFillTakeSubjects;
-$("gpTSubject").onchange = gpFillTakeTopics;
-$("gpTTopic").onchange = gpTakeUpdate;
-
-$("gpTStart").onclick = () => {
+function gpStartTake() {
   $("gpTMsg").innerHTML = "";
   if (!CAND) {
     $("gpTMsg").innerHTML = '<div class="notice err">Please enter your name and email in “Candidate details” at the top of the page first.</div>';
     window.scrollTo({ top: 0, behavior: "smooth" }); return;
   }
+  const br = $("gpTBranch").value;
+  if ($("gpTMode").value === "full") {
+    const result = gpBuildFullSelection(br);
+    if (!result.selected.length) {
+      $("gpTMsg").innerHTML = `<div class="notice err">No matching questions are available for a ${br} full paper yet. Upload questions into the shared bank first.</div>`;
+      return;
+    }
+    if (result.shortages.length) {
+      $("gpTMsg").innerHTML = `<div class="notice">The bank is short of ${result.missing} question(s). The available-paper option will contain ${result.selected.length} questions and may be below 100 marks.<ul>${result.shortages.map(x => `<li>${esc(x.subject)} ${x.marks}-mark: ${x.available} of ${x.needed} available</li>`).join("")}</ul><button type="button" class="btn primary" id="gpTUseAvailable">Use available questions</button></div>`;
+      $("gpTUseAvailable").onclick = () => gpPrepareTake(result.selected, br, "Full GATE practice paper (available bank questions)");
+      return;
+    }
+    gpPrepareTake(result.selected, br, "Full GATE practice paper");
+    return;
+  }
   const pool = gpTakePool();
-  const want = Math.min(Math.max(1, parseInt($("gpTCount").value) || 1), pool.length);
-  $("gpTCount").value = want;
-  gpPicked = shuffle(pool).slice(0, want);
-  const totalMarks = gpPicked.reduce((s, q) => s + q.marks, 0);
+  const want = Math.min(Math.max(1, parseInt($("gpTCount").value, 10) || 1), pool.length);
+  if (!want) { $("gpTMsg").innerHTML = '<div class="notice err">No questions match these filters.</div>'; return; }
+  const selected = gpFreshFirst(pool).slice(0, want);
+  const subjects = gpTSubjectsPicker.getItems().map(o => o.label);
+  const topics = gpTTopicsPicker.getItems().map(o => o.label);
+  gpPrepareTake(selected, br, topics.length ? topics.join(", ") : subjects.length ? subjects.join(", ") : "All subjects");
+}
+function gpPrepareTake(selected, branch, label) {
+  gpPicked = selected.slice();
+  const totalMarks = gpPicked.reduce((s, q) => s + Number(q.marks || 0), 0);
   const minutes = Math.max(1, Math.round(totalMarks * CONFIG.MINUTES_PER_MARK));
-  gpPicked._meta = { totalMarks, minutes };
-  $("gpDlgStats").innerHTML =
-    `<div class="stat"><b>${want}</b><span>questions</span></div>` +
-    `<div class="stat"><b>${fmtNum(totalMarks)}</b><span>total marks</span></div>` +
-    `<div class="stat"><b>${minutes >= 60 ? Math.floor(minutes / 60) + "h " + (minutes % 60) + "m" : minutes + " min"}</b><span>time allowed</span></div>`;
+  gpPicked._meta = { totalMarks, minutes, branch, label };
+  $("gpDlgStats").innerHTML = `<div class="stat"><b>${gpPicked.length}</b><span>questions</span></div><div class="stat"><b>${fmtNum(totalMarks)}</b><span>total marks</span></div><div class="stat"><b>${minutes >= 60 ? Math.floor(minutes / 60) + "h " + (minutes % 60) + "m" : minutes + " min"}</b><span>time allowed</span></div>`;
   $("gpDlgErr").innerHTML = "";
   $("gpDlg").showModal();
-};
+}
 $("gpDlgCancel").onclick = () => $("gpDlg").close();
 $("gpDlgGo").onclick = async () => {
-  const go = $("gpDlgGo");
-  go.disabled = true; go.textContent = "Loading questions…";
+  const go = $("gpDlgGo"); go.disabled = true; go.textContent = "Loading questions…";
   try {
     const full = await API.gpGetQuestions(gpPicked.map(p => p.id));
-    const ga = s => isGASubject(s) ? 0 : 1;
-    full.sort((a, b) => ga(a.subject) - ga(b.subject) || a.marks - b.marks);
-    const br = $("gpTBranch").value, sub = $("gpTSubject").value, top = $("gpTTopic").value;
+    full.sort((a,b) => (isGASubject(a.subject) ? 0 : 1) - (isGASubject(b.subject) ? 0 : 1) || Number(a.marks) - Number(b.marks));
+    const meta = gpPicked._meta || {}, br = meta.branch || $("gpTBranch").value;
     const session = {
       questions: full, practice: true,
-      totalMarks: gpPicked._meta.totalMarks, durationSec: gpPicked._meta.minutes * 60, startedAt: null,
-      filters: { branch: `${br} Practice`, year: "AI-made", topic: top !== "all" ? top : sub },
-      candidate: CAND,
-      attemptId: "a" + Date.now().toString(36) + Math.random().toString(36).slice(2, 8),
+      totalMarks: meta.totalMarks, durationSec: meta.minutes * 60, startedAt: null,
+      filters: { branch: `${br} Practice`, year: "AI-made", topic: meta.label || "Practice" },
+      candidate: CAND, attemptId: "a" + Date.now().toString(36) + Math.random().toString(36).slice(2, 8),
       answers: {}, marked: [], visited: [], current: 0,
     };
-    sessionStorage.removeItem("lastResult");
-    sessionStorage.setItem("examSession", JSON.stringify(session));
+    sessionStorage.removeItem("lastResult"); sessionStorage.setItem("examSession", JSON.stringify(session));
     location.href = "exam.html";
   } catch (e) {
     go.disabled = false; go.textContent = "Begin exam";
     $("gpDlgErr").innerHTML = `<div class="notice err">${esc(e.message)}</div>`;
   }
 };
+async function gpLoad() {
+  try {
+    GP_META = (await API.gpGetMeta()).map(r => ({ ...r, branch: String(r.branch || "").toUpperCase(), type: String(r.type || r.question_type || "MCQ").toUpperCase(), marks: Number(r.marks) || 1 }));
+    $("gpLoad").hidden = !!GP_META.length;
+    $("gpLoad").innerHTML = GP_META.length ? "" : "No practice questions have been uploaded yet. You can still prepare AI prompts below; upload generated JSON to populate the shared bank.";
+    $("gpForm").hidden = false;
+    gpFillTake();
+  } catch (e) {
+    $("gpLoad").hidden = false; $("gpForm").hidden = true;
+    $("gpLoad").innerHTML = /Unknown action|not set up/i.test(e.message)
+      ? "Practice-bank backend is not deployed yet. Add gatepractise.gs to the Apps Script project and deploy a new version."
+      : `<div class="notice err">Could not load practice questions: ${esc(e.message)}</div>`;
+  }
+}
+
 
 /* ---------- result of a practice test: marks, answers, solutions ---------- */
 function showPracticeResult(r) {
   const D = r.detail || [], R = r.review || [];
+  gpRecordAttempted(R.map(q => q.id).filter(Boolean));
   const pos = D.reduce((s, d) => s + (d.got > 0 ? d.got : 0), 0);
   const neg = D.reduce((s, d) => s + (d.got < 0 ? -d.got : 0), 0);
   const pct = r.maxScore > 0 ? Math.round(Math.max(0, r.score) / r.maxScore * 100) : 0;
