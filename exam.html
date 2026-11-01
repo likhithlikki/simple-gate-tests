@@ -736,13 +736,23 @@ function buildResult(auto, status) {
   };
 }
 
+// what the result page needs to show each question again (practice tests only; never sent to the sheet)
+function reviewData() {
+  return Q.map(q => ({
+    id: q.id, type: qType(q), marks: q.marks, neg: negOf(q), subject: q.subject, topic: q.topic || "",
+    question: q.question, options: optionList(q), answer: q.answer, explanation: q.explanation || "",
+  }));
+}
+
 async function finish(auto, status) {
   if (finished) return;
   finished = true;
   ["dlg", "qpDlg", "insDlg"].forEach(id => { try { $(id).close(); } catch {} });
   document.querySelectorAll("button, input").forEach(el => el.disabled = true);
   const result = buildResult(auto, status || (auto ? "timeup" : "completed"));
-  sessionStorage.setItem("lastResult", JSON.stringify(result));
+  // practice tests keep the questions in this browser tab so the result page can show answers + solutions
+  try { sessionStorage.setItem("lastResult", JSON.stringify(S.practice ? { ...result, review: reviewData() } : result)); }
+  catch { sessionStorage.setItem("lastResult", JSON.stringify(result)); }
   try { await API.saveResult(result); } catch (e) { console.error("Could not save result:", e); }
   sessionStorage.removeItem("examSession");
   leaveFS();
@@ -765,7 +775,7 @@ window.addEventListener("pagehide", () => {
   if (!running || finished) return;
   finished = true;
   const r = buildResult(true, "left");
-  try { sessionStorage.setItem("lastResult", JSON.stringify(r)); sessionStorage.removeItem("examSession"); } catch {}
+  try { sessionStorage.setItem("lastResult", JSON.stringify(S.practice ? { ...r, review: reviewData() } : r)); sessionStorage.removeItem("examSession"); } catch {}
   API.saveResultBeacon(r);
 });
 // progress save every 20 s (only when something changed), in case the browser or device dies
