@@ -1,4 +1,4 @@
-questions expect 3852 picture file(s); matched 3702; 150 have no matching file in images/.
+questions expect 3852 picture file(s); matched 3847; 5 have no matching file in images/ (ce2022117_01, ce2022178_01, ce2022178_02, ee20143184_01, me2015327_01) - re-upload these.
 39 file(s) were ignored because they are not in images/<branch>/<year>/ of their own branch and year.
 
 CE 2001 set 0: shifts [(0, 9)]; 0 file(s) unused, 0 picture(s) without a file
