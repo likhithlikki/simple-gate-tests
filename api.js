@@ -168,17 +168,66 @@ const isGASubject = s => /general aptitude|aptitude|^\s*ga\s*$|verbal|numerical 
 const sectionName = q => isGASubject(q.subject) ? "General Aptitude" : `${String(q.branch || "Branch").toUpperCase()} Core`;
 
 /* ------------------------------------------------------------------
-   Images. A question's "images" list holds exact paths from the JSON:
+   Images. A question's "images" list holds paths written by the data files:
      images/questions/<id>_<n>.<ext>          -> shown under the question text
      images/options/<id>_<label>_<n>.<ext>    -> shown inside option <label>
-   Every path is loaded from CONFIG.IMAGE_BASE + path (your GitHub images folder).
+   Those paths are only names. In the repo the pictures sit in  images/<branch>/<year>/  and
+   many of them carry an older numbering (papers with several sets). image-map.json says where
+   each picture really is:   { "<path in the data>": "<real path in the repo>" }
+   It is made by  tools/build_image_map.py  (see config.js -> IMAGE_MAP). Nothing has to be
+   renamed or moved. Every real path is loaded from CONFIG.IMAGE_BASE + path.
 ------------------------------------------------------------------- */
 const IMG = {
-  url(p) {
+  map: null,            // loaded image-map.json, or null when switched off / not found
+  loaded: false,
+  _p: null,
+  EXTS: [".jpg", ".webp", ".png", ".jpeg", ".gif", ".bmp"],
+
+  // Starts loading the map once. Await IMG.load() before anything that must be exact.
+  load() {
+    if (!IMG._p) {
+      IMG._p = (async () => {
+        try {
+          if (CONFIG.IMAGE_MAP) {
+            const r = await fetch(CONFIG.IMAGE_MAP, { cache: "no-cache" });
+            if (r.ok) { const m = await r.json(); if (m && typeof m === "object") IMG.map = m; }
+          }
+        } catch (e) { /* no map: the folder layout is used instead */ }
+        IMG.loaded = true;
+      })();
+    }
+    return IMG._p;
+  },
+
+  src(p) {
     p = String(p || "").trim();
     if (/^(https?:)?\/\//i.test(p)) return p;
     return (CONFIG.IMAGE_BASE || "") + p.replace(/^\.?\//, "").split("/").map(encodeURIComponent).join("/");
   },
+
+  // Places to look, best first.
+  //  1. where image-map.json says the picture is
+  //  2. the path exactly as written in the data (lets you drop a corrected file there)
+  //  3. only when the map is switched off (IMAGE_MAP: ""): images/<branch>/<year>/<same file name>, with other extensions too
+  // With a map, a name that is not in it is NOT looked up by file name in the branch/year folder: that file
+  // can belong to another question, and a wrong picture is worse than a missing one.
+  candidates(path, q) {
+    const p = String(path || "").trim();
+    if (/^(https?:)?\/\//i.test(p)) return [p];
+    const out = [];
+    if (IMG.map && IMG.map[p]) out.push(IMG.map[p]);
+    out.push(p);
+    if (!IMG.map && !CONFIG.IMAGE_MAP && q && q.branch) {
+      const br = String(q.branch).toLowerCase();
+      const yr = /^\d{4}$/.test(String(q.year)) ? String(q.year) : "unmapped";
+      const file = p.split("/").pop(), stem = file.replace(/\.[^.]+$/, "");
+      [file, ...IMG.EXTS.map(e => stem + e)].forEach(f => out.push(`images/${br}/${yr}/${f}`));
+    }
+    return [...new Set(out)].map(IMG.src);
+  },
+
+  url(p, q) { return IMG.candidates(p, q)[0]; },
+
   paths(q) { return (Array.isArray(q.images) ? q.images : []).filter(p => typeof p === "string" && p.trim()); },
   isOption(p) { return /(^|\/)options\//i.test(p); },
   forQuestion(q) { return IMG.paths(q).filter(p => !IMG.isOption(p)); },
@@ -186,22 +235,29 @@ const IMG = {
     const prefix = `${String(q.id).toLowerCase()}_${String(key).toLowerCase()}_`;
     return IMG.paths(q).filter(p => IMG.isOption(p) && p.split("/").pop().toLowerCase().startsWith(prefix));
   },
-  el(path, cls) {
+
+  // An <img> that tries each place in turn and shows "Image not found" only when all fail.
+  el(path, cls, q) {
     const img = document.createElement("img");
     img.className = cls || "qimg";
     img.alt = "Figure";
     img.loading = "lazy";
     img.referrerPolicy = "no-referrer";
-    img.onerror = () => {
+    let list = [], n = 0;
+    const next = () => {
+      if (n < list.length) { img.src = list[n++]; return; }
       const m = document.createElement("div");
       m.className = "imgmiss";
       m.textContent = "Image not found: " + path;
       img.replaceWith(m);
     };
-    img.src = IMG.url(path);
+    img.onerror = next;
+    const start = () => { list = IMG.candidates(path, q); next(); };
+    if (IMG.loaded) start(); else IMG.load().then(start);
     return img;
   },
 };
+if (typeof window !== "undefined" && typeof fetch === "function") IMG.load();
 
 /* ------------------------------------------------------------------
    Text. Question text can contain [latex]...[/latex]; everything else is

@@ -549,7 +549,7 @@ function render() {
   t.className = "qtext";
   richText(t, q.question);
   box.append(t);
-  IMG.forQuestion(q).forEach(p => box.append(IMG.el(p, "qimg")));
+  IMG.forQuestion(q).forEach(p => box.append(IMG.el(p, "qimg", q)));
 
   const given = S.answers[i] || "";
   if (type === "NAT") {
@@ -598,7 +598,7 @@ function render() {
       const ob = document.createElement("div"); ob.className = "ob";
       const tx = document.createElement("span"); tx.className = "t"; richText(tx, o.text);
       ob.append(k, tx);
-      IMG.forOption(q, o.key).forEach(p => ob.append(IMG.el(p, "oimg")));
+      IMG.forOption(q, o.key).forEach(p => ob.append(IMG.el(p, "oimg", q)));
       lab.append(inp, ob);
       box.append(lab);
     });
@@ -673,11 +673,11 @@ $("qpBtn").onclick = () => {
       t.innerHTML = `<b>Q.${n + 1}</b> <span style="color:#555">[${type}, ${fmtNum(q.marks)} mark${q.marks === 1 ? "" : "s"}]</span> `;
       const qs = document.createElement("span"); richText(qs, q.question); t.append(qs);
       d.append(t);
-      IMG.forQuestion(q).forEach(pth => d.append(IMG.el(pth, "qimg")));
+      IMG.forQuestion(q).forEach(pth => d.append(IMG.el(pth, "qimg", q)));
       if (type !== "NAT") optionList(q).forEach(o => {
         const p = document.createElement("div"); p.className = "qo";
         p.append(`(${o.key}) `); const os = document.createElement("span"); richText(os, o.text); p.append(os);
-        IMG.forOption(q, o.key).forEach(pth => p.append(IMG.el(pth, "oimg")));
+        IMG.forOption(q, o.key).forEach(pth => p.append(IMG.el(pth, "oimg", q)));
         d.append(p);
       });
       body.append(d);

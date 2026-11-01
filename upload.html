@@ -169,6 +169,7 @@ function probeImages(paths) {
 
 /* ---------- reading files ---------- */
 async function loadFiles(list) {
+  await IMG.load();
   const all = [...list].filter(f => /\.json$/i.test(f.name));
   toUpload = [];
   $("msg").innerHTML = "";
@@ -326,13 +327,14 @@ const ImgCheck = (() => {
         let note = "";
         if (kind === "option" && !IMG.forOption(q, (fileOf(path).match(new RegExp("^" + id + "_([A-Za-z])_", "i")) || [])[1] || "?").includes(path))
           note = "file name does not match the pattern <id>_<option letter>_01, so the exam will not show it inside an option";
-        out.push({ id, branch: q.branch || "UNKNOWN", year: yearTxt(q.year), kind, path, url: new URL(IMG.url(path), location.href).href, note });
+        out.push({ id, branch: q.branch || "UNKNOWN", year: yearTxt(q.year), kind, path, url: new URL(IMG.url(path, q), location.href).href, note });
       });
     });
     return out;
   }
 
   async function run() {
+    await IMG.load();
     const ids = selectedMeta().map(m => String(m.id));
     if (!ids.length) { $("stage").textContent = "No uploaded questions match this branch / year."; return; }
     $("runCheck").disabled = true; $("copyReport").disabled = true;
